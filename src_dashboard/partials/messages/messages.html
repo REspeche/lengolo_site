@@ -1,0 +1,63 @@
+<main ng-controller="messagesController" elem-ready="loadMessages()" class="list mx-lg-5">
+  <div class="container-fluid">
+    <!--First column-->
+    <div class="header">
+        <h2 translate="TIT_MESSAGES">Mensajes</h2>
+        <a type="button" class="btn-floating pink"><i class="fas fa-plus" aria-hidden="true" ng-click="clickNew()"></i></a>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 pb-2">
+          <div translate="TXT_MESSAGES"></div>
+      </div>
+    </div>
+
+    <!--Table-->
+    <div ng-hide="loadList" translate="LOADING">Loading...</div>
+    <div class="alert alert-primary" role="alert" ng-show="loadList && lstMessages.length==0"><span translate="INF_EMPTY_MESSAGE"></span> (<a href="#" ng-click="clickNew()" translate="LNK_NEW_MESSAGE"></a>).</div>
+    <table id="dtTable" class="table table-bordered table-hover" ng-hide="lstMessages.length==0">
+        <!--Table head-->
+        <thead class="mdb-color darken-1">
+            <tr class="text-white">
+                <th style="max-width: 2rem;" class="text-center">#</th>
+                <th translate="COL_TITLE">Title</th>
+                <th translate="COL_MESSAGE">Message</th>
+                <th translate="COL_TYPE" class="text-center">Tipo</th>
+                <th translate="COL_ACTIVE">Active</th>
+                <th class="text-center" translate="COL_ACTIONS">Actions</th>
+            </tr>
+        </thead>
+        <!--Table head-->
+        <!--Table body-->
+        <tbody class="grid-list" psi-sortable="" ng-model="lstMessages">
+            <tr ng-repeat="item in lstMessages track by $index">
+                <td style="max-width: 2rem;" class="text-center">
+                  {{$index+1}}
+                </td>
+                <td>
+                  <span>{{item.title}}</span>
+                </td>
+                <td>
+                  <span>{{item.message}}</span>
+                </td>
+                <td class="text-center">
+                  <badge-status id="{{item.type}}" type="type"></badge-status>
+                </td>
+                <td>
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" ng-checked="item.enable==1" id="chk{{item.id}}" ng-click="activeMessage(item)">
+                    <label class="custom-control-label" for="chk{{item.id}}">{{(item.enable==1)?('VAL_YES' | translate):('VAL_NO' | translate)}}</label>
+                  </div>
+                </td>
+                <td class="buttons text-center">
+                  <a class="icons-sm text-primary" ng-click="clickEdit(item)" title="{{ 'BTN_EDIT' | translate }}"><i class="fas fa-edit"></i></a>
+                  <a class="icons-sm ml-2 text-danger" ng-click="clickRemove(item)" title="{{ 'BTN_DELETE' | translate }}"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+        </tbody>
+        <!--Table body-->
+
+    </table>
+    <!--Table-->
+  </div>
+</main>

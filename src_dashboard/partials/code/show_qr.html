@@ -1,0 +1,75 @@
+<main ng-controller="showQrController" ng-init="loadQr()" class="form mx-lg-5">
+    <div class="container-fluid">
+      <div class="header">
+          <h2><span translate="TIT_VIEW_QR_CODE">QR Code</span></h2>
+      </div>
+  
+      <div class="row">
+        <div class="col-lg-12 pb-2">
+            <div>
+                <span translate="TXT_QR_FREE"></span>
+            </div>
+        </div>
+      </div>
+
+      <div class="alert alert-warning" role="alert" ng-show="userInfo.forceProfile"><i class="fas fa-exclamation-triangle"></i> <span translate="MSG_INFO_PROFILE">Please, in order to access the different Dashboard options, you must complete your advanced profile.</span></div>
+  
+      <div class="row">
+
+        <div class="card p-3">
+          <div class="card-body px-3 pb-0">
+
+            <div class="row">
+              <div class="col-sm-12 text-left">
+                  <h5 translate="TIT_CODE_RESTAURANT">Unique Restaurant Code</h5>
+                  <hr class="mt-1">
+
+                  <div class="row">
+                    <div class="col-12 col-md-12">
+                      <div class="form-check pl-0 mb-2">
+                        <input class="form-check-input" type="checkbox" value="true" id="viewDesign" 
+                          ng-model="viewDesign">
+                        <label class="form-check-label" for="viewDesign" translate="LBL_VIEW_QR_BEAUTTY">Ver código QR con un diseño agradable!</label>
+                      </div>
+                      <div class="width-100 text-center">
+                        <div ng-hide="loadImage" translate="LOADING">Loading...</div>
+                        <img id="qrCode" style="-webkit-user-select: none;margin: auto;" 
+                        src="{{codeSimple}}" width="250" ng-if="formData.code" ng-hide="viewDesign">
+                        <img id="qrCode" style="-webkit-user-select: none;margin: auto;" 
+                          src="{{codeDesign}}" width="250" ng-if="formData.code" ng-show="viewDesign">
+                      </div>
+                      <small class="text-muted" translate="LBL_VIEW_QR_BEAUTTY_INFO">Puede descargarla presionando el botón derecho sobre la imagen</small>
+                    </div>
+                  </div>
+
+              </div>
+            </div>
+            <div class="row" ng-show="codeSimple && codeDesign">
+              <div class="col-9 col-md-9">
+                  <label for="cmbCodes"><span translate="LBL_QUANTITY">Cantidad</span></label>
+                  <select id="cmbCodes" class="browser-default custom-select col-3"
+                    ng-model="formData.nroCodes"
+                    ng-options="item as item for item in lstQuaTables" required>
+                  </select>
+                  <small class="text-muted"><span translate="LBL_QUANTITY_INFO"></small>
+              </div>
+            </div>              
+            <div ng-show="viewDesign" class="text-success" translate="LBL_VIEW_QR_BEAUTTY_SIZE"></div>
+            <div class="row">
+              <div class="col-12 col-md-12">
+                  <input type="button" class="btn btn-success ml-0" ng-click="clickPrint()" 
+                    value="{{'BTN_PRINT'| translate}}" ng-show="codeSimple && codeDesign"/>        
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+  
+    </div>
+  </main>
+  

@@ -1,0 +1,19 @@
+<div class="modal-header text-center">
+  <h4 class="modal-title w-100 font-weight-bold" translate="TIT_CHANGE_TITLE">Change Title</h4>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-ng-click="modalOptions.close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="md-form">
+    <input type="text" id="txtTitle" name="txtTitle" class="form-control" minlength="1" maxlength="45" ng-model="modalOptions.frmItem.title">
+    <label for="txtTitle" ng-class="{'active':modalOptions.frmItem.title}" translate="LBL_TITLE">Title</label>
+  </div>
+</div>
+<progress-bar ng-show="isBusy"></progress-bar>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary ml-0" data-ng-click="modalOptions.ok();" translate="BTN_CHANGE">Change</button>
+    <div class="options text-center text-md-right mt-1 ml-auto">
+      <p class="font-small grey-text d-flex justify-content-end"><a href="#" class="blue-text" ng-click="modalOptions.close();" translate="BTN_CANCEL">Cancel</a></p>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<div id="formN86" class="form">
+    <h3>Declaración Jurada</h3>
+    <p>Estimado cliente, éste formulario es parte del protocolo Nº86 establecido por el COE, debe quedar registrada toda persona que nos visite. Solo le llevará unos minutos responder.</p>
+    <form>
+        <div class="form-row">
+        <div class="col-2">
+            <label for="txtGroup" class="required">Grupo</label>
+            <select class="form-control" ng-model="formN86.group">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            </select>
+        </div>
+        <div class="col-10">
+            <label for="txtEmail" class="required">Correo Electrónico</label>
+            <input type="email" class="form-control" id="txtEmail" placeholder="cuenta@dominio.com" ng-model="formN86.email" maxlength="45">
+        </div>
+        </div>
+        <div class="form-row">
+        <div class="col-8">
+            <label for="txtName" class="required">Nombre Completo</label>
+            <input type="text" class="form-control" id="txtName" ng-model="formN86.name" maxlength="100">
+        </div>
+        <div class="col-4">
+            <label for="txtDNI" class="required">DNI</label>
+            <input type="text" class="form-control" id="txtDNI" ng-model="formN86.dni" maxlength="10">
+        </div>
+        </div>
+        <div class="form-group">
+        <label for="txtAddress" class="required">Dirección completa</label>
+        <input type="text" class="form-control" id="txtAddress" ng-model="formN86.address" maxlength="100">
+        <small>Indique calle, numeración, piso y dpto. si corresponde.</small>
+        </div>
+    </form>
+    <hr>
+    <p>Información de su estado de salud en los últimos días.</p>
+    <div class="group-check">
+      <div class="form-group">
+        <label for="chk1">En los últimos 5 dias <span class="no-word">NO</span> he desarrollado un cuadro febril mayor a 37.5°C</label>
+        <input type="checkbox" class="checkbox-right" value="1" ng-model="formN86.q1" id="chk1">
+      </div>
+      <div class="form-group">
+        <label for="chk2">En los últimos 14 días <span class="no-word">NO</span> he estado en contacto con personas sospechosas o confirmadas de COVID-19</label>
+        <input type="checkbox" class="checkbox-right" value="1" ng-model="formN86.q2" id="chk2">
+      </div>
+      <div class="form-group">
+        <label for="chk3">En los últimos 14 días <span class="no-word">NO</span> he regresado de viaje del exterior</label>
+        <input type="checkbox" class="checkbox-right" value="1" ng-model="formN86.q3" id="chk3">
+      </div>
+      <div class="form-group">
+        <label for="chk4"><span class="no-word">NO</span> he estado expuesto a grupos humanos numerosos desconocidos, sin respetar la distancia social establecida</label>
+        <input type="checkbox" class="checkbox-right" value="1" ng-model="formN86.q4" id="chk4">
+      </div>
+      <div class="form-group">
+        <label for="chk5"><span class="no-word">NO</span> permanecí en lugares cerrados con grupos de personas numerosos por más de 30 minutos seguidos <small>(respetando o no el distanciamiento social)</small></label>
+        <input type="checkbox" class="checkbox-right" value="1" ng-model="formN86.q5" id="chk5">
+      </div>
+      <div class="form-group">
+        <label for="chk6">En el día de la fecha <span class="no-word">NO</span> he utilizado transporte público</label>
+        <input type="checkbox" class="checkbox-right" value="1" ng-model="formN86.q6" id="chk6">
+      </div>
+      <div class="form-buttons">
+        <button type="button" class="btn btn-primary" data-ng-click="confirmFormN86();">Confirmar</button>
+      </div>
+    </div>
+  </div>

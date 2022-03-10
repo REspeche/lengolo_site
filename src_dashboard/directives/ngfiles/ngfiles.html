@@ -1,0 +1,24 @@
+<div id="drop-zone" class="upload fs-upload-element fs-upload" elem-ready="loadObject()">
+  <div class="fs-upload-target">
+    <div class="gallery-preview" ng-class="{ 'can-add' : !notAdd }">
+      <div id="itemGallery{{$index}}" class="box-gallery-item" ng-repeat="item in images" ng-show="item.action!=3">
+        <img ng-src="{{(item.action==1)?item.image:(path + item.image + '&type=gallery')}}" ng-if="item.action!=3"/>
+        <div class="mask-actions">
+          <i class="fas fa-edit" ng-click="editTitle($index)"></i>
+          <i class="fas fa-eye ml-2" ng-click="viewLarge($index)"></i>
+          <i class="fas fa-trash ml-2" ng-click="removeItem($index)"></i>
+        </div>
+        <div class="label-title">{{item.label}}</div>
+      </div>
+    </div>
+    <div class="group-buttons pt-1" ng-hide="notAdd">
+      <label for="imgGallery" class="text-white d-block m-2 link2 text" title="{{ 'TTP_UPLOAD' | translate }}" data-toggle="tooltip" data-placement="left">
+        <i class="fas fa-upload"></i>
+      </label>
+    </div>
+  </div>
+  <input id="imgGallery" class="fs-upload-input" type="file" multiple="" ngf-select ngf-pattern="'image/*'"
+    ngf-accept="'image/*'" ngf-max-size="{{maxFileUpload}}" ngf-resize="{width: {{size[0]}}, height: {{size[1]}}}"
+    onchange="angular.element(this).scope().isChange()">
+</div>
+<label>{{label}} <small class="text-muted ng-binding">({{ 'INF_MAX_IMAGES' | translate : '{ "max" : '+maxFiles+' }' }})</small></label>

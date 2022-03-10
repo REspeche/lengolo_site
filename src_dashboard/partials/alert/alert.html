@@ -1,0 +1,39 @@
+<main ng-controller="alertController" elem-ready="loadAlert()" class="list mx-lg-5">
+  <div class="container-fluid">
+    <!--First column-->
+    <div class="header">
+        <h2>Alertas</h2>
+    </div>
+
+    <!--Table-->
+    <div ng-hide="loadList" translate="LOADING">Loading...</div>
+    <div class="alert alert-primary" role="alert" ng-show="loadList && alerts.length==0">No se encontraron alertas en este momento.</div>
+    <table class="table table-bordered table-hover" ng-show="loadList && alerts.length>0">
+
+        <!--Table head-->
+        <thead class="mdb-color darken-1">
+            <tr class="text-white">
+                <th>Detalle</th>
+                <th>Fecha</th>
+                <th class="text-center"><i class="fas fa-cogs"></i></th>
+            </tr>
+        </thead>
+        <!--Table head-->
+        <!--Table body-->
+        <tbody class="grid-list">
+            <tr ng-repeat="item in alerts">
+                <td ng-class="{'grey lighten-2':item.viewed==0}">
+                  <a href="#" ng-click="setViewedAlert(item)" ng-class="{'not-viewed': !item.viewed}"><i class="fas fa-eye mr-2" ng-show="item.viewed==0"></i>{{item.name}}</a>
+                </td>
+                <td>{{item.date}}</td>
+                <td class="buttons text-center">
+                  <a type="button" class="btn-floating btn-sm light-green waves-effect waves-light" ng-click="goToActionAlert(item)"><i class="far fa-eye" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+        </tbody>
+        <!--Table body-->
+
+    </table>
+    <!--Table-->
+  </div>
+</main>

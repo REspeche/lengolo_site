@@ -1,0 +1,125 @@
+<main ng-controller="panelController" ng-init="loadPanel()" class="home mx-lg-5">
+  <!-- start: PAGE -->
+  <div class="container-fluid">
+
+      <div class="row mb-3">
+
+        <div class="col-lg-3 col-6 mb-3" ng-show="userInfo.trial==1 || userInfo.trial==2">
+            <div class="card">
+                <div class="view">
+                    <div class="Ripple-parent">
+                        <img src="/assets/img/trial.png" class="img-fluid img-trial"/>
+                        <div class="mask warning-color-dark back-trial"></div>
+                        <div class="Ripple " style="top: 0px; left: 0px; width: 0px; height: 0px;"></div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-2 font-bold">Período Prueba</h4>
+                    <h4 class="card-subtitle text-center red-text mb-2 font-bold" ng-show="userInfo.trial==1">15 días</h4>
+                    <h4 class="card-subtitle text-center red-text mb-2 font-bold" ng-show="userInfo.trial==2">finalizado</h4>
+                    <p class="card-text">
+                        Su cuenta se encontrará habilitada por 15 días para que use el sistema sin restricciones. Después de ese periodo, tendrá 3 días para realizar la suscripción. <small>De no realizarse, la cuenta se deshabilitará automáticamente.</small>
+                    </p>
+                    <div class="row justify-content-end pr-1" ng-show="userInfo.trial==2">
+                        <button type="button" class="btn btn-outline-primary btn-sm Ripple-parent" ng-click="openModalSubscribe()">Suscribirse
+                            <div class="Ripple Ripple-outline " style="top: 0px; left: 0px; width: 0px; height: 0px;"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6 mb-3" ng-show="userInfo.covid19==1">
+            <div class="card">
+                <div class="view">
+                    <div class="Ripple-parent">
+                        <img src="/assets/img/coe.png" class="img-fluid"/>
+                        <div class="mask rgba-white-slight"></div>
+                        <div class="Ripple " style="top: 0px; left: 0px; width: 0px; height: 0px;"></div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-2 font-bold">Declaración Jurada</h4>
+                    <h4 class="card-subtitle text-center indigo-text mb-2 font-bold">Protocola Nº86</h4>
+                    <p class="card-text">
+                        Ya disponemos de la declaración jurada en formato digital para ser implementad de una forma rápida y práctica. Olvidese de imprimir y gestionar pilas de papel que solo generan basura.
+                    </p>
+                    <div class="row justify-content-end pr-1">
+                        <button type="button" class="btn btn-outline-primary btn-sm Ripple-parent" ng-click="clickItemMenu(18)">Cómo habilitar?
+                            <div class="Ripple Ripple-outline " style="top: 0px; left: 0px; width: 0px; height: 0px;"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-6 mb-3">
+            <div class="card card-cascade cascading-admin-card" ng-click="clickItemMenu(10)">
+                <div class="admin-up">
+                    <i class="fas fa-shopping-basket deep-purple darken-4"></i>
+                    <div class="data">
+                        <p translate="LBL_CATEGORIES">Categories</p>
+                        <h3>{{lstCounters.categories}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          <div class="col-lg-3 col-6 mb-3">
+              <div class="card card-cascade cascading-admin-card" ng-click="clickItemMenu(11)">
+                  <div class="admin-up">
+                      <i class="fas fa-box-open blue darken-3"></i>
+                      <div class="data">
+                          <p translate="LBL_PRODUCTS">Products</p>
+                          <h3>{{lstCounters.products}}</h3>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-lg-3 col-6 mb-3" ng-show="userInfo.canDelivery">
+              <div class="card card-cascade cascading-admin-card" ng-click="clickItemMenu(17)">
+                  <div class="admin-up">
+                      <i class="fas fa-utensils purple"></i>
+                      <div class="data">
+                          <p translate="LBL_PENDING_ORDERS">Ordenes Pendientes</p>
+                          <h3>{{lstCounters.pendingOrders}}</h3>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+            <div class="help_steps">
+                <h4>Pasos para empezar a usar lengolo</h4>
+                <ol>
+                    <li>
+                        Ingrese en <a href="#" ng-click="clickItemMenu(10)">Categorias</a> y cargue todas las agrupaciones de su menú.
+                        <br/><small class="text-muted">Ej: Desayunos, Meriendas, Bebidas...</small>
+                    </li>
+                    <li>
+                        Ingrese en <a href="#" ng-click="clickItemMenu(11)">Productos</a> y cargue los productos asociados a cada categoria.
+                        <br/><small class="text-muted">Ayuda: Tilde en "Seguir agregando productos (no volver al listado)" para continuar en la misma pantalla y así cargar más rápido los productos.</small>
+                    </li>
+                    <li>
+                        Ingrese en la sección del <a href="#" ng-click="clickItemMenu(13)">Código QR</a> y obtenga el código para su local.
+                        <br/><small class="text-muted">Tips: Puede guardar la imagen con el boton derecho del mouse y usarlo como elemento gráfico en cualquier otro lugar.</small>
+                    </li>
+                    <li>
+                        <a href="#" ng-click="refreshMenu()">Refrezcar Menú</a> para actualizar la información en todos los dispositivos.
+                        <br/><small class="text-muted">Aclaración: Solo si el botón en la barra superior se encuentra en rojo.</small>
+                    </li>
+                </ol>
+                <h5 class="text-danger"><strong>Advertencia:</strong></h5>
+                <p>Siempre que haga una modificación ya sea en la sección de Menúes, Categorias o Productos, las mismas <strong>NO se actualizaran</strong> en los celulares de los clientes.
+                    <br/><small class="text-muted">Esto es para que pueda realizar varias modificaciones y cuando usted lo desee, dispare la actualización en los clientes.</small></p>
+            </div>
+        </div>
+      </div>
+
+  </div>
+  <!-- end: PAGE -->
+</main>

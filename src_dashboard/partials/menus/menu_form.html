@@ -1,0 +1,172 @@
+<main id="menuFormController" ng-controller="menuFormController" ng-init="loadFormMenu()" class="form mx-lg-5">
+    <div class="container-fluid">
+      <!--First column-->
+      <div class="header">
+          <h2><span translate="LBL_EDIT" ng-show="paramAction=='edit'">Edit</span><span translate="LBL_NEW" ng-show="paramAction=='new'">New</span> {{ 'LBL_MENU' | translate}}</h2>
+          <a type="button" class="btn-floating light-blue"><i class="fas fa-list" aria-hidden="true" ng-click="clickCancelForm()"></i></a>
+          <a type="button" class="btn-floating btn-danger ml-0" ng-show="paramAction=='edit'"><i class="fas fa-trash" aria-hidden="true" ng-click="clickRemove()"></i></a>
+      </div>
+  
+      <div ng-hide="loadForm" translate="LOADING">Loading...</div>
+      <form id="frmMenu" name="frmMenu" class="needs-validation" ng-submit="submitForm()" novalidate autocomplete="off" ng-show="loadForm">
+  
+        <div class="card p-3 col-lg-6 col-md-6 col-sm-12">
+  
+            <div class="card-body pb-0">
+  
+                <div class="row">
+                    <div class="col-12">
+  
+                      <div class="row">
+                          <div class="col-12">
+                            <label for="txtName"><span translate="LBL_NAME">Name</span> *</label>
+                            <input type="text" class="form-control" id="txtName" name="txtName"
+                                   ng-model="formData.name" minlength="2" maxlength="255" 
+                                   ng-change="isEditingForm()" required>
+                            <div class="invalid-feedback" ng-show="invalidForm">{{msgInvalid}}</div>
+                          </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-12">
+                          <label translate="LBL_DAYS">Días</label>
+                          <div class="w-100">
+                            <div class="form-check d-inline-block pl-0">
+                              <input class="form-check-input" type="checkbox" ng-true-value="1" ng-false-value="0" id="day1" ng-model="formData.days[0]" ng-click="isEditingForm()">
+                              <label class="form-check-label pl-4" for="day1">{{ 'VAL_SUNDAY' | translate }}</label>
+                            </div>  
+                            <div class="form-check d-inline-block pl-3">
+                              <input class="form-check-input" type="checkbox" ng-true-value="1" ng-false-value="0" id="day2" ng-model="formData.days[1]" ng-click="isEditingForm()">
+                              <label class="form-check-label pl-4" for="day2">{{ 'VAL_MONDAY' | translate }}</label>
+                            </div> 
+                            <div class="form-check d-inline-block pl-3">
+                              <input class="form-check-input" type="checkbox" ng-true-value="1" ng-false-value="0" id="day3" ng-model="formData.days[2]" ng-click="isEditingForm()">
+                              <label class="form-check-label pl-4" for="day3">{{ 'VAL_TUESDAY' | translate }}</label>
+                            </div> 
+                            <div class="form-check d-inline-block pl-3">
+                              <input class="form-check-input" type="checkbox" ng-true-value="1" ng-false-value="0" id="day4" ng-model="formData.days[3]" ng-click="isEditingForm()">
+                              <label class="form-check-label pl-4" for="day4">{{ 'VAL_WEDNESDAY' | translate }}</label>
+                            </div> 
+                            <div class="form-check d-inline-block pl-3">
+                              <input class="form-check-input" type="checkbox" ng-true-value="1" ng-false-value="0" id="day5" ng-model="formData.days[4]" ng-click="isEditingForm()">
+                              <label class="form-check-label pl-4" for="day5">{{ 'VAL_THURSDAY' | translate }}</label>
+                            </div> 
+                            <div class="form-check d-inline-block pl-3">
+                              <input class="form-check-input" type="checkbox" ng-true-value="1" ng-false-value="0" id="day6" ng-model="formData.days[5]" ng-click="isEditingForm()">
+                              <label class="form-check-label pl-4" for="day6">{{ 'VAL_FRIDAY' | translate }}</label>
+                            </div> 
+                            <div class="form-check d-inline-block pl-3">
+                              <input class="form-check-input" type="checkbox" ng-true-value="1" ng-false-value="0" id="day7" ng-model="formData.days[6]" ng-click="isEditingForm()">
+                              <label class="form-check-label pl-4" for="day7">{{ 'VAL_SATURDAY' | translate }}</label>
+                            </div> 
+                          </div>  
+                        </div>
+                    </div>
+
+                      <div class="row">
+                        <div class="col-12">
+                          <div id="time-range">
+                            <label class="mb-2"><span translate="LBL_TIME_RANGE">Rango Horario</span></label>
+                            <div class="sliders_step1">
+                                <div id="slider-range"></div>
+                            </div>
+                            <small class="text-muted"><span class="slider-time-start">9:00 AM</span> - <span class="slider-time-end">5:00 PM</span></small>
+                        </div>
+                        </div>
+                      </div>
+  
+                      <div class="row" ng-if="userInfo.type==2">
+                        <div class="col-12">
+                          <label for="txtRate"><span translate="LBL_RATE">Tarifa</span> *</label>
+                          <input type="number" class="form-control" id="txtRate" name="txtRate" style="max-width:80px;"
+                                 ng-model="formData.rate" minlength="1" maxlength="4" 
+                                 ng-change="isEditingForm()" required>
+                            <small class="text-muted" translate="LBL_RATE_INFO"></small>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-4">
+                          <label translate="LBL_ACTIVE">Activo</label>
+                          <div class="row">
+                            <div class="form-check col-md-6">
+                              <input type="radio" class="form-check-input" id="chkMode2" name="chkMode2" ng-value="1" ng-model="formData.enable" ng-click="isEditingForm()">
+                              <label class="form-check-label" for="chkMode2" translate="VAL_YES">Si</label>
+                            </div>
+                            <div class="form-check col-md-6">
+                              <input type="radio" class="form-check-input" id="chkMode1" name="chkMode1" ng-value="0" ng-model="formData.enable" ng-click="isEditingForm()">
+                              <label class="form-check-label" for="chkMode1" translate="VAL_NO">No</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row" ng-show="userInfo.canDelivery">
+                        <div class="col-12">
+                          <label translate="LBL_DELIVERY">Delivery</label>
+                          <div class="row">
+                            <div class="form-check col-md-6">
+                              <div class="form-check pl-0">
+                                <input class="form-check-input" type="checkbox" value="1" id="chkDelivery" ng-model="formData.canDelivery" ng-change="isEditingForm()">
+                                <label class="form-check-label pl-4" for="chkDelivery">{{ 'LBL_ENABLE' | translate }}?</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row" ng-show="userInfo.covid19==3">
+                        <div class="col-12">
+                          <label translate="LBL_COVID19">Solicitar completar la declaración jurada COVID-19</label>
+                          <div class="row">
+                            <div class="form-check col-md-6">
+                              <div class="form-check pl-0">
+                                <input class="form-check-input" type="checkbox" value="1" id="chkCovid19" ng-model="formData.formCovid19" ng-change="isEditingForm()">
+                                <label class="form-check-label pl-4" for="chkCovid19">{{ 'LBL_ENABLE' | translate }}?</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="text-left mb-2">
+                        <h5 translate="TIT_STYLE">Estilo</h5>
+                        <hr class="mt-1">
+                      </div>
+
+                      <div class="row">
+                        <div class="col-12">
+                          <label translate="LBL_CUSTOM_STYLE">Custom Style</label>
+                          <div class="row">
+                            <div class="form-check col-12">
+                              <div class="form-check pl-0 d-inline-block">
+                                <input class="form-check-input" type="checkbox" value="1" id="chkOwnStyle" ng-model="formData.ownStyle" ng-change="changeCustomStyle()">
+                                <label class="form-check-label pl-4" for="chkOwnStyle">{{ 'LBL_OWN_STYLE' | translate }}?</label>
+                              </div>
+                              <button type="button" class="btn btn-info btn-sm ml-2" ng-click="defineStyle()" ng-disabled="!formData.ownStyle" translate="BTN_STYLE">Style</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                  </div>
+  
+                </div>
+  
+                <small class="text-muted" translate="MSG_FIELDS_MANDATORY">Fields marked with * are mandatory</small>
+            </div>
+  
+            <!--Footer-->
+            <div class="modal-footer mx-3 p-0 pt-3">
+              <button type="submit" class="btn btn-success ml-0" ng-disabled="!editForm" translate="BTN_SAVE">Save</button>
+              <div class="options text-center text-md-right mt-1 ml-auto">
+                <p class="font-small grey-text d-flex justify-content-end"><a href="#" class="blue-text" ng-click="clickCancelForm()" translate="BTN_CANCEL">Cancel</a></p>
+              </div>
+            </div>
+  
+        </div>
+  
+      </form>
+    </div>
+  </main>
+  

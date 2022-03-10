@@ -1,0 +1,27 @@
+<div class="row mt-0 mb-0">
+  <div ng-class="{'col-auto pr-0':!hideTime, 'col-12 col-md-12':hideTime}">
+    <div class="input-group">
+      <input placeholder="{{placeHolder}}" type="text" class="form-control datepicker" id="{{name}}_date" name="{{name}}_date"
+             ng-model="valueDate" elem-ready="readyObj(this)"
+             ng-change="changeObj()" style="max-width: 111px;">
+      <div class="input-group-append d-none d-sm-block">
+        <button class="btn btn-sm btn-outline-info m-0 px-1 py-1 z-depth-0 waves-effect h-100" type="button"
+        ng-click="openDate()"><i class="fas fa-calendar-day"></i></button>
+        <button class="btn btn-sm btn-outline-danger m-0 px-1 py-1 z-depth-0 waves-effect h-100" type="button"
+        ng-click="removeDate()" ng-show="valueDate" ng-if="hideTime"><i class="fas fa-window-close"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="col-auto px-0" ng-hide="hideTime">
+    <div class="input-group">
+      <input placeholder="{{ 'LBL_TIME' | translate }}" type="text" class="form-control timepicker rounded-0" id="{{name}}_time" name="{{name}}_time"
+        ng-model="valueTime" ng-change="changeObj()" style="max-width: 68px;" readonly>
+      <div class="input-group-append d-none d-sm-block">
+        <button class="btn btn-sm btn-outline-info m-0 px-1 py-1 z-depth-0 waves-effect h-100" type="button"
+        ng-click="openTime()"><i class="fas fa-clock"></i></button>
+        <button class="btn btn-sm btn-outline-danger m-0 px-1 py-1 z-depth-0 waves-effect h-100" type="button"
+        ng-click="removeDate()" ng-show="valueDate"><i class="fas fa-window-close"></i></button>
+      </div>
+    </div>
+  </div>
+</div>

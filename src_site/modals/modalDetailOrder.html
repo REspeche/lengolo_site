@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h4 class="modal-title">Detalle orden</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="modalOptions.close();">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-row">
+        <div class="col-4">
+            <p><b>Fecha:</b> <span>{{modalOptions.dataOrder.date}}</span></p>
+            <p><b>Importe Total:</b> <span>$ {{modalOptions.dataOrder.total}}</span></p>
+            <p><b>Estado:</b> <badge-status id="{{modalOptions.dataOrder.status}}" type="order"></badge-status></p>
+        </div>
+        <div class="col-8 scroll-div">
+            <ul class="list-vertical">
+                <li ng-repeat="itemP in modalOptions.arrItems">
+                    <span>{{itemP.quantity}} x {{itemP.name}}: $ {{itemP.total}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <p ng-show="modalOptions.dataOrder.comment"><b>Comentario:</b> <i>{{modalOptions.dataOrder.comment}}</i></p>
+    <p><a href="#" ng-click="modalOptions.cancelOrder(modalOptions)" ng-show="modalOptions.dataOrder.status==1">cancelar orden</a></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="modalOptions.close();">Cerrar</button>
+  </div>

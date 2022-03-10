@@ -1,0 +1,99 @@
+<main id="qrController" ng-controller="getQrController" ng-init="loadGetQr()" class="form mx-lg-5">
+    <div class="container-fluid">
+      <div class="header">
+          <h2><span translate="TIT_GET_QR_CODE">QR Code</span></h2>
+      </div>
+  
+      <div class="row">
+        <div class="col-lg-12 pb-2">
+            <div ng-hide="notAR">
+                <span translate="TXT_QR"></span>
+                <a href="#" ng-click="viewStatusShipping()" class="ml-1" translate="LNK_SHIPPING_BEFORE"></a>
+            </div>
+            <div class="alert alert-warning mb-0" role="alert" ng-show="notAR">
+                <i class="fas fa-exclamation-triangle"></i> <span translate="TXT_QR_AR"></span>
+            </div>
+        </div>
+      </div>
+
+      <div ng-hide="loadForm" translate="LOADING">Loading...</div>
+      <div class="alert alert-info" role="alert" ng-show="lastPurchase && dataLastBuy.lastDate"><i class="fas fa-bullhorn"></i> <span class="ng-binding">{{lastPurchase}}</span></div>
+
+      <form action="" method="post" id="pay" name="pay" novalidate autocomplete="off" ng-show="loadForm && !notAR">
+        <div class="card px-3 mb-3">
+            <div class="card-body px-3 pb-0">
+
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 pb-3">
+                    <div style="line-height:1rem;border-left: 2px solid #ccc;" class="col-6">
+                        <small>
+                            <strong>{{dataLastBuy.company}}</strong><a href="#" ng-click="changeAddress()" class="ml-2" translate="LNK_CHANGE"></a><br/>
+                            {{dataLastBuy.address}}<br/>
+                            CP: {{dataLastBuy.zip}}<br/>
+                            {{dataLastBuy.city}}, {{dataLastBuy.state}}<br/>
+                        </small>
+                        <small class="text-muted"><span translate="LBL_SHIPPING_ADDRESS"></small>
+                    </div>
+                </div>
+              </div>
+
+              <div class="row text-center wow fadeIn animated" style="visibility: visible; animation-name: fadeIn;" ng-if="dataCost.length>0">
+
+                <!--Grid column-->
+                <div class="col-lg-{{12/dataCost.length}} col-md-12 mb-4" ng-repeat="item in dataCost">
+        
+                  <!--Card-->
+                  <div class="card">
+        
+                    <!-- Card header -->
+                    <div class="card-header">
+                      <h4>
+                        <strong>{{item.quantity}} calcos</strong>
+                      </h4>
+                    </div>
+        
+                    <!--Card content-->
+                    <div class="card-body">
+        
+                      <h3 class="card-title pricing-card-title mb-4">${{item.cost | number : 0}}
+                        <small class="text-muted"> con envío</small>
+                      </h3>
+        
+                      <ol class="list-unstyled mb-4">
+                        <li>plastificado opaco
+                          <i class="fas fa-check green-text ml-1"></i>
+                        </li>
+                        <li>troquelada
+                          <i class="fas fa-check green-text ml-1"></i>
+                        </li>
+                      </ol>
+        
+                      <button type="button" class="btn btn-lg btn-block btn-outline-primary waves-effect" ng-click="doPay(item)">Pagar</button>
+        
+                    </div>
+        
+                  </div>
+                  <!--/.Card-->
+        
+                </div>
+                <!--Grid column-->
+        
+              </div>
+
+            </div>
+  
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col-lg-12">
+            <small class="text-muted">
+                <span translate="TXT_QR_FREE"></span>
+                <a href="#" ng-click="viewQRFree()" class="ml-1" translate="LNK_QR_FREE"></a>
+            </small>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  

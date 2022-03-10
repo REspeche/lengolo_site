@@ -1,0 +1,61 @@
+<main ng-controller="accountController" ng-init="loadProfile()" class="form mx-lg-5">
+  <div class="container-fluid">
+    <!--First column-->
+    <div class="header">
+        <h2 translate="TIT_MY_ACCOUNT">My Account</h2>
+    </div>
+
+    <div ng-hide="loadForm" translate="LOADING">Loading...</div>
+    <form id="frmAccount" name="frmAccount" class="needs-validation" ng-submit="submitForm()" novalidate autocomplete="off" ng-show="loadForm">
+      <div class="card p-3">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="text-left mb-2 mt-4 col-md-12 col-12">
+                  <h5 translate="TIT_AUTHETICATION">Authentication Data</h5>
+                  <hr class="mt-1">
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                  <label for="txtEmail"><span translate="LBL_EMAIL">Email</span> *</label>
+                  <input type="email" class="form-control" id="txtEmail" name="txtEmail"
+                         ng-model="formData.email"
+                         ng-change="isEditingForm()" required readonly>
+                  <small class="text-muted" translate="LBL_EMAIL_INFO">Email used to authenticate</small>
+                </div>
+                <div class="col-6">
+                  <label for="txtPass"><span translate="LBL_ACTUAL_PASS">Actual Password</span> *</label>
+                  <input type="password" class="form-control" id="txtPass" name="txtPass"
+                         ng-model="formData.pass"
+                         ng-change="isEditingForm()" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                  <label for="txtPassN"><span translate="LBL_NEW_PASS">New Password</span> *</label>
+                  <input type="password" class="form-control" id="txtPassN" name="txtPassN"
+                         ng-model="formData.passN"
+                         ng-change="isEditingForm()" required>
+                </div>
+                <div class="col-6">
+                  <label for="txtPassR"><span translate="LBL_CONF_PASS">Confirm Password</span> *</label>
+                  <input type="password" class="form-control" id="txtPassR" name="txtPassR"
+                         ng-model="formData.passR"
+                         ng-change="isEditingForm()" required>
+                </div>
+            </div>
+
+            <small class="text-muted" translate="MSG_FIELDS_MANDATORY">Fields marked with * are mandatory</small>
+          </div>
+
+          <!--Footer-->
+          <div class="modal-footer mx-3 p-0 pt-3" ng-hide="paramAction=='view'">
+            <button type="submit" class="btn btn-success ml-0" ng-disabled="!editForm" translate="BTN_EDIT_ACCOUNT">Edit Account</button>
+            <div class="options text-center text-md-right mt-1 ml-auto"></div>
+          </div>
+      </div>
+    </form>
+  </div>
+</main>

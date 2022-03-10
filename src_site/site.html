@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="mainApp" class="scrollbar scrollbar-primary">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>lengolo</title>
+
+  <!-- start: META -->
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
+  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="Last-Modified" content="0">
+  <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta content="" name="description">
+  <meta content="Incloux" name="author">
+  <!-- end: META -->
+
+  <!-- Font Awesome -->
+  <link defer rel="stylesheet" href="/framework/fontawesome/css/all.css">
+  <link async rel='stylesheet' href='/framework/font/Khand/Khand.css' type='text/css'>
+
+  <!-- start: MAIN CSS -->
+  <!-- inject:css -->
+  <!-- endinject -->
+  <!-- end: MAIN CSS -->
+</head>
+
+<body ng-controller="siteController" ng-init="loadSite()" ng-class="{'no-print':!canPrint}">
+  <a name="top"></a>
+  <div id="load_screen" class="transitionPage bg-buildings">
+    <div class="spinner"></div>
+    <div class="label">Cargando el contenido de la carta...</div>
+  </div>
+  <div class="empty-menu" ng-hide="restaurant && restaurant.codeRestaurant && lstItems.length>0">
+    <img id="img-empty" class="wrong-code" height="150">
+    <div class="label" ng-show="!isDebug && !restaurant.codeRestaurant || !paramCode">El código QR no pertenece a un restaurante registrado.</div>
+    <div class="label" ng-show="!isDebug && paramCode && restaurant.codeRestaurant && lstItems.length==0">No encontramos una carta para visualizar!<br/>Por favor, comuníquese con el mozo.</div>
+    <div class="code" ng-show="!isDebug && paramCode && !restaurant.codeRestaurant">{{::paramCode}}</div>
+    <div class="log-debug" ng-show="isDebug && outLogDebug">{{::outLogDebug}}</div>
+  </div>
+
+  <div class="entry-banner hidden-print" ng-if="restaurant && restaurant.name" ng-class="{'inner-page-banner-area': restaurant && restaurant.name}">
+    <div class="container">
+        <div class="pagination-area" ng-class="{ 'subtitle' : restaurant.subname}">
+            <h1 ng-bind="restaurant.name"></h1>
+            <small ng-bind="restaurant.subname"></small>
+        </div>
+    </div>
+    <div ng-click="clickLogo(restaurant)" class="logo" ng-if="restaurant.avatar">
+        <img class="rounded-circle" lazy-src="{{::pathProfile + restaurant.avatar}}" animate-visible="true" animate-speed="0.5s">
+    </div>
+    <div id="navbar" ng-show="showDelivery">
+      <div class="name-user" ng-show="restaurant.type==3">
+        <div ng-show="isLogin" class="text-success">
+          <div ng-click="changeDataUser()">{{::dataClient.name}}<i class="fas fa-user"></i></div>
+        </div>
+        <div ng-hide="isLogin" class="text-info">
+          <div ng-click="login(false)">Autentificarse<i class="far fa-user"></i></div>
+        </div>
+      </div>
+      <div class="order-progress" ng-show="dataOrder && dataOrder.id">
+        <badge-status id="{{dataOrder.status}}" usrType="{{restaurant.type}}" type="order" ng-click="getDetailOrder()"></badge-status>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main layout -->
+  <div id="main" class="container">
+      <div class="row menu2" ng-click="hideNav()" ng-hide="showFormN86">
+        <div class="alert" ng-class="{'alert-info': itemMsg.type==3, 'alert-warning': itemMsg.type==2, 'alert-danger': itemMsg.type==1}" role="alert" ng-repeat="itemMsg in lstMessages"><p><b>{{itemMsg.title}}</b></p>{{itemMsg.message}}</div>
+        <div id="category-{{::itemC.catId}}" ng-repeat="itemC in lstItems | limitTo: limit" in-view="loadMore($last, $inview)" on-finish-render="finishRender()" ng-show="groupHasProducts(itemC)"
+          class="col-sm-12 category-back font-{{::itemC.fontColor}}" style="background-color: #{{::itemC.backColor}};">
+          <div class="text-center">
+              <a id="category-title-{{::itemC.catId}}"></a>
+              <h3 class="main category-title" data-id="{{::itemC.catId}}" ng-class="{'mb-0':(itemC.excerpt || filteredCat.length==0), 'wp-trigger':groupHasProducts(itemC)}">{{::itemC.category}}</h3>
+              <p ng-show="itemC.excerpt" class="category-desc text-center mb-3">{{::itemC.excerpt}}</p>
+              <p ng-show="itemC.colSizes" class="category-sizes text-right mb-0 text-uppercase" ng-class="{ 'margin-delivery': showDelivery}"><many-prices value="{{::itemC.colSizes}}"></many-prices></p>
+          </div>
+          <div class="row">
+              <div id="product-{{::itemP.id}}" class="col-sm-6 col-md-4 col-print-6 row-item" ng-repeat="itemP in itemC.data | filter:ignoreAccents as filteredCat track by itemP.id">
+                  <div class="item">
+                      <div class="img-product" ng-if="itemP.image">
+                        <img id="product-img-{{::itemP.id}}" class="rounded-circle z-depth-0 product" lazy-src="{{::pathProduct + itemP.image}}" animate-visible="true" animate-speed="0.5s" alt=""
+                          ng-click="viewImagePreview(itemP)">
+                      </div>
+                      <div ng-class="{'detail-image' : itemP.image}">
+                        <h4 id="product-name-{{::itemP.id}}" ng-class="{'maxw-100':(!itemC.colSizes && itemP.price==0),'moreSmall':itemC.colSizes,'capitalize':!txtSearch}">
+                          <span ng-bind-html="highlightText(itemP.name) | parenthesisSmall"></span>
+                          <type-product ng-if="itemP.type>1" type="{{::itemP.type}}"></type-produc>
+                        </h4>
+                        <span ng-hide="!itemC.colSizes && itemP.price==0" class="dots"></span>
+                        <div id="product-price-{{::itemP.id}}" class="price" style="background-color: #{{::itemC.backColor}};">
+                          <many-prices ng-hide="!itemC.colSizes && itemP.price==0" value="{{::itemP.price}}"></many-prices>
+                          <div class="btn-add hidden-print" ng-show="showDelivery" ng-click="addItem(itemC, itemP)">
+                            <i class="fas fa-plus-circle"></i>
+                          </div>
+                        </div>
+                        <p id="product-excerpt-{{::itemP.id}}" ng-show="itemP.excerpt" ng-bind-html="highlightText(itemP.excerpt)"></p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div ng-repeat="itemC_child in itemC.childs" ng-show="groupHasProducts(itemC_child)"
+            class="is-child font-{{::itemC_child.fontColor}}" style="background-color: #{{::itemC_child.backColor}};">
+            <div class="text-center">
+                <a id="category-title-{{::itemC_child.catId}}"></a>
+                <h3 ng-class="{'mb-0':itemC_child.excerpt}">{{::itemC_child.category}}</h3>
+                <p ng-show="itemC_child.excerpt" class="category-desc text-center mb-3">{{::itemC_child.excerpt}}</p>
+                <p ng-show="itemC_child.colSizes" class="category-sizes text-right mb-0 text-uppercase" ng-class="{ 'margin-delivery': showDelivery}"><many-prices value="{{::itemC_child.colSizes}}"></many-prices></p>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-print-6 row-item" ng-repeat="itemP in itemC_child.data | filter:ignoreAccents track by itemP.id">
+                    <div class="item">
+                        <div class="img-product" ng-if="itemP.image">
+                          <img class="rounded-circle z-depth-0 product" lazy-src="{{::pathProduct + itemP.image}}" animate-visible="true" animate-speed="0.5s" alt=""
+                            ng-click="viewImagePreview(itemP)">
+                        </div>
+                        <div ng-class="{'detail-image' : itemP.image}">
+                          <h4 ng-class="{'maxw-100':(!itemC_child.colSizes && itemP.price==0),'moreSmall':itemC_child.colSizes}">
+                            <span ng-bind-html="highlightText(itemP.name) | parenthesisSmall"></span>
+                            <type-product ng-if="itemP.type>1" type="{{::itemP.type}}"></type-produc>
+                          </h4>
+                          <span ng-hide="!itemC_child.colSizes && itemP.price==0" class="dots"></span>
+                          <div class="price" style="background-color: #{{::itemC_child.backColor}};">
+                            <many-prices ng-hide="!itemC_child.colSizes && itemP.price==0" value="{{::itemP.price}}"></many-prices>
+                            <div class="btn-add hidden-print" ng-show="showDelivery" ng-click="addItem(itemC_child, itemP)">
+                              <i class="fas fa-plus-circle"></i>
+                            </div>
+                          </div>
+                          <p ng-show="itemP.excerpt" ng-bind-html="highlightText(itemP.excerpt)"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-categories" ng-if="paramCode && lstItems.length>5 && !showFormN86">
+        <ul class="middle">
+          <li ng-repeat="itemC in lstItems" ng-class="{'selected':$index==0}" ng-show="groupHasProducts(itemC)"
+            id="label-cat-{{::itemC.catId}}" class="category-label">
+            <div ng-click="goToCategory(itemC.catId)" ng-class="{'cat-disabled': !isLoadCat(itemC.catId)}">
+              {{::itemC.category}}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div ng-include src="'/templates/partials/formN86.html'" ng-if="shouldBeViewFormN86 && lstItems.length>0" ng-show="showFormN86" class="hidden-print"></div>
+  </div>
+  <!-- Main layout -->
+
+  <div class="bar-buttons hidden-print" ng-hide="lstItems.length==0">
+    <a href="javascript:void(0)" class="btnFloating scrollToTop" ng-click="scrollToTop()" ng-hide="itemsToOrder.length>0 || showFormN86"><i class="fa fa-arrow-up"></i></a>
+    <a href="javascript:void(0)" class="btnFloating typeShippingSelect" ng-show="itemsToOrder.length==0 && restaurant.canDelivery==1 && lstItems.length>0 && !showFormN86" ng-click="changeType()"><i class="fa" ng-class="{ 'fa-undo': showDelivery, 'fa-receipt': !showDelivery}"></i></a>
+    <a href="javascript:void(0)" class="btnFloating btnFormN86" ng-click="wantToShowFormN86()" ng-show="shouldBeViewFormN86"><i class="fa fa-virus"></i></a>
+    <a href="javascript:void(0)" class="btnFloating btnSearch" ng-click="showFind()" ng-hide="showFormN86"><i class="fa fa-search"></i></a>
+    <input type="text" class="form-control inputSearch" maxlength="50" ng-class="{'visible': viewSearchInput}" ng-model="txtSearch" ng-hide="showFormN86"/>
+  </div>
+
+  <div ng-include src="'/templates/partials/detailOrder.html'" ng-if="paramCode && restaurant.canDelivery==1 && lstItems.length>0" class="hidden-print"></div>
+
+  <footer ng-class="{'pos-fixed': lstItems.length==0}" class="hidden-print">
+    <div class="container text-muted">
+      <p class="text-center"><small>© 2020 <a href="http://lengolo.com.ar" class="text-muted" target="_blank">lengolo.com.ar</a> - <a href="http://www.incloux.com" target="_blank" rel="noopener noreferrer"><img id="incloux" src="/assets/img/iconIncloux25.png" alt="Incloux"></a></small></p>
+    </div>
+  </footer>
+
+  <!-- start: MAIN JAVASCRIPTS -->
+  <!-- inject:js -->
+  <!-- endinject -->
+  <!-- end: MAIN JAVASCRIPTS -->
+</body>
+</html>

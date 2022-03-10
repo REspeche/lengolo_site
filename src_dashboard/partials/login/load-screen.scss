@@ -1,0 +1,12 @@
+body.load-screen {
+  #load_screen {
+    overflow-y: hidden;
+  }
+
+  footer, nav.navbarInvisible {
+    display: none;
+  }
+}
+body.load-screen.enable-scroll {
+  overflow-y: hidden;
+}

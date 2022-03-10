@@ -1,0 +1,78 @@
+<main ng-controller="menusController" elem-ready="loadMenus()" class="list mx-lg-5">
+    <div class="container-fluid">
+      <!--First column-->
+      <div class="header">
+          <h2 translate="TIT_MENUS">Menues</h2>
+          <a type="button" class="btn-floating pink"><i class="fas fa-plus" aria-hidden="true" ng-click="clickNew()"></i></a>
+      </div>
+  
+      <div class="row" ng-show="userInfo.multipleQR">
+        <div class="col-lg-12 pb-2">
+            <div translate="TXT_MENUS"></div>
+        </div>
+      </div>
+
+      <!--Table-->
+      <div ng-hide="loadList" translate="LOADING">Loading...</div>
+      <div class="alert alert-primary" role="alert" ng-show="loadList && lstMenus.length==0"><span translate="INF_EMPTY_MENU">You have not yet loaded a menu</span> (<a href="#" ng-click="clickNew()" translate="LNK_NEW_MENU">New Menu</a>).</div>
+      <table id="dtTable" class="table table-bordered table-hover" ng-hide="lstMenus.length==0">
+          <!--Table head-->
+          <thead class="mdb-color darken-1">
+              <tr class="text-white">
+                  <th  class="d-none d-sm-block d-lg-table-cell" translate="COL_ID">Id</th>
+                  <th translate="COL_NAME">Name</th>
+                  <th translate="COL_SCHEDULE" class="d-none d-sm-block d-lg-table-cell">Horario</th>
+                  <th translate="COL_RATE" class="d-none d-sm-block d-lg-table-cell" ng-if="userInfo.type==2">Tarifa</th>
+                  <th translate="COL_PRODUCTS">Productos</th>
+                  <th><span ng-show="userInfo.multipleQR" translate="COL_VIEW_QR">View with QR</span><span ng-hide="userInfo.multipleQR"  translate="COL_ACTIVE">Active</span></th>
+                  <th translate="COL_DELIVERY" class="d-none d-sm-block d-lg-table-cell" ng-show="userInfo.canDelivery">Delivery</th>
+                  <th class="text-center" translate="COL_ACTIONS">Actions</th>
+              </tr>
+          </thead>
+          <!--Table head-->
+          <!--Table body-->
+          <tbody class="grid-list">
+              <tr class="row-drag" ng-repeat="item in lstMenus">
+                  <td  class="d-none d-sm-block d-lg-table-cell">
+                    {{item.id}}
+                  </td>
+                  <td>
+                    {{item.name}}
+                  </td>
+                  <td class="d-none d-sm-block d-lg-table-cell">
+                    <days-menu days="{{item.days}}"></days-menu>{{item.timeS}} a {{item.timeE}}
+                  </td>
+                  <td  class="d-none d-sm-block d-lg-table-cell" ng-if="userInfo.type==2">
+                    {{(item.rate - 1) * 100 | number : 0}}%
+                  </td>
+                  <td>
+                    {{item.products}}
+                    <a href="javascript:void(0)" ng-click="goProducts(item)" class="ml-1" ng-class="{ 'text-primary':item.products>0 , 'text-danger':item.products==0 }"><i class="fas fa-arrow-circle-right"></i></a>    
+                  </td>
+                  <td>
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" ng-checked="item.enable==1" id="chk{{item.id}}" ng-click="activeMenu(item)">
+                      <label class="custom-control-label" for="chk{{item.id}}">{{(item.enable==1)?('VAL_YES' | translate):('VAL_NO' | translate)}}</label>
+                    </div>
+                  </td>
+                  <td class="text-center d-none d-sm-block d-lg-table-cell" ng-show="userInfo.canDelivery">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" ng-checked="item.delivery==1" id="chk_delivery{{item.id}}" ng-click="deliveryMenu(item)">
+                      <label class="custom-control-label" for="chk_delivery{{item.id}}">{{(item.delivery==1)?('VAL_YES' | translate):('VAL_NO' | translate)}}</label>
+                    </div>
+                  </td>  
+                  <td class="buttons text-center">
+                    <a ng-show="userInfo.multipleQR && item.enable==0" class="icons-sm text-secondary" ng-click="clickCopyLink(item)" title="{{ 'BTN_COPY_LINK' | translate }}"><i class="fas fa-link"></i></a>
+                    <a ng-show="userInfo.multipleQR && item.enable==0" class="icons-sm ml-2 text-secondary" ng-click="downloadQR(item)" title="{{ 'BTN_DOWNLOAD_QR' | translate }}"><i class="fas fa-qrcode"></i></a>
+                    <a class="icons-sm ml-2 text-primary" ng-click="clickEdit(item)" title="{{ 'BTN_EDIT' | translate }}"><i class="fas fa-edit"></i></a>
+                    <a class="icons-sm ml-2 text-danger" ng-click="clickRemove(item)" title="{{ 'BTN_DELETE' | translate }}"><i class="fas fa-trash"></i></a>
+                  </td>
+              </tr>
+          </tbody>
+          <!--Table body-->
+  
+      </table>
+      <!--Table-->
+    </div>
+  </main>
+  

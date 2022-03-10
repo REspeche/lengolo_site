@@ -1,0 +1,94 @@
+<main ng-controller="messageFormController" ng-init="loadFormMessage()" class="form mx-lg-5">
+  <div class="container-fluid">
+    <!--First column-->
+    <div class="header">
+        <h2><span translate="LBL_EDIT" ng-show="paramAction=='edit'">Edit</span><span translate="LBL_NEW" ng-show="paramAction=='new'">New</span> {{ 'LBL_MESSAGE' | translate}}</h2>
+        <a type="button" class="btn-floating light-blue"><i class="fas fa-list" aria-hidden="true" ng-click="clickCancelForm()"></i></a>
+        <a type="button" class="btn-floating btn-danger ml-0" ng-show="paramAction=='edit'"><i class="fas fa-trash" aria-hidden="true" ng-click="clickRemove()"></i></a>
+    </div>
+
+    <div ng-hide="loadForm" translate="LOADING">Loading...</div>
+    <form id="frmMessage" name="frmMessage" class="needs-validation" ng-submit="submitForm()" novalidate autocomplete="off" ng-show="loadForm">
+
+      <div class="card p-3 col-lg-6 col-md-6 col-sm-12">
+
+          <div class="card-body pb-0">
+
+              <div class="row">
+                  <div class="col-12">
+
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label for="txtTitle"><span translate="LBL_TITLE">Title</span> *</label>
+                        <input type="text" class="form-control" id="txtTitle" name="txtTitle"
+                                ng-model="formData.title" minlength="2" maxlength="255"
+                                ng-change="isEditingForm()" required>
+                        <div class="invalid-feedback" ng-show="invalidForm">{{msgInvalid}}</div>
+                      </div>
+                    </div>
+
+                    <div class="row"  ng-hide="smallVersion">
+                      <div class="col-lg-12 col-md-12">
+                        <label><span translate="LBL_MESSAGE">Message</span> *</label>
+                         <textarea class="form-control" id="txtMessage" name="txtMessage" maxlength="500" rows="3"
+                               ng-model="formData.message" ng-change="isEditingForm()" style="resize: none;" required></textarea>
+                        <small class="text-muted">{{( 'LBL_EXTRACT_MESSAGE_INFO' | translate : { 'count' : formData.message.length } )}}</small>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12">
+                        <label translate="LBL_TYPE">Tipo</label>
+                        <div class="row">
+                          <div class="form-check col-md-4">
+                            <input type="radio" class="form-check-input" id="chkType3" name="chkType3" ng-value="3" ng-model="formData.type" ng-click="isEditingForm()">
+                            <label class="form-check-label" for="chkType3" translate="VAL_INFO">Info</label>
+                          </div>
+                          <div class="form-check col-md-4">
+                            <input type="radio" class="form-check-input" id="chkType2" name="chkType2" ng-value="2" ng-model="formData.type" ng-click="isEditingForm()">
+                            <label class="form-check-label" for="chkType2" translate="VAL_WARNING">Warning</label>
+                          </div>
+                          <div class="form-check col-md-4">
+                            <input type="radio" class="form-check-input" id="chkType1" name="chkType1" ng-value="1" ng-model="formData.type" ng-click="isEditingForm()">
+                            <label class="form-check-label" for="chkType1" translate="VAL_DANGER">Danger</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-4">
+                        <label translate="LBL_ACTIVE">Activo</label>
+                        <div class="row">
+                          <div class="form-check col-md-6">
+                            <input type="radio" class="form-check-input" id="chkMode2" name="chkMode2" ng-value="1" ng-model="formData.enable" ng-click="isEditingForm()">
+                            <label class="form-check-label" for="chkMode2" translate="VAL_YES">Si</label>
+                          </div>
+                          <div class="form-check col-md-6">
+                            <input type="radio" class="form-check-input" id="chkMode1" name="chkMode1" ng-value="0" ng-model="formData.enable" ng-click="isEditingForm()">
+                            <label class="form-check-label" for="chkMode1" translate="VAL_NO">No</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
+
+              </div>
+
+              <small class="text-muted" translate="MSG_FIELDS_MANDATORY">Fields marked with * are mandatory</small>
+          </div>
+
+          <!--Footer-->
+          <div class="modal-footer mx-3 p-0 pt-3">
+            <button type="submit" class="btn btn-success ml-0" ng-disabled="!editForm" translate="BTN_SAVE">Save</button>
+            <div class="options text-center text-md-right mt-1 ml-auto">
+              <p class="font-small grey-text d-flex justify-content-end"><a href="#" class="blue-text" ng-click="clickCancelForm()" translate="BTN_CANCEL">Cancel</a></p>
+            </div>
+          </div>
+
+      </div>
+
+    </form>
+  </div>
+</main>

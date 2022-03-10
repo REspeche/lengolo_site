@@ -1,0 +1,52 @@
+input#imgMain {
+  display: none;
+}
+.image-box {
+  overflow: hidden;
+  background-color: #eee;
+  border: 3px solid #999;
+  max-height: inherit;
+  min-width: 200px;
+  position: relative;
+  width: min-content;
+
+  .group-buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    background-color: rgba(0,0,0,.6);
+    opacity: .2;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+    width: 34px;
+
+    a,
+    label {
+      text-align: center;
+    }
+
+    .link1:hover {
+      color: #00c851 !important;
+    }
+    .link2:hover {
+      color: #03a9f4 !important;
+      cursor: pointer;
+    }
+    .link3:hover {
+      color: #ff3547 !important;
+    }
+  }
+}
+.image-box:hover {
+  .group-buttons {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 992px) {
+  .image-box {
+    max-height: 220px !important;
+  }
+}

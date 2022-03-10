@@ -1,0 +1,76 @@
+<main ng-controller="categoriesController" elem-ready="loadCategories()" class="list mx-lg-5">
+  <div class="container-fluid">
+    <!--First column-->
+    <div class="header">
+        <h2 translate="TIT_CATEGORIES">Categories</h2>
+        <a type="button" class="btn-floating pink"><i class="fas fa-plus" aria-hidden="true" ng-click="clickNew()"></i></a>
+    </div>
+
+    <div class="mb-4" ng-show="lstBreadcrumbs.length>0">
+      <a ng-click="goRoot()"><i class="fas fa-stream mr-2 text-primary"></i></a>
+      <span class="h5" ng-repeat="item in lstBreadcrumbs" ng-class="{ 'font-weight-bold' :  $index == lstBreadcrumbs.length-1 }">
+        <span ng-show="$index>0" class="mx-1">/</span>
+        <span ng-hide="$index < lstBreadcrumbs.length-1">{{item.name}}</span>
+        <a class="text-primary" ng-click="returnSubCategory(item)" ng-show="$index < lstBreadcrumbs.length-1">{{item.name}}</a>
+      </span>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 pb-2">
+          <div translate="TXT_CATEGORIES"></div>
+      </div>
+    </div>
+
+    <!--Table-->
+    <div ng-hide="loadList" translate="LOADING">Loading...</div>
+    <div class="alert alert-primary" role="alert" ng-show="loadList && lstCategories.length==0"><span translate="INF_EMPTY_CATEGORY">You have not yet loaded a category</span> (<a href="#" ng-click="clickNew()" translate="LNK_NEW_CATEGORY">New Category</a>).</div>
+    <table id="dtTable" class="table table-bordered table-hover" ng-hide="lstCategories.length==0">
+        <!--Table head-->
+        <thead class="mdb-color darken-1">
+            <tr class="text-white">
+                <th style="max-width: 2rem;" class="text-center">#</th>
+                <th translate="COL_NAME">Name</th>
+                <th translate="COL_SUBCATEGORIES" class="d-none d-sm-block d-lg-table-cell" ng-show="lstBreadcrumbs.length==0">Sub Categories</th>
+                <th translate="COL_PRODUCTS" class="d-none d-sm-block d-lg-table-cell">Productos</th>
+                <th translate="COL_ACTIVE">Active</th>
+                <th class="text-center" translate="COL_ACTIONS">Actions</th>
+            </tr>
+        </thead>
+        <!--Table head-->
+        <!--Table body-->
+        <tbody class="grid-list" psi-sortable="" ng-model="lstCategories" change="changePosition()">
+            <tr class="row-drag" ng-repeat="item in lstCategories track by $index" data-pos="{{$index}}">
+                <td style="max-width: 2rem;" class="text-center" ng-class="{'lime lighten-4':item.action==1}">
+                  <i class="fas fa-bars mr-1 text-muted icon-drag"></i>
+                  {{$index+1}}
+                </td>
+                <td>
+                  <span ng-show="item.subCategories==0">{{item.name}}</span>
+                  <a href="javascript:void(0)" class="text-primary" ng-click="goSubCategory(item)" ng-hide="item.subCategories==0">{{item.name}}</a>
+                </td>
+                <td class="d-none d-sm-block d-lg-table-cell" ng-show="lstBreadcrumbs.length==0">
+                  {{item.subCategories}}
+                  <a href="javascript:void(0)" ng-click="goSubCategory(item)" class="ml-1" ng-class="{ 'text-primary':item.subCategories>0 , 'text-danger':item.subCategories==0 }"><i class="fas fa-arrow-circle-right"></i></a>    
+                </td>
+                <td class="d-none d-sm-block d-lg-table-cell">
+                  {{item.products}}
+                  <a href="javascript:void(0)" ng-click="goProducts(item)" class="ml-1" ng-class="{ 'text-primary':item.products>0 , 'text-danger':item.products==0 }"><i class="fas fa-arrow-circle-right"></i></a>    
+                </td>
+                <td>
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" ng-checked="item.enable==1" id="chk{{item.id}}" ng-click="activeCategory(item)">
+                    <label class="custom-control-label" for="chk{{item.id}}">{{(item.enable==1)?('VAL_YES' | translate):('VAL_NO' | translate)}}</label>
+                  </div>
+                </td>
+                <td class="buttons text-center">
+                  <a class="icons-sm text-primary" ng-click="clickEdit(item)" title="{{ 'BTN_EDIT' | translate }}"><i class="fas fa-edit"></i></a>
+                  <a class="icons-sm ml-2 text-danger" ng-click="clickRemove(item)" title="{{ 'BTN_DELETE' | translate }}"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+        </tbody>
+        <!--Table body-->
+
+    </table>
+    <!--Table-->
+  </div>
+</main>

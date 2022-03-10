@@ -1,0 +1,66 @@
+<nav class="navbar fixed-top navbar-expand-lg scrolling-navbar double-nav navbar-dark warning-color">
+  <a href="#" data-activates="slide-out" class="p-1 pb-0 m-0 button-collapse" elem-ready="loadTopBar()">
+    <i class="fas fa-bars"></i>
+  </a>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-dn mr-auto pl-4 avatar-bx">
+    <a href="#" ng-click="clickItemMenu(1)"><i class="fa fas fa-home mr-2"></i></a>
+    <span translate="SUBTITLE"></span>&nbsp;-&nbsp;<span ng-bind="userInfo.name"></span>
+  </div>
+
+  <div class="d-flex change-mode">
+
+    <div class="ml-auto mb-0 mr-3 change-mode-wrapper">
+    </div>
+
+    <!-- Navbar links -->
+    <ul class="nav navbar-nav nav-flex-icons ml-auto" ng-class="{'mr-5':!isMobile.any()}">
+      <!-- Dropdown -->
+      <li class="nav-item active" ng-class="{'danger-color':(showRefresh || alerts.isChange==1)}">
+        <a class="nav-link waves-effect pt-2" ng-click="refreshMenu()" title="{{ 'TTP_REFRESH_MENU' | translate }}">
+          <i class="fas fa-sync mr-1"></i><span class="d-none d-md-inline-block" translate="MNU_REFRESH_MENU">Refresh Menu</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-effect pt-2" ng-click="clickItemMenu(13)">
+          <i class="fas fa-qrcode mr-1"></i><span class="d-none d-md-inline-block" translate="MNU_QR">QR</span>
+        </a>
+      </li>
+      <li class="nav-item dropdown notifications-nav">
+        <a class="nav-link dropdown-toggle waves-effect" id="navbarDropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false" ng-click="getListAlerts()">
+          <div class="badge red" ng-show="(alerts.notifications>0)" ng-bind="alerts.notifications"></div>
+          <i class="fas fa-bell mr-1"></i>
+        </a>
+        <div class="dropdown-menu dropdown-primary dropdown-alerts" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#" ng-repeat="item in lstAlerts" ng-click="setViewedAlert(item)"
+            ng-class="{'not-viewed': !item.viewed}">
+            <div>
+              <i class="far mr-2" aria-hidden="true" ng-class="{'fa-envelope-open': item.viewed, 'fa-envelope': !item.viewed}"></i>
+            </div>
+            <div class="ale-message" ng-bind="item.name"></div>
+            <span class="float-right"><i class="far fa-clock" aria-hidden="true"></i> <span ng-bind="getTime(item.time)"></span></span>
+          </a>
+          <a class="dropdown-item text-center" href="#" ng-click="viewAllAlerts()" translate="MNU_VIEW_ALL_ALERTS">View all alerts</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown avatar-bx">
+        <a class="nav-link dropdown-toggle waves-effect" href="#" title="{{ 'MNU_PROFILE' | translate}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img class="avatar rounded-circle z-depth-0" ng-src="{{(userInfo.avatar)?(path + userInfo.avatar):'/assets/img/not-available-avatar.png'}}">
+        </a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-secondary" aria-labelledby="userDropdown">
+          <a class="dropdown-item" href="#" ng-click="clickItemMenu(6)" translate="MNU_PROFILE">My Profile</a>
+          <a class="dropdown-item" href="#" ng-click="clickItemMenu(7)" translate="MNU_ACCOUNT">My Account</a>
+          <a class="dropdown-item" href="#" ng-click="viewMenuDesktop()" ng-show="userInfo.codeMenu" translate="MNU_VIEW_MENU">View Menu</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#" ng-click="logout()" translate="MNU_CLOSE_SESSION">Close Session</a>
+        </div>
+      </li>
+
+    </ul>
+    <!-- Navbar links -->
+
+  </div>
+
+</nav>

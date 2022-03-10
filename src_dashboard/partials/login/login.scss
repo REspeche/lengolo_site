@@ -1,0 +1,22 @@
+body.login-page {
+  height: 100%;
+
+  .view {
+    height: 100%;
+  }
+  @media (min-width: 560px) and (max-width: 740px) {
+    .view {
+      height: 650px;
+    }
+  }
+  @media (min-width: 800px) and (max-width: 850px) {
+    .view  {
+      height: 650px;
+    }
+  }
+
+  footer, nav.navbarInvisible {
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: .8;
+  }
+}

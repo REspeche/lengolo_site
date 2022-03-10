@@ -1,0 +1,72 @@
+<main ng-controller="shippingController" elem-ready="loadShipping()" class="list mx-lg-5">
+    <div class="container-fluid">
+      <!--First column-->
+      <div class="header">
+          <h2 translate="TIT_SHIPPING_QR">Envío de Calcomanías</h2>
+          <a type="button" class="btn-floating pink"><i class="fas fa-plus" aria-hidden="true" ng-click="clickNew()"></i></a>
+      </div>
+  
+      <div class="row">
+        <div class="col-lg-12 pb-3">
+            <div translate="TXT_SHIPPING"></div>
+        </div>
+      </div>
+
+      <!--Table-->
+      <div ng-hide="loadList" translate="LOADING">Loading...</div>
+      <div class="alert alert-primary" role="alert" ng-show="loadList && lstShipping.length==0"><span translate="INF_EMPTY_SHIPPING"></span></div>  
+      <table id="dtTable" class="table table-bordered table-hover" ng-hide="lstShipping.length==0">
+          <!--Table head-->
+          <thead class="mdb-color darken-1">
+              <tr class="text-white">
+                  <th translate="COL_DATE">Fecha</th>
+                  <th ng-show="userInfo.role==2" class="d-none d-sm-block d-lg-table-cell" translate="COL_USER">User</th>
+                  <th translate="COL_DESCRIPTION" class="d-none d-sm-block d-lg-table-cell">Descripción</th>
+                  <th translate="COL_COST">Costo</th>
+                  <th translate="COL_STATUS">Estado</th>
+                  <th class="text-center" ng-hide="userInfo.role==2"><span translate="COL_ARRIVE">Entregado</span></th>
+              </tr>
+          </thead>
+          <!--Table head-->
+          <!--Table body-->
+          <tbody class="grid-list">
+              <tr ng-repeat="item in lstShipping">
+                  <td>
+                    {{item.date}}
+                  </td>
+                  <td ng-show="userInfo.role==2">
+                    <a class="nav-link d-inline-block m-0 p-0 pr-2" style="vertical-align: top;" href="{{item.website}}" title="{{item.website}}" target="_blank">
+                      <img class="rounded-circle z-depth-0" ng-src="{{(item.avatar)?(path + item.avatar):'/assets/img/not-available-avatar.png'}}" height="35">
+                    </a>
+                    <div class="d-inline-block">
+                      <span>{{item.company}}</span>
+                      <p class="mb-0"><small class="text-muted">{{item.address}}</small></p>
+                    </div>
+                    &nbsp;<a href="#" ng-click="generateLabel(item)"><i class="far fa-copy text-info"></i></a>
+                  </td>
+                  <td class="d-none d-sm-block d-lg-table-cell">
+                    {{item.description}}
+                  </td>
+                  <td>
+                    ${{item.amount}}
+                  </td>
+                  <td>
+                    <badge-status id="{{item.status}}" type="shipping"></badge-status>
+                    <a class="icons-sm text-primary" ng-show="userInfo.role==2 && item.status<4" ng-click="nextStatus(item)" title="{{ 'BTN_NEXT_STATUS' | translate }}"><i class="fas fa-arrow-right"></i></a>
+                  </td>
+                  <td class="buttons text-center" ng-hide="userInfo.role==2">
+                    <div class="custom-control custom-switch" ng-show="item.status==3">
+                      <input type="checkbox" class="custom-control-input" ng-checked="item.status==4" id="chk{{item.id}}" ng-click="changeStatus(item)">
+                      <label class="custom-control-label" for="chk{{item.id}}">{{'VAL_NO' | translate}}</label>
+                    </div>                  
+                    <label ng-show="item.status==3">{{'VAL_YES' | translate}}</label>                 
+                  </td>
+              </tr>
+          </tbody>
+          <!--Table body-->
+  
+      </table>
+      <!--Table-->
+    </div>
+  </main>
+  

@@ -1,0 +1,44 @@
+<!-- Intro Section -->
+<div class="view intro-2" ng-controller="activeAccountController" ng-init="loadActiveAccount()">
+  <div class="mask rgba-black-strong h-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-5 col-lg-6 col-md-10 col-sm-12 mx-auto mt-5">
+
+          <!-- Form with header -->
+          <form name="frmActiveAccount" novalidate>
+            <div class="card">
+              <div class="card-body">
+
+                <!-- Header -->
+                <div class="form-header peach-gradient">
+                  <h3 class="font-weight-500 my-2 py-1"><i class="fas fa-envelope-open-text"></i> <span translate="TIT_ACTIVE_ACCOUNT">Activate account</span></h3>
+                </div>
+
+                <p class="white-text text-center" ng-hide="error" translate="TXT_ACTIVE_ACCOUNT">Your account was successfully enabled. You can continue using the platform.</p>
+                <p class="white-text text-center" ng-show="error"><i class="fas fa-exclamation-triangle text-warning"></i> <span translate="TXT_ACTIVE_ACCOUNT_WRONG">The data to activate the account is wrong. Please try again or contact the company.</span></p>
+
+                <!--Grid row-->
+                <div class="row d-flex align-items-center mb-4">
+
+                    <!--Grid column-->
+                    <div class="col-md-12 col-md-6 text-center">
+                        <button type="button" class="btn btn-pink btn-block btn-rounded z-depth-1a" ng-click="goToHome()"><span translate="BTN_CONTINUE">Continue</span><span class="ml-2" ng-hide="timeRefresh==0">({{timeRefresh}})</span></button>
+                    </div>
+                    <!--Grid column-->
+
+                </div>
+                <!--Grid row-->
+
+              </div>
+
+            </div>
+          </form>
+          <!-- Form with header -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Intro Section -->

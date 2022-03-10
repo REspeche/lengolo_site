@@ -1,0 +1,70 @@
+<main ng-controller="membersController" elem-ready="loadMembers()" class="list mx-lg-5">
+  <div class="container-fluid">
+    <!--First column-->
+    <div class="header">
+        <h2 translate="TIT_MEMBERS">Members</h2>
+        <a type="button" class="btn-floating pink"><i class="fas fa-plus" aria-hidden="true" ng-click="clickNew()" title="{{'LNK_NEW_MEMBER'|translate}}" data-toggle="tooltip"></i></a>
+        <a type="button" class="btn-floating btn-warning ml-0">
+          <i class="fas fa-broom" aria-hidden="true" ng-click="cleanAllCache()" ng-disabled="loadList"></i>
+        </a>
+    </div>
+
+    <!--Table-->
+    <div ng-hide="loadList" translate="LOADING">Loading...</div>
+    <div class="alert alert-primary" role="alert" ng-show="loadList && members.length==0"><span translate="INF_EMPTY_MEMBERS">There aren't currently charged members.</span></div>
+    <table id="dtTable" class="table table-bordered table-hover" ng-hide="members.length==0">
+        <!--Table head-->
+        <thead class="mdb-color darken-1">
+            <tr class="text-white">
+                <th class="d-none d-sm-block d-lg-table-cell" translate="COL_ID">ID</th>
+                <th translate="COL_COMPANY">Company</th>
+                <th class="d-none d-sm-block d-lg-table-cell" translate="COL_USER">User</th>
+                <th class="d-none d-sm-block d-lg-table-cell" translate="COL_PHONE">Phone</th>
+                <th class="text-center" translate="COL_CODE">Código</th>
+                <th class="d-none d-sm-block d-lg-table-cell" translate="COL_LAST_LOGIN">Date</th>
+                <th class="text-center" translate="COL_ACTIONS">Actions</th>
+            </tr>
+        </thead>
+        <!--Table head-->
+        <!--Table body-->
+        <tbody class="grid-list">
+            <tr ng-repeat="item in members" ng-class="{'row-marked' : item.products==0}">
+                <td class="d-none d-sm-block d-lg-table-cell">{{$index}} [{{item.id}}]</td>
+                <td>
+                  <a class="nav-link d-inline-block m-0 p-0 pr-2" style="vertical-align: top;" href="{{item.website}}" title="{{item.website}}" target="_blank">
+                    <img class="rounded-circle z-depth-0" ng-src="{{(item.avatar)?(path + item.avatar):'/assets/img/not-available-avatar.png'}}" height="35">
+                  </a>
+                  <div class="d-inline-block">
+                    <span>{{item.company}}</span>
+                    <p class="mb-0"><small class="text-muted">{{item.address}}</small></p>
+                  </div>
+                </td>
+                <td class="d-none d-sm-block d-lg-table-cell">
+                  {{item.name}}<br/>
+                  <small class="text-muted">{{item.email}}</small>
+                </td>
+                <td class="d-none d-sm-block d-lg-table-cell">
+                  <span class="d-none d-sm-block d-lg-table-cell">{{item.phone}}</span>
+                  <a href="https://api.whatsapp.com/send?phone={{item.phone}}" target="_blank" ng-show="item.phone" style="display: inherit;"><i class="fab fa-whatsapp-square text-default"></i></a>
+                </td>
+                <td class="text-center">
+                  <a href="{{pathMenu}}{{item.codeMenu}}" class="code" target="_blank">{{item.codeMenu}}</a>
+                  <a class="icons-sm text-warning" ng-click="refreshCache(item)" title="{{ 'BTN_CLEAN_CACHE' | translate }}"><i class="fas fa-broom"></i></a>
+                </td>
+                <td class="d-none d-sm-block d-lg-table-cell">{{item.date}}</td>
+                <td class="buttons text-center">
+                  <div ng-hide="item.id == userInfo.id">
+                    <a class="icons-sm text-warning" ng-click="clickLogin(item)" title="{{ 'BTN_SYSTEM_LOGIN' | translate }}"><i class="fas fa-sign-in-alt"></i></a>
+                    <a class="icons-sm ml-2 text-primary" ng-click="clickResetPass(item)" title="{{ 'BTN_RESET_PASSWORD' | translate }}"><i class="fas fa-unlock-alt"></i></a>
+                    <a class="icons-sm ml-2 text-primary" ng-click="clickEdit(item)" title="{{ 'BTN_EDIT' | translate }}"><i class="fas fa-edit"></i></a>
+                    <a class="icons-sm ml-2 text-danger" ng-click="clickRemove(item)" title="{{ 'BTN_DELETE' | translate }}"><i class="fas fa-trash"></i></a>
+                  </div>
+                </td>
+            </tr>
+        </tbody>
+        <!--Table body-->
+
+    </table>
+    <!--Table-->
+  </div>
+</main>

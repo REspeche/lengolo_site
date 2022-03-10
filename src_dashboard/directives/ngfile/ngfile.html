@@ -1,0 +1,23 @@
+<label>{{label}}</label>
+<div class="input-group file-field">
+  <div class="image-box" ng-class="{'border-dashed':!value && !valueReturn,'border-dotted': valueReturn}" style="height:{{(size[1]<400)?size[1]:size[1]/2}}px">
+    <input id="imgMain" type="file" class="custom-file-input" ngf-select ng-model="valueReturn" name="imgMain"
+      ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="{{maxFileUpload}}" ngf-resize="{width: {{size[0]}}, height: {{size[1]}}, centerCrop: true}"
+      onchange="angular.element(this).scope().isChange()">
+    <img ng-src="{{(value)?(path + value + '&type=' + type):undefined}}" style="max-height:{{(size[1]<400)?size[1]:size[1]/2}}px" ng-show="value && !valueReturn"/>
+    <img ngf-thumbnail="valueReturn || '/assets/img/not-available{{(size[0]==size[1])?'-square':''}}.png'" ngf-size="{width:{{size[0]/2}}, height:{{(size[1]<400)?size[1]:size[1]/2}}, quality:1.0, centerCrop:true}"
+      height="{{(size[1]<400)?size[1]:size[1]/2}}" ng-show="!valueReturn && !value" class="new-image">
+    <div class="group-buttons pt-1">
+      <label for="imgMain" class="text-white d-block m-2 link2 text" title="{{ 'TTP_UPLOAD' | translate }}" data-toggle="tooltip" data-placement="left">
+        <i class="fas fa-upload"></i>
+      </label>
+      <a ng-click="viewLarge()" ng-show="value" class="text-white d-block m-2 link1" title="{{ 'TTP_VIEW_LARGE' | translate }}" data-toggle="tooltip" data-placement="left">
+        <i class="fas fa-eye"></i>
+      </a>
+      <a ng-click="removeFile()" ng-show="value || valueReturn" class="text-white d-block m-2 link3" title="{{ 'TTP_REMOVE' | translate }}" data-toggle="tooltip" data-placement="left">
+        <i class="fas" ng-class="{'fa-trash': (value && !valueReturn) || (!value && valueReturn),'fa-undo-alt': value && valueReturn}"></i>
+      </a>
+    </div>
+  </div>
+</div>
+<label><small class="text-muted"><span translate="LBL_MAIN_IMAGE_INFO">JPG / PNG format file</span> - Min. Resolution ({{size[0]}}x{{size[1]}})</small></label>

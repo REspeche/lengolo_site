@@ -1,0 +1,5 @@
+<div class="modal-body img-preview">
+    <h4 ng-bind-html="modalOptions.itemP.name | parenthesisSmall"></h4>
+    <img src="{{modalOptions.path + modalOptions.itemP.image}}" hires="{{modalOptions.path.replace('small','large') + modalOptions.itemP.image}}" ng-click="modalOptions.close()">
+    <p>{{modalOptions.itemP.excerpt}}</p>
+</div>

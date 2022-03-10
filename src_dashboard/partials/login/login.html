@@ -1,0 +1,65 @@
+<!-- Intro Section -->
+<div class="view intro-2" ng-controller="loginController" ng-init="loadLogin()">
+  <div class="mask rgba-black-strong h-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-5 col-lg-6 col-md-10 col-sm-12 mx-auto mt-5" autocomplete="off">
+
+          <!-- Form with header -->
+          <form name="frmLogin" ng-submit="login()" novalidate>
+            <!--  fake fields are a workaround for chrome/opera autofill getting the wrong fields -->
+            <input id="username" style="display:none" type="text" name="fakeusernameremembered">
+            <input id="password" style="display:none" type="password" name="fakepasswordremembered">
+
+            <div class="card">
+              <div class="card-body">
+
+                <!-- Header -->
+                <div class="form-header peach-gradient">
+                  <h3 class="font-weight-500 my-2 py-1"><i class="fas fa-user"></i> <span translate="TIT_LOGIN">Login</span></h3>
+                </div>
+
+                <!-- Body -->
+                <div class="md-form">
+                  <i class="fas fa-envelope prefix white-text"></i>
+                  <input type="text" id="fiel-email" class="form-control" ng-model="formData.email" required maxlength="45">
+                  <label for="txtEmail" ng-class="{'active':formData.email}" translate="LBL_EMAIL_USER">Email</label>
+                </div>
+
+                <div class="md-form">
+                  <i class="fas fa-lock prefix white-text"></i>
+                  <input type="password" id="fiel-pass" class="form-control" ng-model="formData.password" required maxlength="20" autocomplete="new-password">
+                  <label for="txtPasss" ng-class="{'active':formData.password}" translate="LBL_PASS">Password</label>
+                </div>
+
+                <div class="form-group">
+                  <div class="form-check pl-0" ng-hide="showValidateMsg">
+                    <input class="form-check-input" type="checkbox" value="1" id="invalidCheck2" ng-model="formData.remember" required>
+                    <label class="form-check-label white-text" for="invalidCheck2">{{ 'LNK_REMEMBER_ME' | translate }}</label>
+                  </div>
+                  <p class="font-small grey-text d-flex" ng-show="showValidateMsg"><a href="#" ng-click="sendMailValidate()" class="blue-text ml-1 font-weight-bold">{{ 'LNK_SEND_EMAIL1' | translate }}</a>&nbsp;{{ 'LNK_SEND_EMAIL2' | translate }}</p>
+                </div>
+
+                <div class="row d-flex align-items-center">
+                    <div class="col-6 col-md-6">
+                        <button type="submit" class="btn btn-pink btn-rounded z-depth-1a" translate="BTN_SIGN_IN">Sign In</button>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <div class="font-small grey-text d-flex justify-content-end">{{ 'LNK_FORGET_PASS1' | translate }}<a href="#" ng-click="forgot()" class="blue-text ml-1">{{ 'LNK_FORGET_PASS2' | translate }}</a>?</div>
+                        <!--div class="font-small grey-text d-flex justify-content-end">{{ 'LNK_WISH_SIGNUP1' | translate}}<a href="#" ng-click="signUp()" class="blue-text ml-1">{{ 'LNK_WISH_SIGNUP2' | translate}}</a></div-->
+                    </div>
+                </div>
+                <!--Grid row-->
+
+              </div>
+
+            </div>
+          </form>
+          <!-- Form with header -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Intro Section -->

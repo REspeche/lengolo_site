@@ -1,0 +1,16 @@
+<div id="tmplModal" class="modal-header" ng-show="modalOptions.headerText">
+  <button type="button" class="close" data-dismiss="modal" data-ng-click="modalOptions.close()">&times;</button>
+  <h4 class="modal-title">{{modalOptions.headerText}}</h3>
+</div>
+<div class="modal-body">
+  <ng-bind-html ng-bind-html="modalOptions.bodyText"></ng-bind-html>
+</div>
+<div class="progress" ng-show="isBusy"><div class="indeterminate"></div></div>
+<div class="modal-footer" ng-show="modalOptions.closeButtonText || modalOptions.actionButtonText">
+  <button type="button" class="btn"
+          data-ng-click="modalOptions.close()"
+          ng-show="modalOptions.closeButtonText">{{modalOptions.closeButtonText}}</button>
+  <button class="btn btn-primary"
+          data-ng-click="modalOptions.ok();"
+          ng-show="modalOptions.actionButtonText">{{modalOptions.actionButtonText}}</button>
+</div>

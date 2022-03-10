@@ -1,0 +1,91 @@
+<main id="profileController" ng-controller="generalController" ng-init="loadProfile()" class="form mx-lg-5">
+    <div class="container-fluid">
+      <div class="header">
+          <h2><span translate="TIT_PROFILE_GENERAL">Perfil General</span></h2>
+      </div>
+
+      <div ng-hide="loadForm" translate="LOADING">Loading...</div>
+
+      <form id="frmProfile" name="frmProfile" class="needs-validation" ng-submit="submitForm()" novalidate autocomplete="off" ng-show="loadForm">
+        <div class="card p-3 col-sm-12 col-md-6 col-lg-6">
+            <div class="card-body p-3">
+
+              <div class="row">
+                <div class="col-12 text-left mb-2 mt-4">
+                    <h5>
+                      <span translate="TIT_DELIVERY_DATA_{{userInfo.type}}"></span>
+                    </h5>
+                    <hr class="mt-1">
+
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="form-check pl-0">
+                          <input class="form-check-input" type="checkbox" value="1" id="chkDelivery" ng-model="formData.canDelivery" ng-change="isEditingForm()">
+                          <label class="form-check-label pl-4" for="chkDelivery">{{ 'LBL_ENABLE' | translate }}?</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 col-md-12">
+                        <div class="form-row">
+                          <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label for="txtCostShipping">
+                              <span translate="LBL_COST_CUTLERY" ng-show="userInfo.type==1"></span>
+                              <span translate="LBL_COST_SHIPPING" ng-show="userInfo.type==3"></span>
+                            </label>
+                            <input type="text" name="txtCostShipping" id="txtCostShipping" class="form-control" ng-model="formData.costShipping" maxlength="10" ng-change="isEditingForm()">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" ng-show="userInfo.type==3">
+                      <div class="col-12">
+                        <div id="time-range">
+                          <label class="mb-2"><span translate="LBL_TIME_RANGE">Rango Horario</span></label>
+                          <div class="sliders_step1">
+                              <div id="slider-range"></div>
+                          </div>
+                          <small class="text-muted"><span class="slider-time-start">9:00 AM</span> - <span class="slider-time-end">5:00 PM</span></small>
+                      </div>
+                      </div>
+                    </div>
+
+                    <h5 class="mt-3">
+                      <span translate="TIT_MENUS"></span>
+                    </h5>
+                    <hr class="mt-1">
+
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="form-check pl-0">
+                          <input class="form-check-input" type="checkbox" value="1" id="chkMultipleQR" ng-model="formData.multipleQR" ng-change="isEditingForm()">
+                          <label class="form-check-label pl-4" for="chkMultipleQR">{{ 'LBL_MULTIPLE_QR' | translate }}?</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="form-check pl-0" style="display: inline-flex;">
+                          <input class="form-check-input" type="checkbox" value="1" id="chkCovid19"
+                            ng-model="formData.covid19_check" ng-change="changeCovid19()" ng-disabled="formData.covid19==1">
+                          <label class="form-check-label pl-4" for="chkCovid19">{{ 'LBL_COVID19' | translate }}?<br/><small class="text-muted">{{( 'LBL_COVID19_INFO' | translate )}}</small></label>
+                        </div>
+                        <button type="button" class="btn btn-info btn-sm ml-2 mb-0" ng-click="applyCovid19()" ng-show="formData.covid19==1" translate="BTN_APPLY">Apply</button>
+                      </div>
+                    </div>
+
+                </div>
+              </div>
+
+              <small class="text-muted" translate="MSG_FIELDS_MANDATORY">Fields marked with * are mandatory</small>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer mx-3 p-0 pt-3">
+              <button type="submit" class="btn btn-success ml-0" ng-disabled="!editForm" translate="BTN_SAVE_PROFILE">Save Profile</button>
+              <div class="options text-center text-md-right mt-1 ml-auto"></div>
+            </div>
+        </div>
+      </form>
+    </div>
+  </main>

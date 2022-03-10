@@ -1,0 +1,119 @@
+<main ng-controller="productsController" elem-ready="loadProducts()" class="list mx-lg-5">
+    <div class="container-fluid">
+      <!--First column-->
+      <div class="header">
+          <h2 translate="TIT_PRODUCTS">Products</h2>
+          <a type="button" class="btn-floating pink"><i class="fas fa-plus" aria-hidden="true" ng-click="clickNew()" title="{{'LNK_NEW_PRODUCT'|translate}}" data-toggle="tooltip"></i></a>
+      </div>
+  
+      <div class="row">
+        <div class="col-lg-12 pb-2">
+            <div translate="TXT_PRODUCTS"></div>
+        </div>
+      </div>
+
+      <div class="card mb-4 card-filter">
+        <div class="card-body">
+          <i class="fas fa-copy mr-2 text-muted"></i>
+          <div class="d-inline-block">
+            <select id="cmbFilterMen" class="browser-default custom-select"
+              ng-model="menIdSelect" ng-change="selectMenu()" ng-disabled="lstMenus.length==1"
+              ng-options="x.id as x.label for x in lstMenus">
+            </select>
+          </div>
+          <div class="ml-4 d-inline-block">
+            <i class="fas fa-project-diagram mr-2 text-muted"></i>
+            <div class="d-inline-block">
+              <select id="cmbFilterCat" class="browser-default custom-select"
+                ng-model="catIdSelect" ng-change="selectCategory()" 
+                ng-options="y.id as y.label for y in lstCategories">
+              </select>
+            </div>
+            <a type="button" class="text-info d-inline-block ml-1">
+              <i class="fas fa-plus" ng-click="clickNewCategory()" title="{{'LNK_NEW_CATEGORY'|translate}}" data-toggle="tooltip"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!--Table-->
+      <div ng-hide="loadList" translate="LOADING">Loading...</div>
+      <div class="alert alert-primary" role="alert" ng-show="loadList && lstProducts.length==0">
+        <span ng-show="catIdSelect==0" translate="INF_EMPTY_PRODUCT"></span>
+        <div ng-show="catIdSelect>0" translate="INF_EMPTY_PRODUCT_BY_CAT"></div>
+      </div>
+      <table id="dtTable" ng-repeat="itemM in lstProducts" class="table table-bordered table-hover mb-4" ng-hide="lstProducts.length==0">
+          <!--Table head-->
+          <thead>
+            <tr class="pink text-white">
+                <th style="max-width: 1rem;" class="text-center d-none d-sm-block d-lg-table-cell">#</th>
+                <th translate="COL_NAME">Name</th>
+                <th translate="COL_PRICE">Price</th>
+                <th translate="COL_ACTIVE">Active</th>
+                <th translate="COL_DELIVERY" class="d-none d-sm-block d-lg-table-cell" ng-show="userInfo.canDelivery">Delivery</th>
+                <th class="text-center" translate="COL_ACTIONS">Actions</th>
+            </tr>
+            <tr class="text-white">
+              <th colspan="{{(userInfo.canDelivery)?6:5}}" class="pink darken-2 text-white p-2">
+                <span>{{itemM.menu}}</span>
+                <a ng-show="menIdSelect==0" href="javascript:void(0)" ng-click="goProducts(itemM.menId,itemC.catId)" class="ml-1 text-white"><i class="fas fa-arrow-circle-right"></i></a>
+                <a ng-show="menIdSelect>0" href="javascript:void(0)" ng-click="goProducts(0,0)" class="ml-1 text-white"><i class="fas fa-arrow-circle-left"></i></a>
+              </th>
+            </tr>
+          </thead>
+          <!--Table head-->
+          <!--Table body-->
+          <tbody class="grid-list" ng-repeat="itemC in itemM.data" psi-sortable="" ng-model="itemC.data" change="changePosition()">
+              <tr class="text-white">
+                <th colspan="{{(userInfo.canDelivery)?6:5}}" class="pink text-white p-2" ng-class="{ 'darken-4' : itemC.enable==1, 'stylish-color' : itemC.enable==0 }">
+                  <span class="ml-3">{{itemC.category}}</span>
+                  <a ng-show="catIdSelect==0" href="javascript:void(0)" ng-click="goProducts(itemM.menId,itemC.catId)" class="ml-1 text-white"><i class="fas fa-arrow-circle-right"></i></a>
+                  <a ng-show="catIdSelect>0" href="javascript:void(0)" ng-click="goProducts(itemM.menId,0)" class="ml-1 text-white"><i class="fas fa-arrow-circle-left"></i></a>
+                </th>
+              </tr>
+              <tr class="row-drag" ng-repeat="itemP in itemC.data track by $index" data-pos="{{$index}}">
+                <td style="max-width: 2rem;" class="text-center d-none d-sm-block d-lg-table-cell" ng-class="{'lime lighten-4':itemP.action==1, 'red lighten-4':itemP.action==2}">
+                  <i class="fas fa-bars mr-1 text-muted icon-drag"></i>
+                  {{$index+1}}
+                </td>
+                <td>
+                  <div>{{itemP.name}}</div>
+                  <small class="text-muted">{{itemP.excerpt}}</small>
+                </td>
+                <td style="max-width: 5rem;">
+                  <div ng-hide="itemP.editPrice">
+                    <span>${{itemP.price}}</span>
+                    <a href="javascript:void(0)" ng-click="editPrice(itemP)" class="ml-1 text-muted"><i class="fas fa-edit"></i></a>
+                    <div><small class="text-info" ng-show="itemP.rate!=1">${{calculatePrice(itemP)}}</small></div>
+                  </div>
+                  <div ng-show="itemP.editPrice">
+                    <input class="quantity" min="0" name="price_{{itemP.id}}" ng-model="itemP.price" type="text">
+                    <a href="javascript:void(0)" ng-click="savePrice(itemP)" class="ml-1 text-muted"><i class="fas fa-save"></i></a>
+                    <a href="javascript:void(0)" ng-click="cancelPrice(itemP)" class="ml-1 text-muted"><i class="fas fa-times"></i></a>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" ng-checked="itemP.enable==1" id="chk_active{{itemP.pxmId}}" ng-click="activeProduct(itemP)">
+                    <label class="custom-control-label" for="chk_active{{itemP.pxmId}}">{{(itemP.enable==1)?('VAL_YES' | translate):('VAL_NO' | translate)}}</label>
+                  </div>
+                </td>
+                <td class="text-center d-none d-sm-block d-lg-table-cell" ng-show="userInfo.canDelivery">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" ng-checked="itemP.delivery==1" id="chk_delivery{{itemP.pxmId}}" ng-click="deliveryProduct(itemP)" ng-disabled="!itemP.showDelivery">
+                    <label class="custom-control-label" for="chk_delivery{{itemP.pxmId}}">{{(itemP.delivery==1)?('VAL_YES' | translate):('VAL_NO' | translate)}}</label>
+                  </div>
+                </td>
+                <td class="buttons text-center">
+                  <a class="icons-sm text-primary" ng-click="clickEdit(itemP)" title="{{ 'BTN_EDIT' | translate }}"><i class="fas fa-edit"></i></a>
+                  <a class="icons-sm ml-2 text-danger" ng-click="clickRemove(itemC,itemP)" title="{{ 'BTN_DELETE' | translate }}"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+          </tbody>
+          <!--Table body-->
+  
+      </table>
+      <!--Table-->
+    </div>
+  </main>
+  

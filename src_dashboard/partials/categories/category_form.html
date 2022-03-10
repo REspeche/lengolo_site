@@ -1,0 +1,128 @@
+<main ng-controller="categoryFormController" ng-init="loadFormCategory()" class="form mx-lg-5">
+  <div class="container-fluid">
+    <!--First column-->
+    <div class="header">
+        <h2><span translate="LBL_EDIT" ng-show="paramAction=='edit'">Edit</span><span translate="LBL_NEW" ng-show="paramAction=='new'">New</span> {{ 'LBL_CATEGORY' | translate}}</h2>
+        <a type="button" class="btn-floating light-blue"><i class="fas fa-list" aria-hidden="true" ng-click="clickCancelForm()"></i></a>
+        <a type="button" class="btn-floating btn-danger ml-0" ng-show="paramAction=='edit'"><i class="fas fa-trash" aria-hidden="true" ng-click="clickRemove()"></i></a>
+    </div>
+
+    <div ng-hide="loadForm" translate="LOADING">Loading...</div>
+    <form id="frmCategory" name="frmCategory" class="needs-validation" ng-submit="submitForm()" novalidate autocomplete="off" ng-show="loadForm">
+
+      <div class="card p-3 col-lg-6 col-md-6 col-sm-12">
+
+          <div class="card-body pb-0">
+
+              <div class="row">
+                  <div class="col-12">
+
+                    <div class="row">
+                      <div class="col-lg-5 col-md-5 col-sm-12">
+                        <label for="cmbCategory"><span translate="LBL_CATEGORY_PARENT">Category</span> *</label>
+                        <select id="cmbCategory" class="browser-default custom-select"
+                          ng-model="formData.catIdParent"
+                          ng-options="item.id as item.label for item in lstCategories"
+                          ng-change="isEditingForm()">
+                        </select>
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-12">
+                        <label for="txtName"><span translate="LBL_NAME">Name</span> *</label>
+                        <input type="text" class="form-control" id="txtName" name="txtName"
+                                ng-model="formData.name" minlength="2" maxlength="255" 
+                                ng-change="isEditingForm()" required>
+                        <div class="invalid-feedback" ng-show="invalidForm">{{msgInvalid}}</div>
+                      </div>
+                    </div>
+
+                    <div class="row"  ng-hide="smallVersion">
+                      <div class="col-lg-12 col-md-12">
+                        <label><span translate="LBL_EXTRACT_CATEGORY">Extract</span></label> <small class="text-muted">(<span translate="LBL_OPTIONAL">Optional</span>)</small>
+                         <textarea class="form-control" id="txtExcerpt" name="txtExcerpt" maxlength="500" rows="3"
+                               ng-model="formData.excerpt" ng-change="isEditingForm()" style="resize: none;"></textarea>
+                        <small class="text-muted">{{( 'LBL_EXTRACT_CATEGORY_INFO' | translate : { 'count' : formData.excerpt.length } )}}</small>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12">
+                        <label for="txtManyPrices"><span translate="LBL_MANY_PRICES">Multiples precios?</span></label>
+                        <input type="text" class="form-control" id="txtManyPrices" name="txtManyPrices"
+                               ng-model="formData.manyPrices" minlength="2" maxlength="100" 
+                               ng-change="isEditingForm()">
+                               <small class="text-muted">{{( 'LBL_MANY_PRICES_INFO' | translate )}}</small>
+                      </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-4">
+                      <label translate="LBL_ACTIVE">Activo</label>
+                      <div class="row">
+                        <div class="form-check col-md-6">
+                          <input type="radio" class="form-check-input" id="chkMode2" name="chkMode2" ng-value="1" ng-model="formData.enable" ng-click="isEditingForm()">
+                          <label class="form-check-label" for="chkMode2" translate="VAL_YES">Si</label>
+                        </div>
+                        <div class="form-check col-md-6">
+                          <input type="radio" class="form-check-input" id="chkMode1" name="chkMode1" ng-value="0" ng-model="formData.enable" ng-click="isEditingForm()">
+                          <label class="form-check-label" for="chkMode1" translate="VAL_NO">No</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="text-left mb-2">
+                    <h5 translate="TIT_STYLE">Estilo</h5>
+                    <hr class="mt-1">
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <label translate="LBL_BACK_COLOR">Color de Fondo</label>
+                      <div>
+                        <input color-picker 
+                              color-picker-model="formData.backColorValue"
+                              color-picker-show-value="true"
+                              color-picker-output-format="'hex'"
+                              color-picker-position="top"
+                              color-picker-fixed-position="false"
+                              color-picker-show-input-spinner="false"
+                              color-picker-show-cancel-button="false"
+                              ng-if="formData.backColorValue"
+                              ng-style="{background:formData.backColorValue}"
+                              ng-click="isEditingForm()"
+                              ng-readonly="true"
+                              class="form-control"
+                              maxlength="9"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <label for="cmbFontColor"><span translate="LBL_FONT_COLOR">Font Color</span></label>
+                      <select id="cmbFontColor" class="browser-default custom-select"
+                        ng-model="formData.fontColor"
+                        ng-options="item.id as item.label for item in lstFontColor"
+                        ng-change="isEditingForm()">
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <small class="text-muted" translate="MSG_FIELDS_MANDATORY">Fields marked with * are mandatory</small>
+          </div>
+
+          <!--Footer-->
+          <div class="modal-footer mx-3 p-0 pt-3">
+            <button type="submit" class="btn btn-success ml-0" ng-disabled="!editForm" translate="BTN_SAVE">Save</button>
+            <div class="options text-center text-md-right mt-1 ml-auto">
+              <p class="font-small grey-text d-flex justify-content-end"><a href="#" class="blue-text" ng-click="clickCancelForm()" translate="BTN_CANCEL">Cancel</a></p>
+            </div>
+          </div>
+
+      </div>
+
+    </form>
+  </div>
+</main>

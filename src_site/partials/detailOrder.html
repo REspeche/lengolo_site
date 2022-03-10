@@ -1,0 +1,42 @@
+<div class="orderList" ng-show="itemsToOrder.length>0">
+    <div class="row listDetail" ng-show="viewDetail">
+      <div class="col-12 itemD" ng-repeat="itemP in itemsToOrder track by $index">
+          <span>{{itemP.quantity}}x</span>
+          <span ng-bind-html="itemP.name | parenthesisSmall"></span><span ng-show="itemP.size">&nbsp;[{{itemP.size}}]</span>
+          <div ng-show="itemP.type==2" class="note badge veggie" data-toggle="tooltip" data-placement="right" title="Vegetariano">v</div>
+          <div ng-show="itemP.type==3" class="note badge spicy" data-toggle="tooltip" data-placement="right" title="Picante">s</div>
+          <div class="priceItem">
+            <span>{{itemP.price}}</span>
+            <div class="btn-remove" ng-show="showDelivery" ng-click="removeItem(itemP)">
+              <i class="fas fa-minus-circle"></i>
+            </div>
+          </div>
+      </div>
+      <div class="col-12 itemD" ng-show="restaurant.type==1 && restaurant.costShipping>0">
+        <small>Costo servicio cubiertos</small>
+        <div class="priceItem">
+          <span>{{restaurant.costShipping}}</span>
+        </div>
+      </div>
+      <div class="col-12 itemD" ng-show="restaurant.type==3">
+        <small>Costo envío (dentro de zona de cobertura)</small>
+        <div class="priceItem">
+          <span>{{restaurant.costShipping}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row rowTotal" ng-class="{ 'over': viewDetail }">
+      <div class="col-12">
+        <div class="btn-detail" ng-click="showHideDetails()">
+          <i class="fas fa-list" ng-class="{ 'fa-times' : viewDetail, 'fa-list' : !viewDetail}"></i>
+        </div>
+        <span>{{sumQuantityItems()}} producto{{(itemsToOrder.length>1)?'s':''}}</span>
+        <div class="total">
+          <span>{{sumPriceItems()}}</small></span>
+          <div class="btn-finish" ng-show="showDelivery" ng-click="clickFinishOrder()">
+            <i class="fas fa-arrow-circle-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

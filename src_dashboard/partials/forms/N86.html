@@ -1,0 +1,110 @@
+<main ng-controller="N86Controller" elem-ready="loadClients()" class="list mx-lg-5">
+    <div class="container-fluid">
+      <!--First column-->
+      <div class="header">
+          <h2 translate="TIT_COVID19">N86</h2>
+          <a type="button" class="btn-floating btn-warning"><i class="fas fa-sync" aria-hidden="true" ng-click="refreshList(true)" title="{{'LNK_NEW_MEMBER'|translate}}" data-toggle="tooltip"></i></a>
+          <a type="button" class="btn-floating btn-info ml-0" ng-hide="clients.length==0">
+            <i class="fas fa-print" aria-hidden="true" ng-click="printReport()"></i>
+          </a>
+      </div>
+  
+      <div class="card mb-4 card-filter">
+        <div class="card-body">
+          <label translate="COL_DATE"></label>
+          <div class="d-inline-block">
+            <select id="cmbFilterDate" class="browser-default custom-select ml-2"
+              ng-model="dateSelect" ng-change="selectDate()"
+              ng-options="x.id as x.label for x in lstDates">
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!--Table-->
+      <div ng-hide="loadList" translate="LOADING">Loading...</div>
+      <div class="alert alert-primary" role="alert" ng-show="loadList && clients.length==0"><span translate="INF_EMPTY_CLIENTS"></span></div>
+      <table id="dtTable" class="table table-bordered table-hover" ng-hide="clients.length==0">
+          <!--Table head-->
+          <thead class="mdb-color darken-1">
+              <tr class="text-white">
+                  <th class="d-none d-sm-block d-lg-table-cell"># [<span translate="COL_ID">ID</span>]</th>
+                  <th translate="COL_CLIENT">Client</th>
+                  <th translate="COL_DNI">DNI</th>
+                  <th class="d-none d-sm-block d-lg-table-cell" translate="COL_ADDRESS">Address</th>
+                  <th class="d-none d-sm-block d-lg-table-cell" translate="COL_TIME">Time</th>
+              </tr>
+          </thead>
+          <!--Table head-->
+          <!--Table body-->
+          <tbody class="grid-list">
+              <tr ng-repeat="item in clients">
+                  <td class="d-none d-sm-block d-lg-table-cell">{{$index+1}} [{{item.id}}]</td>
+                  <td>
+                    {{item.name}}<br/>
+                    <small class="text-muted">{{item.email}}</small>
+                  </td>
+                  <td >
+                    {{item.dni}}
+                  </td>
+                  <td class="d-none d-sm-block d-lg-table-cell">
+                    <p class="mb-0"><small class="text-muted">{{item.address}}</small></p>
+                  </td>
+                  <td class="d-none d-sm-block d-lg-table-cell">{{item.date}}</td>
+              </tr>
+          </tbody>
+          <!--Table body-->
+  
+      </table>
+
+      <div id="printTable" style="display:none;">
+        <h3 style="font-family: 'Courier New', Courier, monospace;">{{lstDates[dateSelect].label}}</h3>
+        <table style="width: 100%;font-family: 'Courier New', Courier, monospace;border: 1px solid black;">
+          <thead style="font-size: 12px;font-weight: bold;">
+              <tr style="text-align: left;">
+                  <th># [<span translate="COL_ID">ID</span>]</th>
+                  <th><span translate="COL_CLIENT">Client</span> [<span translate="COL_GROUP">Group</span>]</th>
+                  <th translate="COL_EMAIL">Email</th>
+                  <th translate="COL_DNI">DNI</th>
+                  <th translate="COL_ADDRESS">Address</th>
+                  <th translate="COL_TIME">Time</th>
+                  <th>Q1</th>
+                  <th>Q2</th>
+                  <th>Q3</th>
+                  <th>Q4</th>
+                  <th>Q5</th>
+                  <th>Q6</th>
+              </tr>
+          </thead>
+          <tbody style="font-size: 11px;">
+              <tr ng-repeat="item in clients">
+                  <td>{{$index+1}} [{{item.id}}]</td>
+                  <td>{{item.name}} [{{item.group}}]</td>
+                  <td>{{item.email}}</td>
+                  <td >{{item.dni}}</td>
+                  <td>{{item.address}}</td>
+                  <td>{{item.date}}</td>
+                  <td>{{(item.q1)?'x':'-'}}</td>
+                  <td>{{(item.q2)?'x':'-'}}</td>
+                  <td>{{(item.q3)?'x':'-'}}</td>
+                  <td>{{(item.q4)?'x':'-'}}</td>
+                  <td>{{(item.q5)?'x':'-'}}</td>
+                  <td>{{(item.q6)?'x':'-'}}</td>
+              </tr>
+          </tbody>
+        </table>
+        <br/>
+        <p style="font-family: 'Courier New', Courier, monospace;font-size: 9px;">
+          <strong>Q1</strong>: En los últimos 5 dias NO he desarrollado un cuadro febril mayor a 37.5°C
+          <br/><strong>Q2</strong>: En los últimos 14 días NO he estado en contacto con personas sospechosas o confirmadas de COVID-19
+          <br/><strong>Q3</strong>: En los últimos 14 días NO he regresado de viaje del exterior
+          <br/><strong>Q4</strong>: NO he estado expuesto a grupos humanos numerosos desconocidos, sin respetar la distancia social establecida
+          <br/><strong>Q5</strong>: NO permanecí en lugares cerrados con grupos de personas numerosos por más de 30 minutos seguidos (respetando o no el distanciamiento social)
+          <br/><strong>Q6</strong>: En el día de la fecha NO he utilizado transporte público
+        </p>
+      </div>
+
+      <!--Table-->
+    </div>
+  </main>
+  

@@ -1,0 +1,62 @@
+<main ng-controller="ordersController" elem-ready="loadOrders()" class="list mx-lg-5">
+    <div class="container-fluid">
+      <!--First column-->
+      <div class="header">
+          <h2 translate="TIT_ORDERS"></h2>
+          <a type="button" class="btn-floating btn-info float-right mr-0">
+            <i class="fas fa-sync" aria-hidden="true" ng-click="refreshOrders()" ng-disabled="loadList"></i>
+          </a>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 pb-2">
+            <div translate="TXT_ORDERS"></div>
+        </div>
+      </div>
+
+      <!--Table-->
+      <div ng-hide="loadList" translate="LOADING">Loading...</div>
+      <div class="alert alert-primary" role="alert" ng-show="loadList && orders.length==0"><span translate="INF_EMPTY_ORDERS"></span></div>
+      <table id="dtTable" class="table table-bordered table-hover" ng-hide="orders.length==0">
+          <!--Table head-->
+          <thead class="mdb-color darken-1">
+              <tr class="text-white">
+                  <th class="d-none d-sm-block d-lg-table-cell" translate="COL_ID">ID</th>
+                  <th ng-show="userInfo.type==2" translate="COL_ROOM" class="text-center">Habitación</th>
+                  <th translate="COL_COSTUMER">Cliente</th>
+                  <th translate="COL_STATUS" class="text-center">Estado</th>
+                  <th translate="COL_ITEMS">Items</th>
+                  <th translate="COL_TOTAL">Total</th>
+                  <th class="d-none d-sm-block d-lg-table-cell" translate="COL_DATE">Date</th>
+                  <th class="text-center" translate="COL_ACTIONS">Actions</th>
+              </tr>
+          </thead>
+          <!--Table head-->
+          <!--Table body-->
+          <tbody class="grid-list">
+              <tr ng-repeat="item in orders">
+                  <td class="d-none d-sm-block d-lg-table-cell">{{item.id}}</td>
+                  <td ng-show="userInfo.type==2" class="text-center"><strong>{{item.room}}</strong></td>
+                  <td>
+                    {{item.nameClient}}
+                    &nbsp;<a href="#" ng-click="copyClipboard(item.nameClient)" ng-show="userInfo.type==3"><i class="far fa-copy text-info"></i></a>
+                  </td>
+                  <td class="text-center">
+                    <badge-status id="{{item.status}}" type="order"></badge-status>
+                    <a class="icons-sm text-primary" ng-show="item.status<4" ng-click="nextStatus(item)" title="{{ 'BTN_NEXT_STATUS' | translate }}"><i class="fas fa-arrow-right"></i></a>
+                  </td>
+                  <td>{{item.items}} <a href="#" ng-click="viewDetail(item)"><i class="fas fa-list-alt"></i></a></td>
+                  <td>$ {{item.total}}</td>
+                  <td class="d-none d-sm-block d-lg-table-cell">{{item.date}}<span ng-show="item.status<4 && item.delay>0"> [{{item.delay}}']</span></td>
+                  <td class="buttons text-center">
+                    <a class="icons-sm text-primary ml-2" ng-click="changeStatus(item)" title="{{ 'BTN_CHANGE_STATUS' | translate }}"><i class="fas fa-redo"></i></a>
+                    <a class="icons-sm text-warning ml-2" ng-click="generateLabel(item)" title="{{ 'BTN_GENERATE_LABEL' | translate }}"><i class="fas fa-clipboard"></i></a>
+                  </td>
+              </tr>
+          </tbody>
+          <!--Table body-->
+
+      </table>
+      <!--Table-->
+    </div>
+  </main>

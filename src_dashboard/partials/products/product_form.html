@@ -1,0 +1,173 @@
+<main ng-controller="productFormController" ng-init="loadFormProduct()" class="form mx-lg-5">
+    <div class="container-fluid">
+      <!--First column-->
+      <div class="header">
+          <h2><span translate="LBL_EDIT" ng-show="paramAction=='edit'">Edit</span><span translate="LBL_NEW" ng-show="paramAction=='new'">New</span> {{ 'LBL_PRODUCT' | translate}}</h2>
+          <a type="button" class="btn-floating light-blue"><i class="fas fa-list" aria-hidden="true" ng-click="clickCancelForm()"></i></a>
+          <a type="button" class="btn-floating btn-danger ml-0" ng-show="paramAction=='edit'"><i class="fas fa-trash" aria-hidden="true" ng-click="clickRemove()"></i></a>
+      </div>
+  
+      <div ng-hide="loadForm" translate="LOADING">Loading...</div>
+      <form id="frmProduct" name="frmProduct" class="needs-validation" ng-submit="submitForm()" novalidate autocomplete="off" ng-show="loadForm">
+  
+        <div class="card p-3">
+  
+            <div class="card-body pb-0">
+
+              <div class="row" ng-show="paramAction=='new'">
+                <div class="col-lg-12 col-md-12">
+                  <a href="#" ng-click="viewSmallVersion()" class="d-flex justify-content-end"><small>ver <span ng-hide="smallVersion">versión reducida</span><span ng-show="smallVersion">versión expandida</span></small></a>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-9 col-md-7 col-sm-12">
+                  <div class="row" ng-hide="smallVersion">
+                    <div class="col-lg-6 col-md-6">
+                      <label for="cmbCategory"><span translate="LBL_MENU">Menu</span> *</label>
+                      <ul class="navbar-nav">
+                        <li ng-repeat="item in lstMenus">
+                          <div class="form-check pl-0">
+                            <input class="form-check-input" type="checkbox" value="true" id="menuId{{item.id}}" 
+                              ng-model="item.selected" ng-checked="item.selected" ng-change="isEditingForm()">
+                            <label class="form-check-label" for="menuId{{item.id}}">{{ item.label }}</label>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                      <label for="cmbCategory"><span translate="LBL_CATEGORY">Category</span> *</label>
+                      <select id="cmbCategory" class="browser-default custom-select"
+                        ng-model="formData.catId" ng-change="selectCategory()" 
+                        ng-options="item.id as item.label for item in lstCategories">
+                      </select>
+                      <div class="invalid-feedback" ng-show="invalidForm">{{msgInvalid}}</div>
+                    </div>
+                  </div>
+    
+                  <div class="row">
+                    <div class="col-8 col-md-8">
+                      <label for="txtName"><span translate="LBL_NAME">Name</span> *</label>
+                      <input type="text" class="form-control" id="txtName" name="txtName"
+                             ng-model="formData.name" minlength="2" maxlength="255" 
+                             ng-change="isEditingForm()" required>
+                      <div class="invalid-feedback" ng-show="invalidForm">{{msgInvalid}}</div>
+                    </div>
+                    <div class="col-lg-4 col-md-4" ng-hide="manyPrices">
+                      <label for="txtPrice"><span translate="LBL_PRICE">Price</span> *</label>
+                      <input type="number" class="form-control" id="txtPrice" name="txtPrice"
+                             ng-model="formData.price" maxlength="5"
+                             ng-change="isEditingForm()" ng-focus="focusPrice()" ng-blur="blurPrice()">
+                      <div><small class="text-info" ng-show="formData.rate!=1"><span translate="LBL_RATE"></span>: ${{calculatePrice(formData)}}</small></div>
+                    </div>
+                    <div class="col-lg-4 col-md-4" ng-show="manyPrices">
+                      <label for="txtManyPrice"><span translate="LBL_PRICE">Precio</span><span ng-show="manyPrices" class="ml-1">{{manyPrices}}</span> *</label>
+                      <input type="txt" class="form-control" id="txtManyPrice" name="txtManyPrice"
+                             ng-model="formData.manyPrices" maxlength="20"
+                             ng-change="isEditingForm()">
+                      <div><small class="text-info" ng-show="formData.rate!=1"><span translate="LBL_RATE"></span>: ${{calculatePrice(formData)}}</small></div>
+                      <small class="text-muted">{{ 'LBL_MANY_PRICES_PRODUCT_INFO' | translate }}</small>
+                    </div>
+                  </div>
+
+                  <div class="row"  ng-hide="smallVersion">
+                    <div class="col-lg-12 col-md-12">
+                      <label><span translate="LBL_EXTRACT_PRODUCT">Extract</span></label> <small class="text-muted">(<span translate="LBL_OPTIONAL">Optional</span>)</small>
+                       <textarea class="form-control" id="txtExcerpt" name="txtExcerpt" maxlength="500" rows="3"
+                             ng-model="formData.excerpt" ng-change="isEditingForm()" style="resize: none;"></textarea>
+                      <small class="text-muted">{{( 'LBL_EXTRACT_PRODUCT_INFO' | translate : { 'count' : formData.excerpt.length } )}}</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-5 col-sm-12">
+                  <ng-file label="{{ 'LBL_PRODUCT_IMAGE' | translate }}" value="formData.image" value-return="imageNew" type="product"
+                    link="formData.image" is-change="isEditingForm()" ng-hide="smallVersion"></ng-file>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12 col-md-12">
+                  <label translate="LBL_TYPE">Tipo</label>
+                  <div class="row">
+                    <div class="form-check col-md-3">
+                      <input type="radio" class="form-check-input" id="chkFeatured1" name="chkFeatured1" ng-value="1" ng-model="formData.type" ng-click="isEditingForm()">
+                      <label class="form-check-label" for="chkFeatured1" translate="VAL_NORMAL">Normal</label>
+                    </div>
+                    <div class="form-check col-md-3">
+                      <input type="radio" class="form-check-input" id="chkFeatured2" name="chkFeatured2" ng-value="2" ng-model="formData.type" ng-click="isEditingForm()">
+                      <label class="form-check-label" for="chkFeatured2" translate="VAL_VEGETARIAN">Vegetariano</label>
+                    </div>
+                    <div class="form-check col-md-3">
+                      <input type="radio" class="form-check-input" id="chkFeatured3" name="chkFeatured3" ng-value="3" ng-model="formData.type" ng-click="isEditingForm()">
+                      <label class="form-check-label" for="chkFeatured3" translate="VAL_SPICY">Picante</label>
+                    </div>
+                    <div class="form-check col-md-3">
+                      <input type="radio" class="form-check-input" id="chkFeatured4" name="chkFeatured4" ng-value="4" ng-model="formData.type" ng-click="isEditingForm()">
+                      <label class="form-check-label" for="chkFeatured4" translate="VAL_WITHOUT_TACC">Sin TACC</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row"  ng-hide="smallVersion">
+                <div class="col-lg-4 col-md-4">
+                  <label translate="LBL_ACTIVE">Activo</label>
+                  <div class="row">
+                    <div class="form-check col-md-6">
+                      <input type="radio" class="form-check-input" id="chkMode2" name="chkMode2" ng-value="1" ng-model="formData.enable" ng-click="isEditingForm()">
+                      <label class="form-check-label" for="chkMode2" translate="VAL_YES">Si</label>
+                    </div>
+                    <div class="form-check col-md-6">
+                      <input type="radio" class="form-check-input" id="chkMode1" name="chkMode1" ng-value="0" ng-model="formData.enable" ng-click="isEditingForm()">
+                      <label class="form-check-label" for="chkMode1" translate="VAL_NO">No</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row"  ng-hide="smallVersion || !userInfo.canDelivery">
+                <div class="col-lg-4 col-md-4">
+                  <label><span translate="LBL_DELIVERY">Delivery</span> <small class="text-muted" ng-show="formData.showDelivery==0" translate="LBL_DISABLE"></small></label>
+                  <div class="row">
+                    <div class="form-check col-md-6">
+                      <input type="radio" class="form-check-input" id="chkDelivery1" name="chkDelivery1" ng-value="1" ng-model="formData.delivery" ng-click="isEditingForm()" ng-disabled="!formData.showDelivery">
+                      <label class="form-check-label" for="chkDelivery1" translate="VAL_YES">Si</label>
+                    </div>
+                    <div class="form-check col-md-6">
+                      <input type="radio" class="form-check-input" id="chkDelivery0" name="chkDelivery0" ng-value="0" ng-model="formData.delivery" ng-click="isEditingForm()" ng-disabled="!formData.showDelivery">
+                      <label class="form-check-label" for="chkDelivery0" translate="VAL_NO">No</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row" ng-show="paramAction=='new'">
+                <div class="col-lg-12 col-md-12" ng-class="{'mt-2 mb-0':smallVersion}">
+                  <div class="form-group mb-0">
+                    <div class="form-check pl-0">
+                      <input class="form-check-input" type="checkbox" value="1" id="invalidCheck2" ng-model="formData.addOtherProduct">
+                      <label class="form-check-label pl-4" for="invalidCheck2">{{ 'LBL_ADD_OTHER_PRODUCT' | translate }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-2" ng-hide="smallVersion">
+                <small class="text-muted" translate="MSG_FIELDS_MANDATORY" >Fields marked with * are mandatory</small>
+              </div>
+            </div>
+  
+            <!--Footer-->
+            <div class="modal-footer mx-3 p-0 pt-3">
+              <button type="submit" class="btn btn-success ml-0" ng-disabled="!editForm" translate="BTN_SAVE">Save</button>
+              <div class="options text-center text-md-right mt-1 ml-auto">
+                <p class="font-small grey-text d-flex justify-content-end"><a href="#" class="blue-text" ng-click="clickCancelForm()" translate="BTN_CANCEL">Cancel</a></p>
+              </div>
+            </div>
+  
+        </div>
+  
+      </form>
+    </div>
+  </main>
+  
