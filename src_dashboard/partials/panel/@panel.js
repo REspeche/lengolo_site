@@ -8,13 +8,18 @@ angular.module('mainApp').controller('panelController', ['$scope', 'mainSvc', 'a
 
         $scope.loadPanel = function() {
           if ($rootScope.userInfo.isDebtor==1) {
+            let nowDate = new Date();
             modalSvc.showModal({
                 templateUrl: '/templates/modals/modalExpireSystem.html',
                 size: 'sm'
               },
               {
                   closeButtonText: undefined,
-                  defer: false
+                  defer: false,
+                  params: {
+                    month: String(nowDate.getMonth() + 1).padStart(2, '0'),
+                    year: nowDate.getFullYear()
+                  }
               }
             );
           };
