@@ -262,7 +262,7 @@
   "MSG_ERROR_LOGIN": "¡Oh, lo siento! Se produjo un error al intentar la autenticación. Vuelva a intentarlo más tarde",
   "MSG_FIELDS_MANDATORY": "Los campos marcados con un * son obligatorios",
   "MSG_INFO_PROFILE": "Por favor, para acceder a las diferentes opciones del Panel, debe completar su perfil avanzado",
-  "MSG_REMOVE_ACTION": "¿Está seguro de que desea eliminar el registro \"{{name}}\"?",
+  "MSG_REMOVE_ACTION": "¿Está seguro de que desea suspender la cuenta \"{{name}}\"?",
   "MSG_REMOVE_IMAGE": "¿Está seguro de que desea eliminar la imagen?",
   "MSG_CONFIRM_ACTION": "¿Está seguro de que desea continuar con esta acción?",
   "MSG_CONFIRM_LOGOUT": "¿Está seguro de que desea cerrar sesión?",

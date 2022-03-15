@@ -63,31 +63,51 @@ angular.module('mainApp').controller('membersController', ['$scope', 'mainSvc', 
         }
 
         $scope.clickRemove = function(item) {
-          modalSvc.showModal({
-            size: 'sm'
-          },{
-            closeButtonText: $translate.instant('BTN_NO'),
-            actionButtonText: $translate.instant('BTN_YES'),
-            bodyText: $translate.instant('MSG_REMOVE_ACTION', { name: item.name})
-          }).then(function (result) {
-            mainSvc.callService({
-                url: 'profile/removeMember',
-                params: {
-                  'usrId': $rootScope.userInfo.id,
-                  'memId': item.id
-                }
-            }).then(function (response) {
-              mainSvc.callService({
-                url: 'menu/refreshMenu',
-                params: {
-                  'usrId': item.id
-                }
-              }).then(function (response) {
-                let index = $scope.members.findIndex( record => record.id == item.id );
-                $scope.members.splice(index, 1);
-                mainSvc.showAlertByCode(4);
-              });
+          if (item.status!=3) {
+            modalSvc.showModal({
+              size: 'sm'
+            },{
+              closeButtonText: $translate.instant('BTN_NO'),
+              actionButtonText: $translate.instant('BTN_YES'),
+              bodyText: $translate.instant('MSG_REMOVE_ACTION', { name: item.name})
+            }).then(function (result) {
+              $scope.removeAccount(item);
             });
+          }
+          else {
+            $scope.removeAccount(item);
+          }
+
+        }
+        $scope.removeAccount = function(item) {
+          mainSvc.callService({
+              url: 'profile/removeMember',
+              params: {
+                'usrId': $rootScope.userInfo.id,
+                'memId': item.id
+              }
+          }).then(function (response) {
+            mainSvc.callService({
+              url: 'menu/refreshMenu',
+              params: {
+                'usrId': item.id
+              }
+            }).then(function (response) {
+              item.status = (item.status!=3)?3:2;
+              mainSvc.showAlertByCode(4);
+            });
+          });
+        }
+
+        $scope.clickPay = function(item) {
+          mainSvc.callService({
+              url: 'profile/payMember',
+              params: {
+                'usrId': $rootScope.userInfo.id,
+                'memId': item.id
+              }
+          }).then(function (response) {
+            item.isDebtor = (item.isDebtor)?0:1;
           });
         }
 

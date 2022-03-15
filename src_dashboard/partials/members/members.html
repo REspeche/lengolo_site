@@ -23,12 +23,13 @@
                 <th class="text-center" translate="COL_CODE">Código</th>
                 <th class="d-none d-sm-block d-lg-table-cell" translate="COL_LAST_LOGIN">Date</th>
                 <th class="text-center" translate="COL_ACTIONS">Actions</th>
+                <th class="text-center">$</th>
             </tr>
         </thead>
         <!--Table head-->
         <!--Table body-->
         <tbody class="grid-list">
-            <tr ng-repeat="item in members" ng-class="{'row-marked' : item.products==0}">
+            <tr ng-repeat="item in members" ng-class="{'row-marked' : item.status==3}">
                 <td class="d-none d-sm-block d-lg-table-cell">{{$index}} [{{item.id}}]</td>
                 <td>
                   <a class="nav-link d-inline-block m-0 p-0 pr-2" style="vertical-align: top;" href="{{item.website}}" title="{{item.website}}" target="_blank">
@@ -52,13 +53,15 @@
                   <a class="icons-sm text-warning" ng-click="refreshCache(item)" title="{{ 'BTN_CLEAN_CACHE' | translate }}"><i class="fas fa-broom"></i></a>
                 </td>
                 <td class="d-none d-sm-block d-lg-table-cell">{{item.date}}</td>
-                <td class="buttons text-center">
-                  <div ng-hide="item.id == userInfo.id">
-                    <a class="icons-sm text-warning" ng-click="clickLogin(item)" title="{{ 'BTN_SYSTEM_LOGIN' | translate }}"><i class="fas fa-sign-in-alt"></i></a>
-                    <a class="icons-sm ml-2 text-primary" ng-click="clickResetPass(item)" title="{{ 'BTN_RESET_PASSWORD' | translate }}"><i class="fas fa-unlock-alt"></i></a>
-                    <a class="icons-sm ml-2 text-primary" ng-click="clickEdit(item)" title="{{ 'BTN_EDIT' | translate }}"><i class="fas fa-edit"></i></a>
-                    <a class="icons-sm ml-2 text-danger" ng-click="clickRemove(item)" title="{{ 'BTN_DELETE' | translate }}"><i class="fas fa-trash"></i></a>
-                  </div>
+                <td class="buttons text-right">
+                  <a class="icons-sm text-warning" ng-click="clickLogin(item)" title="{{ 'BTN_SYSTEM_LOGIN' | translate }}" ng-hide="item.id == userInfo.id"><i class="fas fa-sign-in-alt"></i></a>
+                  <a class="icons-sm ml-2 text-primary" ng-click="clickResetPass(item)" title="{{ 'BTN_RESET_PASSWORD' | translate }}"><i class="fas fa-unlock-alt"></i></a>
+                  <a class="icons-sm ml-2 text-primary" ng-click="clickEdit(item)" title="{{ 'BTN_EDIT' | translate }}"><i class="fas fa-edit"></i></a>
+                  <a class="icons-sm ml-2 text-primary" ng-click="clickPay(item)"><i class="fas fa-dollar-sign"></i></a>
+                  <a class="icons-sm ml-2" ng-click="clickRemove(item)" title="{{ 'BTN_DELETE' | translate }}"><i class="fas" ng-class="{'fa-user-times text-danger':item.status!=3,'fa-user-plus text-success':item.status==3}"></i></a>
+                </td>
+                <td class="text-center" ng-class="{'bg-success':!item.isDebtor}">
+                  <i class="fas fa-check text-white" ng-show="!item.isDebtor"></i>
                 </td>
             </tr>
         </tbody>
