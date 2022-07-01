@@ -182,7 +182,9 @@ angular.module('mainApp').controller('membersController', ['$scope', 'mainSvc', 
                 canDelivery     : response.canDelivery,
                 multipleQR      : response.multipleQR,
                 covid19         : response.covid19,
-                trial           : response.trial
+                trial           : response.trial,
+                isDebtor        : response.isDebtor,
+                multiLanguage   : response.multiLanguage
               });
               if (authenticationSvc.login().isLogin) {
                 //remove cache

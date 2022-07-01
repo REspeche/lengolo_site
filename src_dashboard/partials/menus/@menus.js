@@ -26,15 +26,15 @@ angular.module('mainApp').controller('menusController', ['$scope', 'mainSvc', 'a
         }
 
         $scope.clickNew = function () {
-          actionSvc.goToAction(12.1, { 
-            id: 0, 
+          actionSvc.goToAction(12.1, {
+            id: 0,
             action: 'new'
           }); //new menu
         }
 
         $scope.clickEdit = function(item) {
           actionSvc.goToAction(12.1, {
-            id: item.id, 
+            id: item.id,
             action: 'edit'
           }); //edit menu
         }
@@ -89,15 +89,15 @@ angular.module('mainApp').controller('menusController', ['$scope', 'mainSvc', 'a
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
-        
+
             try {
                 document.execCommand('copy');
                 mainSvc.showAlertByCode(110);
             } catch (err) {
                 alert('Was not possible to copy te text: ' + err);
             }
-        
-            document.body.removeChild(textArea)            
+
+            document.body.removeChild(textArea)
             return;
           }
           navigator.clipboard.writeText(text).then(function() {
@@ -118,8 +118,14 @@ angular.module('mainApp').controller('menusController', ['$scope', 'mainSvc', 'a
                 let urlImage = $scope.path + $rootScope.userInfo.codeMenu + "_M" + item.id + '.jpg';
                 $window.open(urlImage, '_blank');
               },1000);
-            }          
+            }
           });
+        };
+
+        $scope.setMultipleLanguage = function(item) {
+          actionSvc.goToAction(21, {
+            id: item.id
+          }); //set language
         };
 
         $scope.deliveryMenu = function(item) {

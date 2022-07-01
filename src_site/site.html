@@ -94,8 +94,8 @@
           class="col-sm-12 category-back font-{{::itemC.fontColor}}" style="background-color: #{{::itemC.backColor}};">
           <div class="text-center">
               <a id="category-title-{{::itemC.catId}}"></a>
-              <h3 class="main category-title" data-id="{{::itemC.catId}}" ng-class="{'mb-0':(itemC.excerpt || filteredCat.length==0), 'wp-trigger':groupHasProducts(itemC)}">{{::itemC.category}}</h3>
-              <p ng-show="itemC.excerpt" class="category-desc text-center mb-3">{{::itemC.excerpt}}</p>
+              <h3 class="main category-title" data-id="{{::itemC.catId}}" ng-class="{'mb-0':(itemC.excerpt || filteredCat.length==0), 'wp-trigger':groupHasProducts(itemC)}">{{itemC.category}}</h3>
+              <p ng-show="itemC.excerpt" class="category-desc text-center mb-3">{{itemC.excerpt}}</p>
               <p ng-show="itemC.colSizes" class="category-sizes text-right mb-0 text-uppercase" ng-class="{ 'margin-delivery': showDelivery}"><many-prices value="{{::itemC.colSizes}}"></many-prices></p>
           </div>
           <div class="row">
@@ -162,7 +162,7 @@
           <li ng-repeat="itemC in lstItems" ng-class="{'selected':$index==0}" ng-show="groupHasProducts(itemC)"
             id="label-cat-{{::itemC.catId}}" class="category-label">
             <div ng-click="goToCategory(itemC.catId)" ng-class="{'cat-disabled': !isLoadCat(itemC.catId)}">
-              {{::itemC.category}}
+              {{itemC.category}}
             </div>
           </li>
         </ul>

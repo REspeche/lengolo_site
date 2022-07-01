@@ -84,7 +84,8 @@ angular.module('mainApp').controller('loginController', ['$scope', 'authenticati
                 multipleQR      : response.multipleQR,
                 covid19         : response.covid19,
                 trial           : response.trial,
-                isDebtor        : response.isDebtor
+                isDebtor        : response.isDebtor,
+                multiLanguage   : response.multiLanguage
               });
               if (authenticationSvc.login().isLogin) {
                 //remove cache

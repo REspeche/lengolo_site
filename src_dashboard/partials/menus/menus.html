@@ -5,7 +5,7 @@
           <h2 translate="TIT_MENUS">Menues</h2>
           <a type="button" class="btn-floating pink"><i class="fas fa-plus" aria-hidden="true" ng-click="clickNew()"></i></a>
       </div>
-  
+
       <div class="row" ng-show="userInfo.multipleQR">
         <div class="col-lg-12 pb-2">
             <div translate="TXT_MENUS"></div>
@@ -47,7 +47,7 @@
                   </td>
                   <td>
                     {{item.products}}
-                    <a href="javascript:void(0)" ng-click="goProducts(item)" class="ml-1" ng-class="{ 'text-primary':item.products>0 , 'text-danger':item.products==0 }"><i class="fas fa-arrow-circle-right"></i></a>    
+                    <a href="javascript:void(0)" ng-click="goProducts(item)" class="ml-1" ng-class="{ 'text-primary':item.products>0 , 'text-danger':item.products==0 }"><i class="fas fa-arrow-circle-right"></i></a>
                   </td>
                   <td>
                     <div class="custom-control custom-switch">
@@ -60,19 +60,19 @@
                       <input type="checkbox" class="custom-control-input" ng-checked="item.delivery==1" id="chk_delivery{{item.id}}" ng-click="deliveryMenu(item)">
                       <label class="custom-control-label" for="chk_delivery{{item.id}}">{{(item.delivery==1)?('VAL_YES' | translate):('VAL_NO' | translate)}}</label>
                     </div>
-                  </td>  
+                  </td>
                   <td class="buttons text-center">
                     <a ng-show="userInfo.multipleQR && item.enable==0" class="icons-sm text-secondary" ng-click="clickCopyLink(item)" title="{{ 'BTN_COPY_LINK' | translate }}"><i class="fas fa-link"></i></a>
                     <a ng-show="userInfo.multipleQR && item.enable==0" class="icons-sm ml-2 text-secondary" ng-click="downloadQR(item)" title="{{ 'BTN_DOWNLOAD_QR' | translate }}"><i class="fas fa-qrcode"></i></a>
+                    <a ng-show="userInfo.multiLanguage && item.enable==1" class="icons-sm ml-2 text-secondary" ng-click="setMultipleLanguage(item)" title="{{ 'BTN_MULTIPLE_LANGUAGE' | translate }}"><i class="fas fa-language"></i></a>
                     <a class="icons-sm ml-2 text-primary" ng-click="clickEdit(item)" title="{{ 'BTN_EDIT' | translate }}"><i class="fas fa-edit"></i></a>
                     <a class="icons-sm ml-2 text-danger" ng-click="clickRemove(item)" title="{{ 'BTN_DELETE' | translate }}"><i class="fas fa-trash"></i></a>
                   </td>
               </tr>
           </tbody>
           <!--Table body-->
-  
+
       </table>
       <!--Table-->
     </div>
   </main>
-  

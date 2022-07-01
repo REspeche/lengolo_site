@@ -40,6 +40,7 @@ mainApp.factory('actionSvc', ['$state', '$rootScope',
 					case 19: retRoute = 'forms/N86'; break;
 					case 20: retRoute = 'messages'; break;
 					case 20.1: retRoute = 'messages/form'; break;
+					case 21: retRoute = 'menus/language'; break;
 
 					case 101: retRoute = ''; break;
 				}

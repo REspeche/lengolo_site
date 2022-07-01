@@ -338,6 +338,23 @@ mainApp.config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider',
                     }]
                 }
             })
+            .state('menus/language', {
+                url         : '/menus/language/:id',
+                templateUrl : 'templates/partials/menus/language_form.html',
+                controller  : 'languageFormController',
+                params: {
+                    id: null
+                },
+                resolve: {
+                    deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load([{
+                            files: [
+                                'assets/js/partials/menus/language_form.js'
+                            ]
+                        }]);
+                    }]
+                }
+            })
             .state('code/showqr', {
                 url         : '/code/showqr',
                 templateUrl : 'templates/partials/code/show_qr.html',

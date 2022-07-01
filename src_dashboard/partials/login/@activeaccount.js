@@ -33,7 +33,9 @@ angular.module('mainApp').controller('activeAccountController', ['$scope', 'acti
               canDelivery   : response.canDelivery,
               multipleQR    : response.multipleQR,
               covid19       : response.covid19,
-              trial         : response.trial
+              trial         : response.trial,
+              isDebtor      : response.isDebtor,
+              multiLanguage : response.multiLanguage
             });
             $scope._forceProfile = response.forceProfile;
             $scope.error = false;

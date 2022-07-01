@@ -27,7 +27,8 @@ mainApp.factory('authenticationSvc', ['COOKIES', '$cookies', '$rootScope', 'main
         multipleQR      : false,
         covid19         : false,
         trial           : false,
-        isDebtor        : false
+        isDebtor        : false,
+        multipleLanguage: false
       };
 
       function updateUserInfo(userInfo) {
@@ -51,7 +52,8 @@ mainApp.factory('authenticationSvc', ['COOKIES', '$cookies', '$rootScope', 'main
           multipleQR      : userInfo.multipleQR,
           covid19         : userInfo.covid19,
           trial           : userInfo.trial,
-          isDebtor        : userInfo.isDebtor
+          isDebtor        : userInfo.isDebtor,
+          multiLanguage   : userInfo.multiLanguage
         };
         var expireDate = undefined;
         if (_data.rememberLogin==true) {
@@ -82,7 +84,8 @@ mainApp.factory('authenticationSvc', ['COOKIES', '$cookies', '$rootScope', 'main
             multipleQR      : cookieObjMain.multipleQR,
             covid19         : cookieObjMain.covid19,
             trial           : cookieObjMain.trial,
-            isDebtor        : cookieObjMain.isDebtor
+            isDebtor        : cookieObjMain.isDebtor,
+            multiLanguage   : cookieObjMain.multiLanguage
           };
           if (cookieObjMain.tabRefreshed) $cookies.put(COOKIES.files.main, angular.toJson(_data));
           if (updateScope) $rootScope.userInfo = _data;
@@ -104,7 +107,8 @@ mainApp.factory('authenticationSvc', ['COOKIES', '$cookies', '$rootScope', 'main
             multipleQR  : false,
             covid19     : false,
             trial       : false,
-            isDebtor    : false
+            isDebtor    : false,
+            multiLanguage: false
           };
         }
         return _data;
@@ -132,7 +136,8 @@ mainApp.factory('authenticationSvc', ['COOKIES', '$cookies', '$rootScope', 'main
           multipleQR  : 0,
           covid19     : 0,
           trial       : 0,
-          isDebtor    : 0
+          isDebtor    : 0,
+          multiLanguage: 0
         };
         if (updateScope) $rootScope.userInfo = _data;
       }

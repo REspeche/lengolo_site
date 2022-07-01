@@ -1,0 +1,67 @@
+<main id="menuFormController" ng-controller="languageFormController" ng-init="loadLanguageForm()" class="form mx-lg-5">
+    <div class="container-fluid">
+      <!--First column-->
+      <div class="header" ng-if="userInfo.multiLanguage">
+          <h2><span translate="LBL_EDIT">Edit</span> {{ 'LBL_LANGUAGE' | translate}}</h2>
+          <a type="button" class="btn-floating light-blue"><i class="fas fa-list" aria-hidden="true" ng-click="clickCancelForm()"></i></a>
+          <a type="button" class="btn-floating pink ml-0"><i class="fas fa-plus" aria-hidden="true" ng-click="clickNew()" title="{{'LNK_ADD_LANGUAGE'|translate}}" data-toggle="tooltip"></i></a>
+      </div>
+
+      <div ng-hide="loadForm" translate="LOADING">Loading...</div>
+      <div class="alert alert-primary" role="alert" ng-show="!userInfo.multiLanguage"><span translate="INF_DISABLE_MODULE"></span></div>
+      <form id="frmLanguage" name="frmLanguage" class="needs-validation" ng-submit="submitForm()" novalidate autocomplete="off" ng-show="loadForm" ng-if="userInfo.multiLanguage">
+
+        <div class="card p-3 col-lg-8 col-md-8 col-sm-12">
+
+            <div class="card-body pb-0">
+
+              <p ng-show="availableLanguages.length==0">Por favor <a href="#" ng-click="clickNew()">agregue</a> un idioma para configurarlo.</p>
+              <div ng-hide="availableLanguages.length==0">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item" ng-repeat="lan in availableLanguages">
+                    <a class="nav-link" ng-class="{'active': lan.code==viewLanguage}" id="{{lan.code}}-tab" data-toggle="tab" href="#{{lan.code}}" role="tab" aria-controls="{{lan.code}}"
+                      aria-selected="true" ng-click="selectLanguage(lan.code)">{{lan.label}}</a>
+                  </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade" ng-class="{'show active': lan.code==viewLanguage}" id="{{lan.code}}" role="tabpanel" aria-labelledby="{{lan.code}}-tab" ng-repeat="lan in availableLanguages">
+
+                    <div class="options text-center text-md-right mt-1 ml-auto">
+                      <p class="font-small grey-text d-flex justify-content-end"><a href="#" class="red-text" ng-click="clickRemoveLanguage($index)"><span translate="BTN_DELETE">Delete</span>&nbsp;<span translate="LBL_LANGUAGE">Language</span></a></p>
+                    </div>
+                    <div class="row" ng-repeat="item in languageData[viewLanguage]">
+                      <div class="col-2">
+                        <label for="txtName_{{item.id}}">{{item.id}}</label>
+                      </div>
+                      <div class="col-10">
+                        <input type="text" class="form-control" id="txtName_{{item.id}}" name="txtName_{{item.id}}"
+                               ng-model="item.value_translate" minlength="2" maxlength="255"
+                               ng-change="isEditingForm(item)" ng-if="item.id.indexOf('.1')>0"
+                               ng-class="{'input-changed-1': item.changed==1, 'input-changed-2': item.changed==2, 'input-changed-3': item.changed==3}">
+                        <textarea class="form-control" id="txtName_{{item.id}}" name="txtName_{{item.id}}" maxlength="255" rows="3"
+                               ng-model="item.value_translate" ng-change="isEditingForm(item)" ng-if="item.id.indexOf('.2')>0"
+                               ng-class="{'input-changed-1': item.changed==1, 'input-changed-2': item.changed==2}"></textarea>
+                        <small class="text-muted">{{item.value_original}}</small>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer mx-3 p-0 pt-3">
+              <button type="submit" class="btn btn-success ml-0" ng-disabled="!editForm[viewLanguage]"><span translate="BTN_SAVE">Save</span>&nbsp;{{availableLanguages[viewLanguage].label}}</button>
+              <div class="options text-center text-md-right mt-1 ml-auto">
+                <p class="font-small grey-text d-flex justify-content-end"><a href="#" class="blue-text" ng-click="clickResetForm()" ng-show="editForm[viewLanguage]"><span translate="BTN_RESET">Reset</span>&nbsp;{{availableLanguages[viewLanguage].label}}</a></p>
+              </div>
+            </div>
+
+        </div>
+
+      </form>
+    </div>
+  </main>

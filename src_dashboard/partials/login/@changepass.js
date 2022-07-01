@@ -52,7 +52,9 @@ angular.module('mainApp').controller('changePassController', ['$scope', 'actionS
               canDelivery   : response.canDelivery,
               multipleQR    : response.multipleQR,
               covid19       : response.covid19,
-              trial         : response.trial
+              trial         : response.trial,
+              isDebtor      : response.isDebtor,
+              multiLanguage : response.multiLanguage
             });
             if (authenticationSvc.login().isLogin) {
               mainSvc.showAlertByCode(2);

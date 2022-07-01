@@ -8,10 +8,12 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
     var posVerticalNav = 50;
     var clickRigthSide = false;
     var fileCss = undefined;
+    var fileLanguage = undefined;
 
     $scope.pathProfile = (!useCDN)?BASE_URL.api + '/v1/common/viewFile?type=profile&size=small&file=':BASE_URL.cdn + '/profiles/small/';
     $scope.pathProduct = (!useCDN)?BASE_URL.api + '/v1/common/viewFile?type=product&size=small&file=':BASE_URL.cdn + '/products/small/';
     $scope.pathCss = BASE_URL.api + '/v1/common/viewFile?type=css&file=';
+    $scope.pathLanguage = BASE_URL.api + '/v1/common/viewFile?type=language&file=';
     $scope.restaurant = {};
     $scope.paramCode = undefined;
     $scope.paramMenu = undefined;
@@ -19,6 +21,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
     $scope.lstMessages = [];
     $scope.canPrint = false;
     $scope.limit = 2; // initial value for limit
+    $scope.jsonLanguage = undefined;
     // socket to refresh -- variables
     $scope.tokenRestaurant = '';
     // delivery -- variables
@@ -236,8 +239,54 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
       }
       if (response.token) $scope.tokenRestaurant = angular.copy(response.token);
       else $scope.tokenRestaurant = '';
-      if (response.menu) $scope.lstItems = angular.copy(response.menu);
+      //menu items (with translations)
+      if (response.menu) {
+        const userLocale =
+              navigator.languages && navigator.languages.length
+                ? navigator.languages[0]
+                : navigator.language;
+        let lang = userLocale.split('-')[0];
+        $scope.lstItems = angular.copy(response.menu);
+        //load translate items menu
+        if ($scope.restaurant.multiLanguage==1 && !$scope.jsonLanguage && lang!='es') {
+          $scope.jsonLanguage = [];
+          fileLanguage = $scope.pathLanguage + $scope.restaurant.menId + '_' + lang + '.json';
+          $.when($.get(fileLanguage))
+          .done(function(languageTraslated) {
+            $scope.jsonLanguage = angular.copy(languageTraslated);
+            angular.forEach($scope.jsonLanguage, function(item, key) {
+              let objC = item.id.split('.');
+              let charType = objC[0].substring(0,1);
+              let _id = objC[0].replace(charType,'');
+              let objNode = undefined;
+              switch (charType) {
+                case 'c':
+                  objNode = $scope.lstItems.find(x => x.catId == _id);
+                  break;
+                case 'p':
+                  angular.forEach($scope.lstItems, function(cObj, cIdx) {
+                    if (!objNode) objNode = cObj.data.find(x => x.id == _id);
+                  });
+                  break;
+              };
+              if (objNode) {
+                switch (objC[1]) {
+                  case '1':
+                    if (charType=='p') objNode.name = item.value;
+                    else objNode.category = item.value;
+                    break;
+                  case '2':
+                    objNode.excerpt = item.value;
+                    break;
+                };
+              };
+            });
+          });
+        };
+      }
       else $scope.lstItems = [];
+
+      //Messages
       if (response.messages) $scope.lstMessages = angular.copy(response.messages);
       else $scope.lstMessages = [];
     };
@@ -340,7 +389,8 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
         }
       };
       if ($scope.restaurant && $scope.restaurant.ownStyle==1) {
-        if ($('#customStyle').length==0 && !fileCss) {
+        //load custom styles
+        if ( $('#customStyle').length==0 && !fileCss) {
           fileCss = $scope.pathCss + $scope.paramCode + '_' + $scope.restaurant.menId + '.css';
           $.when($.get(fileCss))
           .done(function(contentFile) {
