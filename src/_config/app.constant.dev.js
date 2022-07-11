@@ -18,7 +18,8 @@ mainApp.constant('BASE_URL', {
     },
     'meta': {
       'keywords': ''
-    }
+    },
+    'dateExpire': '01/07/2022'
   })
   .constant('COOKIES', {
     'files': {

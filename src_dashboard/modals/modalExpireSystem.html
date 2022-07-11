@@ -1,10 +1,10 @@
-<div class="modal-header bg-danger text-white d-flex justify-content-center">
+<div class="modal-header bg-{{modalOptions.params.classPopup}} text-white d-flex justify-content-center">
   <h5 class="modal-title" id="exampleModalLabel">Subscripción del Servicio</h5>
 </div>
 <div class="modal-body">
-  <p>Estimado usuario de <b>lengolo</b>, recuerde regularizar su situación antes del 15/{{modalOptions.params.month}}/{{modalOptions.params.year}} para evitar inconvenientes con la continuidad del servicio.</p>
+  <p>Estimado usuario de <b>lengolo</b>, recuerde que {{modalOptions.params.textDays}} la subscripción semestral. Por favor, regularice su situación antes del 05/{{modalOptions.params.month}}/{{modalOptions.params.year}} para evitar inconvenientes con la continuidad del servicio.</p>
   <p>Gracias</p>
 </div>
 <div class="modal-footer d-flex justify-content-center">
-  <button type="button" class="btn btn-outline-danger" data-mdb-dismiss="modal" style="" ng-click="modalOptions.close();">Cerrar</button>
+  <button type="button" class="btn btn-outline-{{modalOptions.params.classPopup}}" data-mdb-dismiss="modal" style="" ng-click="modalOptions.close();">Cerrar</button>
 </div>

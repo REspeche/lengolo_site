@@ -109,10 +109,9 @@ function initializeTooltips () {
 };
 function DateTimeToDateObj(DATETIME) {
     if (DATETIME == null) return null;
-    var parts = DATETIME.split(" ");
-    var date = parts[0].split("/");
-    var time = parts[1].split(":");
-    var d1 = new Date(Number(date[2]), Number(date[1]) - 1, Number(date[0]), time[0], time[1]);
+    var date = DATETIME.split("/");
+    var d1 = new Date(Number(date[2]), Number(date[1]) - 1, Number(date[0]));
+    return d1;
 }
 
 function DateTimeToUnixTimestamp(DATETIME) {
@@ -328,7 +327,7 @@ function initRangeTime(timeS, timeE, controller) {
             hours2 = hours2;
             minutes2 = minutes2 + " AM";
         }
-        
+
         $('.slider-time-end').html(hours2 + ':' + minutes2);
       };
 
@@ -367,12 +366,12 @@ function initRangeTime(timeS, timeE, controller) {
       e.preventDefault();
       var start = this.selectionStart;
       var end = this.selectionEnd;
-  
+
       // set textarea value to: text before caret + tab + text after caret
       $(this).val($(this).val().substring(0, start)
                   + "\t"
                   + $(this).val().substring(end));
-  
+
       // put caret at right position again
       this.selectionStart =
       this.selectionEnd = start + 1;
