@@ -293,7 +293,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
 
     $scope.processHeaderRestaurant = function() {
       let timeNow = getTimeNowInMinutes();
-      if (!($scope.restaurant.timeS<timeNow && $scope.restaurant.timeE>timeNow) || $scope.restaurant.canDelivery==0) {
+      if (!($scope.restaurant.timeMenuS<timeNow && $scope.restaurant.timeMenusE>timeNow) || $scope.restaurant.canDelivery==0) {
         $scope.showDelivery = false;
         $scope.restaurant.canDelivery=0;
       };
