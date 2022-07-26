@@ -22,6 +22,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
     $scope.canPrint = false;
     $scope.limit = 2; // initial value for limit
     $scope.jsonLanguage = undefined;
+    $scope.forceLang = undefined;
     // socket to refresh -- variables
     $scope.tokenRestaurant = '';
     // delivery -- variables
@@ -81,6 +82,9 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
       };
       if ( locSearch.hasOwnProperty('menu') ) {
         $scope.paramMenu = parseInt(locSearch['menu']);
+      }
+      if ( locSearch.hasOwnProperty('lang') ) {
+        $scope.forceLang = locSearch['lang'];
       }
 
       // get querystring params
@@ -248,27 +252,54 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
         let lang = userLocale.split('-')[0];
         $scope.lstItems = angular.copy(response.menu);
         //load translate items menu
-        if ($scope.restaurant.multiLanguage==1 && !$scope.jsonLanguage && lang!='es') {
+        if ($scope.restaurant.multiLanguage==1 && (!$scope.jsonLanguage && lang!='es' || $scope.forceLang!=undefined)) {
           $scope.jsonLanguage = [];
+          if ($scope.forceLang) lang = $scope.forceLang;
           fileLanguage = $scope.pathLanguage + $scope.restaurant.menId + '_' + lang + '.json';
           $.when($.get(fileLanguage))
           .done(function(languageTraslated) {
             $scope.jsonLanguage = angular.copy(languageTraslated);
+            const findByCatId = function (data, id) {
+              if (!data.length) return undefined;
+              return (
+                data.find(el => el.catId == id) ||
+                findByCatId(
+                  data.flatMap(el => el.childs || []),
+                  id
+                )
+              );
+            };
+            const findByProId = function (arr, id) {
+              let _x = undefined;
+              angular.forEach(arr, function(cObj, cIdx) {
+                if (!_x) {
+                  if (cObj.childs && cObj.childs.length > 0) {
+                    return findByProId(cObj.childs, id);
+                  }
+                  else {
+                    _x = cObj.data.find(x => x.id == id);
+                  };
+                };
+              });
+              return _x;
+            };
+            let _lastId = undefined;
+            let objNode = undefined;
             angular.forEach($scope.jsonLanguage, function(item, key) {
               let objC = item.id.split('.');
               let charType = objC[0].substring(0,1);
               let _id = objC[0].replace(charType,'');
-              let objNode = undefined;
-              switch (charType) {
-                case 'c':
-                  objNode = $scope.lstItems.find(x => x.catId == _id);
-                  break;
-                case 'p':
-                  angular.forEach($scope.lstItems, function(cObj, cIdx) {
-                    if (!objNode) objNode = cObj.data.find(x => x.id == _id);
-                  });
-                  break;
+              if (_lastId!=_id) {
+                switch (charType) {
+                  case 'c':
+                    objNode = findByCatId($scope.lstItems, _id);
+                    break;
+                  case 'p':
+                    objNode = findByProId($scope.lstItems, _id);
+                    break;
+                };
               };
+              _lastId = _id;
               if (objNode) {
                 switch (objC[1]) {
                   case '1':
@@ -281,6 +312,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
                 };
               };
             });
+            $scope.$apply();
           });
         };
       }

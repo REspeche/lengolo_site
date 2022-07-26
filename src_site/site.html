@@ -126,8 +126,8 @@
             class="is-child font-{{::itemC_child.fontColor}}" style="background-color: #{{::itemC_child.backColor}};">
             <div class="text-center">
                 <a id="category-title-{{::itemC_child.catId}}"></a>
-                <h3 ng-class="{'mb-0':itemC_child.excerpt}">{{::itemC_child.category}}</h3>
-                <p ng-show="itemC_child.excerpt" class="category-desc text-center mb-3">{{::itemC_child.excerpt}}</p>
+                <h3 ng-class="{'mb-0':itemC_child.excerpt}">{{itemC_child.category}}</h3>
+                <p ng-show="itemC_child.excerpt" class="category-desc text-center mb-3">{{itemC_child.excerpt}}</p>
                 <p ng-show="itemC_child.colSizes" class="category-sizes text-right mb-0 text-uppercase" ng-class="{ 'margin-delivery': showDelivery}"><many-prices value="{{::itemC_child.colSizes}}"></many-prices></p>
             </div>
             <div class="row">
