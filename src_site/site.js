@@ -255,7 +255,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
         if ($scope.restaurant.multiLanguage==1 && (!$scope.jsonLanguage && lang!='es' || $scope.forceLang!=undefined)) {
           $scope.jsonLanguage = [];
           if ($scope.forceLang) lang = $scope.forceLang;
-          fileLanguage = $scope.pathLanguage + $scope.restaurant.menId + '_' + lang + '.json';
+          fileLanguage = $scope.pathLanguage + $scope.restaurant.usrId + '_' + lang + '.json&rand=' + Math.random();
           $.when($.get(fileLanguage))
           .done(function(languageTraslated) {
             $scope.jsonLanguage = angular.copy(languageTraslated);

@@ -61,7 +61,7 @@ angular.module('mainApp').controller('languageFormController', ['$rootScope', '$
           });
         });
 
-        let fileLanguage = $scope.pathLanguage + $scope.paramId + '_' + lan + '.json';
+        let fileLanguage = $scope.pathLanguage + $rootScope.userInfo.id + '_' + lan + '.json&rand=' + Math.random();
         $.when($.get(fileLanguage))
         .done(function(languageSaved) {
 

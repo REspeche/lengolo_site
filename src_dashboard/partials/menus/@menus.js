@@ -122,9 +122,9 @@ angular.module('mainApp').controller('menusController', ['$scope', 'mainSvc', 'a
           });
         };
 
-        $scope.setMultipleLanguage = function(item) {
+        $scope.setMultipleLanguage = function() {
           actionSvc.goToAction(21, {
-            id: item.id
+            id: 0
           }); //set language
         };
 
