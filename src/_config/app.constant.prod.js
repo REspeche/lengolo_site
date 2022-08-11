@@ -19,7 +19,7 @@ mainApp.constant('BASE_URL', {
     'meta': {
       'keywords': 'IOT, internet of things, internet de las cosas, internet das coisas, financiacion, financiamento, garage, internet, campañas, campaign, campanhas, software, Kickstarter, Indiegogo, Crowdfunding.'
     },
-    'dateExpire': '01/07/2022'
+    'dateExpire': '01/09/2022'
   })
   .constant('COOKIES', {
     'files': {

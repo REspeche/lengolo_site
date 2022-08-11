@@ -29,6 +29,18 @@ angular.module('mainApp').controller('panelController', ['$scope', 'mainSvc', 'a
               }
             );
           };
+          if ($rootScope.userInfo.isDebtor==1 && daysToExpire<-10) {
+            let nowDate = new Date();
+            modalSvc.showModal({
+                templateUrl: '/templates/modals/modalExpiredSystem.html',
+                size: 'sm'
+              },
+              {
+                  closeButtonText: undefined,
+                  defer: false
+              }
+            );
+          };
 
           /* Load general panel */
           mainSvc.callService({
