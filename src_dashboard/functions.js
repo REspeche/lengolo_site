@@ -377,3 +377,8 @@ function initRangeTime(timeS, timeE, controller) {
       this.selectionEnd = start + 1;
     };
   }
+
+  function changeProtocolSSL(url) {
+    var ssl = ('https:' == document.location.protocol)?true:false;
+    return (ssl)?url.replace('http:','https:').replace(':8080',':443'):url;
+  }

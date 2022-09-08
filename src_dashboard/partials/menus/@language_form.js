@@ -5,7 +5,7 @@ angular.module('mainApp').controller('languageFormController', ['$rootScope', '$
       $scope.paramId = 0;
       $scope.originalDataBD = [];
       $scope.languageData = {};
-      $scope.pathLanguage = BASE_URL.api + '/v1/common/viewFile?type=language&file=';
+      $scope.pathLanguage = changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=language&file=';
       $scope.viewLanguage = undefined;
       $scope.availableLanguages = [];
 

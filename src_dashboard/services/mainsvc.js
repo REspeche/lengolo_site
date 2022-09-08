@@ -114,7 +114,7 @@ mainApp.factory('mainSvc', ['BASE_URL', '$rootScope', '$http', '$q', '$timeout',
 				var version = '';
 				var p = Object.assign({}, _paramSvc, paramSvc);
 				if (p.version!='') version = '/v' + p.version;
-				if (p.concatURL) p.path = BASE_URL.api + version + '/' + ((p.secured) ? 'secured/' : '');
+				if (p.concatURL) p.path = changeProtocolSSL(BASE_URL.api) + version + '/' + ((p.secured) ? 'secured/' : '');
 				return runCallService(p);
 			}
 

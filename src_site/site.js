@@ -1,6 +1,6 @@
 mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$location', '$cookies', 'COOKIES', 'modalSvc', '$q', '$window',
   function ($scope, mainSvc, BASE_URL, $location, $cookies, COOKIES, modalSvc, $q, $window) {
-    var socket = io(BASE_URL.socket);
+    var socket = (!isProtocolSSL)?io(BASE_URL.socket):undefined;
     var useCDN = true;
     var isNavCategoriesVisible = false;
     var timerHideNav = null;
@@ -10,10 +10,10 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
     var fileCss = undefined;
     var fileLanguage = undefined;
 
-    $scope.pathProfile = (!useCDN)?BASE_URL.api + '/v1/common/viewFile?type=profile&size=small&file=':BASE_URL.cdn + '/profiles/small/';
-    $scope.pathProduct = (!useCDN)?BASE_URL.api + '/v1/common/viewFile?type=product&size=small&file=':BASE_URL.cdn + '/products/small/';
-    $scope.pathCss = BASE_URL.api + '/v1/common/viewFile?type=css&file=';
-    $scope.pathLanguage = BASE_URL.api + '/v1/common/viewFile?type=language&file=';
+    $scope.pathProfile = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=profile&size=small&file=':BASE_URL.cdn + '/profiles/small/';
+    $scope.pathProduct = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=product&size=small&file=':BASE_URL.cdn + '/products/small/';
+    $scope.pathCss = changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=css&file=';
+    $scope.pathLanguage = changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=language&file=';
     $scope.restaurant = {};
     $scope.paramCode = undefined;
     $scope.paramMenu = undefined;
@@ -92,9 +92,11 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
 
       if (!$scope.isDebug && $scope.paramCode) {
         /* open socket for updates */
-        socket.on('refresh_'+$scope.paramCode, function(value){
-          if (value==1) $scope.refreshMenu();
-        });
+        if (socket) {
+          socket.on('refresh_'+$scope.paramCode, function(value){
+            if (value==1) $scope.refreshMenu();
+          });
+        };
 
         /* Load Menu */
         mainSvc.callService({
@@ -725,19 +727,21 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
         secured: false
       }).then(function (response) {
         $scope.dataOrder = angular.copy(response);
-        if ($scope.dataOrder && $scope.dataOrder.id) {
-          socket.on('refresh_'+$scope.paramCode+'-'+$scope.dataClient.hash, function(value){
-            $scope.$apply(
-              function() {
-                let objOrder = angular.fromJson(value);
-                $scope.dataOrder.status = objOrder.status;
-              }
-            );
-          });
-        }
-        else {
-          socket.off('refresh_'+$scope.paramCode+'-'+$scope.dataClient.hash);
-        }
+        if (socket) {
+          if ($scope.dataOrder && $scope.dataOrder.id) {
+            socket.on('refresh_'+$scope.paramCode+'-'+$scope.dataClient.hash, function(value){
+              $scope.$apply(
+                function() {
+                  let objOrder = angular.fromJson(value);
+                  $scope.dataOrder.status = objOrder.status;
+                }
+              );
+            });
+          }
+          else {
+            socket.off('refresh_'+$scope.paramCode+'-'+$scope.dataClient.hash);
+          };
+        };
 
       });
     };

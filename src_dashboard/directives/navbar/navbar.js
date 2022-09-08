@@ -5,7 +5,7 @@ mainApp.directive('navBar', function() {
       controller: ['$scope', 'modalSvc', 'authenticationSvc', 'actionSvc', 'mainSvc', '$rootScope', 'BASE_URL', '$window', '$translate',
       function ($scope, modalSvc, authenticationSvc, actionSvc, mainSvc, $rootScope, BASE_URL, $window, $translate) {
         $scope.lstAlerts = [];
-        $scope.path = BASE_URL.api + '/v1/common/viewFile?type=profile&file=';
+        $scope.path = changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=profile&file=';
         $rootScope.showRefresh = false;
 
         $scope.loadTopBar = function() {
@@ -112,11 +112,11 @@ mainApp.directive('navBar', function() {
                 $rootScope.alerts.isChange = 0;
                 mainSvc.showAlertByCode(7);
             });
-          });  
+          });
         };
 
         $scope.viewMenuDesktop = function() {
-          $window.open(BASE_URL.menu+$rootScope.userInfo.codeMenu+'?print=1', '_blank');
+          $window.open(changeProtocolSSL(BASE_URL.menu)+$rootScope.userInfo.codeMenu+'?print=1', '_blank');
         }
 
       }],

@@ -40,7 +40,7 @@ function initializeTooltips () {
                 fontSize: '10px',
                 offset: 1
             });
-        });   
+        });
     };
 };
 
@@ -59,7 +59,7 @@ function getHiddenProp(){
 
     // otherwise loop over all the known prefixes until we find one
     for (var i = 0; i < prefixes.length; i++){
-        if ((prefixes[i] + 'Hidden') in document) 
+        if ((prefixes[i] + 'Hidden') in document)
             return prefixes[i] + 'Hidden';
     }
 
@@ -103,16 +103,24 @@ function supports_html5_storage() {
 
 function removeAccents(value) {
     return value
-        .replace(/á/g, 'a')            
+        .replace(/á/g, 'a')
         .replace(/é/g, 'e')
         .replace(/í/g, 'i')
         .replace(/ó/g, 'o')
         .replace(/ú/g, 'u')
-        .replace(/Á/g, 'A')            
+        .replace(/Á/g, 'A')
         .replace(/É/g, 'E')
         .replace(/Í/g, 'I')
         .replace(/Ó/g, 'O')
         .replace(/Ú/g, 'U');
+}
+
+function isProtocolSSL() {
+  return ('https:' == document.location.protocol)?true:false;
+}
+
+function changeProtocolSSL(url) {
+  return (isProtocolSSL())?url.replace('http:','https:').replace(':8080',':443'):url;
 }
 
 /* Prototype functions */
@@ -123,4 +131,3 @@ String.prototype.format = function() {
     }
     return a
 }
-

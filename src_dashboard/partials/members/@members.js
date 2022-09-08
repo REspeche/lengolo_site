@@ -4,8 +4,8 @@ angular.module('mainApp').controller('membersController', ['$scope', 'mainSvc', 
         $scope.members = [];
         $scope.countRequest = [];
         $scope.loadList = false;
-        $scope.path = BASE_URL.api + '/v1/common/viewFile?type=profile&file=';
-        $scope.pathMenu = BASE_URL.menu;
+        $scope.path = changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=profile&file=';
+        $scope.pathMenu = changeProtocolSSL(BASE_URL.menu);
 
         $scope.loadMembers = function() {
           mainSvc.callService({

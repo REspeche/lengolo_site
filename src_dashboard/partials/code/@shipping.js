@@ -3,7 +3,7 @@ angular.module('mainApp').controller('shippingController', ['$scope', 'mainSvc',
 
         $scope.lstShipping = [];
         $scope.loadList = false;
-        $scope.path = BASE_URL.api + '/v1/common/viewFile?type=profile&file=';
+        $scope.path = changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=profile&file=';
 
         $scope.loadShipping = function() {
           /* Load Shipping */
@@ -33,7 +33,7 @@ angular.module('mainApp').controller('shippingController', ['$scope', 'mainSvc',
           actionSvc.goToAction(14); //new code QR
         };
 
-        $scope.nextStatus = function(item) { 
+        $scope.nextStatus = function(item) {
           mainSvc.callService({
               url: 'setting/setNextStatusShipping',
               params: {

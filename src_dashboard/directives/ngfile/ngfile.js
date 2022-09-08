@@ -13,7 +13,7 @@ mainApp.directive('ngFile', function() {
       controller:['$scope', 'mainSvc', 'modalSvc', '$rootScope', 'CONSTANTS', 'BASE_URL', '$translate',
       function ($scope, mainSvc, modalSvc, $rootScope, CONSTANTS, BASE_URL, $translate) {
         $scope.maxFileUpload = CONSTANTS.maxFileUpload;
-        $scope.path = BASE_URL.api + '/v1/common/viewFile?file=';
+        $scope.path = changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?file=';
         $scope.size = CONSTANTS.files[$scope.type];
 
         $scope.viewLarge = function() {

@@ -1,6 +1,6 @@
 angular.module('mainApp').controller('ordersController', ['$scope', 'mainSvc', '$rootScope', 'BASE_URL', 'modalSvc', '$translate', '$q', '$timeout',
     function ($scope, mainSvc, $rootScope, BASE_URL, modalSvc, $translate, $q, $timeout) {
-        var socket = io(BASE_URL.socket);
+        var socket = io(changeProtocolSSL(BASE_URL.socket));
         $scope.orders = [];
         $scope.loadList = false;
 
@@ -42,7 +42,7 @@ angular.module('mainApp').controller('ordersController', ['$scope', 'mainSvc', '
             });
         }
 
-        $scope.nextStatus = function(item) { 
+        $scope.nextStatus = function(item) {
             mainSvc.callService({
                 url: 'order/setNextStatus',
                 params: {
@@ -75,7 +75,7 @@ angular.module('mainApp').controller('ordersController', ['$scope', 'mainSvc', '
                   beforeClose: function (scope) {
                     var defered = $q.defer();
                     var promise = defered.promise;
-    
+
                     mainSvc.callService({
                         url: 'order/setOrderStatus',
                         params: {
@@ -91,10 +91,10 @@ angular.module('mainApp').controller('ordersController', ['$scope', 'mainSvc', '
                         }
                         else {
                             mainSvc.showAlertByCode(response.code);
-                            defered.resolve(false);    
+                            defered.resolve(false);
                         }
                     });
-                    
+
                     return promise;
                   }
               });
@@ -130,7 +130,7 @@ angular.module('mainApp').controller('ordersController', ['$scope', 'mainSvc', '
                 // open modal
                 modalSvc.showModal({
                     size: 'lg',
-                    templateUrl: '/templates/modals/modalDetailOrder.html' 
+                    templateUrl: '/templates/modals/modalDetailOrder.html'
                 },
                 {
                     arrItems: $scope.dataDetailOrder,

@@ -19,8 +19,9 @@ mainApp.config(['$qProvider', '$locationProvider',
 mainApp.config(['$translateProvider',
   function($translateProvider) {
     $translateProvider
-      .registerAvailableLanguageKeys(['es'], {
-        'es_*': 'es'
+      .registerAvailableLanguageKeys(['es', 'en'], {
+        'es_*': 'es',
+        'en_*': 'en'
       })
       .useStaticFilesLoader({
         files: [
@@ -35,7 +36,7 @@ mainApp.config(['$translateProvider',
         ]
       })
       .preferredLanguage('es')
-      .use('es')
+      .use('en')
       .useLocalStorage()
       .useSanitizeValueStrategy('sanitizeParameters');
   }

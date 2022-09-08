@@ -15,7 +15,7 @@ angular.module('mainApp').controller('menuFormController', ['$scope', 'actionSvc
         };
         $scope.codeStyle = '';
         $scope.editForm = false;
-        $scope.path = BASE_URL.api + '/v1/common/viewFile?type=css&file=';
+        $scope.path = changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=css&file=';
 
         $scope.loadFormMenu = function() {
           $scope.paramAction = $stateParams.action;

@@ -3,7 +3,7 @@ angular.module('mainApp').controller('menusController', ['$scope', 'mainSvc', 'a
 
         $scope.lstMenus = [];
         $scope.loadList = false;
-        $scope.path = BASE_URL.api + '/v1/common/viewFile?type=codes&size=large&file=';
+        $scope.path = changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=codes&size=large&file=';
 
         $scope.loadMenus = function() {
           $scope.getMenus();
