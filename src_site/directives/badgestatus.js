@@ -1,4 +1,4 @@
-mainApp.directive('badgeStatus', function() {
+mainApp.directive('badgeStatus',['$translate', function ($translate) {
 
     return {
         restrict: 'E',
@@ -18,12 +18,12 @@ mainApp.directive('badgeStatus', function() {
                 switch (parseInt($scope.id)) {
                   case 1:
                     $scope.color = 'danger';
-                    $scope.label = 'Pendiente';
+                    $scope.label = $translate.instant('BUD_PENDING');
                     $scope.icon = 'clock';
                     break;
                   case 2:
                     $scope.color = 'warning';
-                    $scope.label = 'Cocinando';
+                    $scope.label = $translate.instant('BUD_COOKING');
                     $scope.icon = 'utensils';
                     break;
                   case 3:
@@ -34,22 +34,22 @@ mainApp.directive('badgeStatus', function() {
                         $scope.icon = 'truck';
                         break;
                       case 4:
-                        $scope.label = 'Llamando';
+                        $scope.label = $translate.instant('BUD_CALLING');
                         $scope.icon = 'bullhorn';
                         break;
                       default:
-                        $scope.label = 'Camino';
+                        $scope.label = $translate.instant('BUD_ON_WAY');
                         $scope.icon = 'shoe-prints';
                     };
                     break;
                   case 4:
                     $scope.color = 'success';
-                    $scope.label = 'Entregado';
+                    $scope.label = $translate.instant('BUD_DELIVERED');
                     $scope.icon = 'thumbs-up';
                     break;
                   case 5:
                     $scope.color = 'dark';
-                    $scope.label = 'Cancelado';
+                    $scope.label = $translate.instant('BUD_CANCELED');
                     $scope.icon = 'thumbs-down';
                     break;
                 }
@@ -58,4 +58,4 @@ mainApp.directive('badgeStatus', function() {
         }],
         template: '<span class="badge badge-pill badge-{{color}} py-1 px-2">{{label}}<i class="fas fa-{{icon}}"></i></span>'
     };
-});
+}]);

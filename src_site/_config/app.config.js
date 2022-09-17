@@ -5,9 +5,35 @@ mainApp.config(['$cookiesProvider', 'COOKIES',
   }
 ]);
 
-mainApp.config( [ '$locationProvider', function( $locationProvider ) {
-    // In order to get the query string from the
-    // $location object, it must be in HTML5 mode.
-    $locationProvider.html5Mode( true );
- }
+mainApp.config(['$qProvider', '$locationProvider',
+  function($qProvider, $locationProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+    });
+  }
+]);
+
+mainApp.config(['$translateProvider',
+  function($translateProvider) {
+    $translateProvider
+      .registerAvailableLanguageKeys(['es', 'en'], {
+        'es_*': 'es',
+        'en_*': 'en'
+      })
+      .useStaticFilesLoader({
+        files: [
+          {
+              prefix: '/translations/locate-',
+              suffix: '.json'
+          }
+        ]
+      })
+      .preferredLanguage('en')
+      .use('en')
+      .useLocalStorage()
+      .useSanitizeValueStrategy('sanitizeParameters');
+  }
 ]);

@@ -35,7 +35,7 @@ mainApp.config(['$translateProvider',
           }
         ]
       })
-      .preferredLanguage('es')
+      .preferredLanguage('en')
       .use('en')
       .useLocalStorage()
       .useSanitizeValueStrategy('sanitizeParameters');

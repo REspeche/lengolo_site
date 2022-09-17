@@ -1,5 +1,5 @@
-mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$location', '$cookies', 'COOKIES', 'modalSvc', '$q', '$window',
-  function ($scope, mainSvc, BASE_URL, $location, $cookies, COOKIES, modalSvc, $q, $window) {
+mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$location', '$cookies', 'COOKIES', 'modalSvc', '$q', '$window', '$translate',
+  function ($scope, mainSvc, BASE_URL, $location, $cookies, COOKIES, modalSvc, $q, $window, $translate) {
     var socket = (!isProtocolSSL())?io(BASE_URL.socket):undefined;
     var useCDN = true;
     var isNavCategoriesVisible = false;
@@ -275,11 +275,9 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
               let _x = undefined;
               angular.forEach(arr, function(cObj, cIdx) {
                 if (!_x) {
-                  if (cObj.childs && cObj.childs.length > 0) {
-                    return findByProId(cObj.childs, id);
-                  }
-                  else {
-                    _x = cObj.data.find(x => x.id == id);
+                  _x = cObj.data.find(x => x.id == id);
+                  if (!_x && cObj.childs && cObj.childs.length > 0) {
+                    _x = findByProId(cObj.childs, id);
                   };
                 };
               });
@@ -618,12 +616,12 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
 
     $scope.clickFinishOrder = function() {
       if (!$scope.isLogin && ($scope.restaurant.type==3 || $scope.restaurant.type==4)) {
-        mainSvc.showAlert().notifyWarning('Antes de realizar un pedido, debe autentificarse');
+        mainSvc.showAlert().notifyWarning($translate.instant('MSG_201'));
         $scope.login(true);
       }
       else {
         if ($scope.dataOrder && $scope.dataOrder.status<3) {
-          mainSvc.showAlert().notifyWarning('No puede realizar un pedido hasta que finalice el anterior');
+          mainSvc.showAlert().notifyWarning($translate.instant('MSG_202'));
         }
         else {
           modalSvc.showModal({
@@ -644,7 +642,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
             },
             infoLength: function(txt) {
               let size1 = 200 - ((txt)?txt.length:0);
-              return new String('Máximo 200 caracteres. Quedan {0} por ingresar.').format(size1);
+              return new String($translate.instant('INF_MAX_CHARACTER')).format(size1);
             },
             beforeClose: function (scope) {
               var defered = $q.defer();
@@ -690,11 +688,11 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
                     $scope.getLoginData();
                   }
 
-                  mainSvc.showAlert().notifySuccess('El pedido fue realizado satisfactoriamente!');
+                  mainSvc.showAlert().notifySuccess($translate.instant('MSG_001'));
                   defered.resolve(true);
                 }
                 else {
-                  mainSvc.showAlert().notifyError('Hubo un problema para crear el pedido. Por favor comuníquese con el restaurante.');
+                  mainSvc.showAlert().notifyError($translate.instant('MSG_301'));
                   defered.resolve(false);
                 }
               });
@@ -779,7 +777,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
               },{
                 closeButtonText: "No",
                 actionButtonText: "Si",
-                bodyText: "Está seguro que desea continuar con esta acción?"
+                bodyText: $translate.instant('TXT_ASK_ACTION')
               }).then(function (result) {
                 mainSvc.callService({
                   url: 'order/cancelOrder',
@@ -792,11 +790,11 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
                 }).then(function (response) {
                   if (response.code==0) {
                     $scope.dataOrder.status = 5;
-                    mainSvc.showAlert().notifySuccess('Su orden fue cancelada!');
+                    mainSvc.showAlert().notifySuccess($translate.instant('MSG_002'));
                     _mo.close();
                   }
                   else {
-                    mainSvc.showAlert().notifyWarning('No hemos podido cancelar la orden. Por favor, comuníquese con el restaurante.');
+                    mainSvc.showAlert().notifyWarning($translate.instant('MSG_203'));
                   }
 
                 });
@@ -810,13 +808,16 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
       modalSvc.showModal({
         size: 'sm'
       },{
-        closeButtonText: "No",
-        actionButtonText: "Si",
-        bodyText: "Está seguro que desea cerrar su sesión?"
+        closeButtonText: $translate.instant('BTN_NO'),
+        actionButtonText: $translate.instant('BTN_YES'),
+        bodyText: $translate.instant('TXT_ASK_CLOSE'),
+        beforeClose: function(scope) {
+          $cookies.remove(COOKIES.files.client);
+          $scope.dataOrder = {};
+          $scope.isLogin = false;
+          return true;
+        }
       }).then(function (result) {
-        $cookies.remove(COOKIES.files.client);
-        $scope.dataOrder = {};
-        $scope.isLogin = false;
         if (typeof _mo.close=='function') _mo.close();
       });
     };
@@ -868,7 +869,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
                   }
                   else {
                     defered.resolve(false);
-                    mainSvc.showAlert().notifyError('Hubo un error en el registro');
+                    mainSvc.showAlert().notifyError($translate.instant('MSG_302'));
                   }
                 }
                 else {
@@ -882,7 +883,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
             }
             else {
               defered.resolve(false);
-              mainSvc.showAlert().notifyInfo('Ingrese una cuenta de correo para continuar');
+              mainSvc.showAlert().notifyInfo($translate.instant('MSG_101'));
             }
 
 
@@ -908,7 +909,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
             zip: $scope.dataClient.zip,
             isLogin: true
           },
-          closeSession: $scope.closeSession,
+          lnkCloseSession: $scope.closeSession,
           beforeClose: function (scope) {
             var defered = $q.defer();
             var promise = defered.promise;
@@ -942,7 +943,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
                   }
                   else {
                     defered.resolve(false);
-                    mainSvc.showAlert().notifyError('Hubo un error en el cambio');
+                    mainSvc.showAlert().notifyError($translate.instant('MSG_302'));
                   }
                 }
                 else {
@@ -1029,7 +1030,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
       if (
         $scope.formN86.group == '0'
       ) {
-        mainSvc.showAlert().notifyWarning('Cuantas personas integran el grupo?');
+        mainSvc.showAlert().notifyWarning($translate.instant('MSG_204'));
         return false;
       }
       if (
@@ -1038,7 +1039,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
         || $scope.formN86.dni == ''
         || $scope.formN86.address == ''
       ) {
-        mainSvc.showAlert().notifyWarning('Debe completar los campos marcados con un asterisco para continuar');
+        mainSvc.showAlert().notifyWarning($translate.instant('MSG_205'));
         return false;
       }
       // ok form
@@ -1050,7 +1051,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
           secured: false
       }).then(function (response) {
           if (response.code==0) {
-            mainSvc.showAlert().notifySuccess('Gracias por su colaboración!');
+            mainSvc.showAlert().notifySuccess($translate.instant('MSG_003'));
             if ($scope.formN86.restaurant && typeof $scope.formN86.restaurant == 'object') {
               let found = false;
               angular.forEach($scope.formN86.restaurant, function(item, key) {
@@ -1078,7 +1079,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
             $scope.scrollToTop();
           }
           else {
-            mainSvc.showAlert().notifyWarning('Hubo un error en el guardado de los datos. Por favor comuniquese con el mozo para solucionar el problema.');
+            mainSvc.showAlert().notifyWarning($translate.instant('MSG_302'));
           }
         });
     };

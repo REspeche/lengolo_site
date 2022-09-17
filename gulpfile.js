@@ -61,6 +61,10 @@ var arrFrameworkSiteJs = [
     'framework/js/angular/angular-sanitize.min.js',
     'framework/js/angular/angular-cookies.min.js',
     'framework/js/bootstrap/ui-bootstrap-tpls.js',
+    'framework/js/addons/angular-translate/angular-translate.min.js',
+    'framework/js/addons/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+    'framework/js/addons/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
+    'framework/js/addons/angular-translate-storage-local/angular-translate-storage-local.js',
     'framework/js/addons/modernizr-custom.js',
     'framework/js/socket.io.js',
     'framework/js/addons/toastr.min.js',
@@ -140,8 +144,7 @@ function createFrameworkDashboard (done) {
 function createTranslations (done) {
     //translations
     gulp.src([
-        'src_site/translations/locate-*.json',
-        'src/translations/general-*.json'
+        'src_site/translations/locate-*.json'
       ])
       .pipe(gulp.dest(pathBuildSite+'/translations/'));
 
@@ -155,8 +158,7 @@ function createTranslations (done) {
 function createTranslationsSite (done) {
     //translations
     gulp.src([
-        'src_site/translations/locate-*.json',
-        'src/translations/general-*.json'
+        'src_site/translations/locate-*.json'
       ])
       .pipe(gulp.dest(pathBuildSite+'/translations/'));
     done();
