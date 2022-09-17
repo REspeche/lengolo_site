@@ -15,7 +15,7 @@
     </div>
     <a href="#" ng-click="modalOptions.formData.notUser=true;" ng-hide="modalOptions.formData.notUser || modalOptions.formData.isLogin">No me encuentro registrado</a>
     <section ng-show="modalOptions.formData.notUser">
-      <div class="form-row">
+      <div class="form-row" ng-show="modalOptions.formData.type==3">
         <div class="col-8">
           <label for="txtName">Nombre Completo</label>
           <input type="text" class="form-control" id="txtName" ng-model="modalOptions.formData.name" maxlength="100">
@@ -24,6 +24,10 @@
           <label for="txtPhone">Teléfono</label>
           <input type="text" class="form-control" id="txtPhone" ng-model="modalOptions.formData.phone" maxlength="45">
         </div>
+      </div>
+      <div class="form-group" ng-show="modalOptions.formData.type==4">
+        <label for="txtName">Nombre (para ser llamado)</label>
+        <input type="text" class="form-control" id="txtName" ng-model="modalOptions.formData.name" maxlength="100">
       </div>
       <div class="form-row" ng-show="modalOptions.formData.type==1">
         <div class="col-10">

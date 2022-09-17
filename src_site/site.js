@@ -1,6 +1,6 @@
 mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$location', '$cookies', 'COOKIES', 'modalSvc', '$q', '$window',
   function ($scope, mainSvc, BASE_URL, $location, $cookies, COOKIES, modalSvc, $q, $window) {
-    var socket = (!isProtocolSSL)?io(BASE_URL.socket):undefined;
+    var socket = (!isProtocolSSL())?io(BASE_URL.socket):undefined;
     var useCDN = true;
     var isNavCategoriesVisible = false;
     var timerHideNav = null;
@@ -327,12 +327,14 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
 
     $scope.processHeaderRestaurant = function() {
       let timeNow = getTimeNowInMinutes();
-      if (!($scope.restaurant.timeMenuS<timeNow && $scope.restaurant.timeMenusE>timeNow) || $scope.restaurant.canDelivery==0) {
+      if (!($scope.restaurant.timeMenuS<timeNow && $scope.restaurant.timeMenuE>timeNow) || $scope.restaurant.canDelivery==0) {
         $scope.showDelivery = false;
         $scope.restaurant.canDelivery=0;
       };
       if ($scope.restaurant.website && $scope.restaurant.website.indexOf('http')<0) $scope.restaurant.website = 'http://' + $scope.restaurant.website;
-
+      if ($scope.restaurant.type==4) {
+        $scope.showDelivery = 1;
+      };
       if ($scope.showDelivery) {
         $scope.getLoginData();
         $scope.itemsToOrder = $scope.getCookie(COOKIES.files.order, []);
@@ -615,7 +617,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
     };
 
     $scope.clickFinishOrder = function() {
-      if (!$scope.isLogin && $scope.restaurant.type==3) {
+      if (!$scope.isLogin && ($scope.restaurant.type==3 || $scope.restaurant.type==4)) {
         mainSvc.showAlert().notifyWarning('Antes de realizar un pedido, debe autentificarse');
         $scope.login(true);
       }
@@ -736,6 +738,13 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
                   $scope.dataOrder.status = objOrder.status;
                 }
               );
+              if ($scope.dataOrder.status>=4) {
+                setTimeout(function() {
+                  $scope.$apply(function() {
+                    $scope.dataOrder = {};
+                  });
+                }, 10000);
+              };
             });
           }
           else {
@@ -906,7 +915,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
 
             if (
               $scope.dataClient.name!=scope.modalOptions.formData.name ||
-              $scope.dataClient.phone!=scope.modalOptions.formData.phone ||
+              ($scope.restaurant.type==3 && $scope.dataClient.phone!=scope.modalOptions.formData.phone) ||
               ($scope.restaurant.type==1 && $scope.dataClient.address!=scope.modalOptions.formData.address) ||
               ($scope.restaurant.type==1 && $scope.dataClient.zip!=scope.modalOptions.formData.zip)
             ) {

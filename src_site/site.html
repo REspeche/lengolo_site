@@ -72,9 +72,9 @@
         <img class="rounded-circle" lazy-src="{{::pathProfile + restaurant.avatar}}" animate-visible="true" animate-speed="0.5s">
     </div>
     <div id="navbar" ng-show="showDelivery">
-      <div class="name-user" ng-show="restaurant.type==3">
+      <div class="name-user" ng-show="restaurant.type==3 || restaurant.type==4">
         <div ng-show="isLogin" class="text-success">
-          <div ng-click="changeDataUser()">{{::dataClient.name}}<i class="fas fa-user"></i></div>
+          <div ng-click="changeDataUser()">{{dataClient.name}}<i class="fas fa-user"></i></div>
         </div>
         <div ng-hide="isLogin" class="text-info">
           <div ng-click="login(false)">Autentificarse<i class="far fa-user"></i></div>
@@ -173,7 +173,7 @@
 
   <div class="bar-buttons hidden-print" ng-hide="lstItems.length==0">
     <a href="javascript:void(0)" class="btnFloating scrollToTop" ng-click="scrollToTop()" ng-hide="itemsToOrder.length>0 || showFormN86"><i class="fa fa-arrow-up"></i></a>
-    <a href="javascript:void(0)" class="btnFloating typeShippingSelect" ng-show="itemsToOrder.length==0 && restaurant.canDelivery==1 && lstItems.length>0 && !showFormN86" ng-click="changeType()"><i class="fa" ng-class="{ 'fa-undo': showDelivery, 'fa-receipt': !showDelivery}"></i></a>
+    <a href="javascript:void(0)" class="btnFloating typeShippingSelect" ng-show="itemsToOrder.length==0 && restaurant.canDelivery==1 && lstItems.length>0 && !showFormN86 && restaurant.type!=4" ng-click="changeType()"><i class="fa" ng-class="{ 'fa-undo': showDelivery, 'fa-receipt': !showDelivery && restaurant.type!=4, 'fa-truck': !showDelivery && restaurant.type==4}"></i></a>
     <a href="javascript:void(0)" class="btnFloating btnFormN86" ng-click="wantToShowFormN86()" ng-show="shouldBeViewFormN86"><i class="fa fa-virus"></i></a>
     <a href="javascript:void(0)" class="btnFloating btnSearch" ng-click="showFind()" ng-hide="showFormN86"><i class="fa fa-search"></i></a>
     <input type="text" class="form-control inputSearch" maxlength="50" ng-class="{'visible': viewSearchInput}" ng-model="txtSearch" ng-hide="showFormN86"/>

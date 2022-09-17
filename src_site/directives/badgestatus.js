@@ -4,7 +4,7 @@ mainApp.directive('badgeStatus', function() {
         restrict: 'E',
         scope: {
             id: '@',
-            usrType: '@',
+            usrtype: '@',
             type: '@'
         },
         controller: ['$scope',
@@ -28,14 +28,19 @@ mainApp.directive('badgeStatus', function() {
                     break;
                   case 3:
                     $scope.color = 'info';
-                    if ($scope.usrType==3) {
-                      $scope.label = 'Delivery';
-                      $scope.icon = 'truck';
-                    }
-                    else {
-                      $scope.label = 'Camino';
-                      $scope.icon = 'shoe-prints';
-                    }
+                    switch (parseInt($scope.usrtype)) {
+                      case 3:
+                        $scope.label = 'Delivery';
+                        $scope.icon = 'truck';
+                        break;
+                      case 4:
+                        $scope.label = 'Llamando';
+                        $scope.icon = 'bullhorn';
+                        break;
+                      default:
+                        $scope.label = 'Camino';
+                        $scope.icon = 'shoe-prints';
+                    };
                     break;
                   case 4:
                     $scope.color = 'success';
