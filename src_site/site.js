@@ -330,7 +330,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
         $scope.restaurant.canDelivery=0;
       };
       if ($scope.restaurant.website && $scope.restaurant.website.indexOf('http')<0) $scope.restaurant.website = 'http://' + $scope.restaurant.website;
-      if ($scope.restaurant.type==4) {
+      if ($scope.restaurant.type==4 && $scope.restaurant.canDelivery==1) {
         $scope.showDelivery = 1;
       };
       if ($scope.showDelivery) {
