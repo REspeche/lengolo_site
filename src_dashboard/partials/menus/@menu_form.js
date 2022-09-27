@@ -11,7 +11,8 @@ angular.module('mainApp').controller('menuFormController', ['$scope', 'actionSvc
           days: [1,1,1,1,1,1,1],
           canDelivery: 0,
           ownStyle: 0,
-          rate: 1
+          rate: 1,
+          formCovid19: 0
         };
         $scope.codeStyle = '';
         $scope.editForm = false;
@@ -89,7 +90,8 @@ angular.module('mainApp').controller('menuFormController', ['$scope', 'actionSvc
                   'usrId': $rootScope.userInfo.id,
                   'menId': ($scope.paramAction=='new')?0:$scope.paramId,
                   'codeStyle': $scope.codeStyle,
-                  'codeMenu': $rootScope.userInfo.codeMenu
+                  'codeMenu': $rootScope.userInfo.codeMenu,
+                  'formCovid19': $scope.formData.formCovid19
                 }, $scope.formData)
             }).then(function (response) {
               if (response.code==0) {

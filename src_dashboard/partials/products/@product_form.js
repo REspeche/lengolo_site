@@ -11,6 +11,7 @@ angular.module('mainApp').controller('productFormController', ['$scope', 'action
           name: '',
           excerpt: '',
           price: 0,
+          rate: 1,
           manyPrices: '',
           enable: 1,
           addOtherProduct: false,
@@ -92,10 +93,10 @@ angular.module('mainApp').controller('productFormController', ['$scope', 'action
 
         $scope.selectCategory = function(_y) {
           $state.go('.', {
-            menId: $scope.menId, 
+            menId: $scope.menId,
             catId: $scope.formData.catId
           }, {notify: false});
-          
+
           let index = $scope.lstCategories.findIndex( record => record.id == $scope.formData.catId );
           $scope.manyPrices = ($scope.lstCategories[index].manyPrices)?$scope.lstCategories[index].manyPrices:null;
 
@@ -135,7 +136,7 @@ angular.module('mainApp').controller('productFormController', ['$scope', 'action
             $('#frmProduct').removeClass('was-validated');
             //Validations
             if (
-              !$scope.formData.name || 
+              !$scope.formData.name ||
               $scope.formData.catId==0 ||
               (
                 ($scope.manyPrices && !$scope.formData.manyPrices)
@@ -235,15 +236,16 @@ angular.module('mainApp').controller('productFormController', ['$scope', 'action
         }
 
         $scope.calculatePrice = function(item) {
-          let price = item.price;
+          let _price = item.price;
+          let _rate = (item.rate)?item.rate:1;
           if (item.manyPrices) {
             let manyP='';
             angular.forEach(item.manyPrices.split('|'), function(i, k){
               if (manyP!='') manyP+='|';
-              manyP+=Math.round(i * item.rate);
+              manyP+=Math.round(i * _rate);
             });
             return manyP;
           }
-          return Math.round(item.price * item.rate);
+          return Math.round(_price * _rate);
         }
     }]);
