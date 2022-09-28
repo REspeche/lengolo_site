@@ -14,6 +14,30 @@
         </div>
       </div>
 
+      <div class="card mb-4 card-filter">
+        <div class="card-body">
+          <i class="fas fa-copy mr-2 text-muted"></i>
+          <div class="d-inline-block">
+            <select id="cmbFilterMen" class="browser-default custom-select"
+              ng-model="menIdSelect" ng-change="selectMenu()" ng-disabled="lstMenus.length==1"
+              ng-options="x.id as x.label for x in lstMenus">
+            </select>
+          </div>
+          <div class="ml-4 d-inline-block">
+            <i class="fas fa-calendar mr-2 text-muted"></i>
+            <div class="d-inline-block">
+              <select id="cmbFilterPeriod" class="browser-default custom-select"
+                ng-model="periodSelect" ng-change="selectPeriod()"
+                ng-options="y.id as y.label for y in lstPeriods">
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-warning" role="alert" ng-show="menIdSelect==0"><i class="fas fa-exclamation-triangle"></i> <span translate="MSG_NOT_ALERT_ORDER">If not select any menu then we can not play a sound alert when an update occurs.</span></div>
+      <div class="alert alert-warning" role="alert" ng-show="periodSelect>0"><i class="fas fa-exclamation-triangle"></i> <span translate="MSG_FILTER_PERIOD">When you select a period greater than 24 hours the completed orders will not be displayed.</span></div>
+
       <!--Table-->
       <div ng-hide="loadList" translate="LOADING">Loading...</div>
       <div class="alert alert-primary" role="alert" ng-show="loadList && orders.length==0"><span translate="INF_EMPTY_ORDERS"></span></div>
@@ -23,6 +47,7 @@
               <tr class="text-white">
                   <th class="d-none d-sm-block d-lg-table-cell" translate="COL_ID">ID</th>
                   <th ng-show="userInfo.type==2" translate="COL_ROOM" class="text-center">Habitación</th>
+                  <th ng-show="menIdSelect==0" translate="COL_MENU">Menu</th>
                   <th translate="COL_COSTUMER">Cliente</th>
                   <th translate="COL_STATUS" class="text-center">Estado</th>
                   <th translate="COL_ITEMS">Items</th>
@@ -37,6 +62,7 @@
               <tr ng-repeat="item in orders">
                   <td class="d-none d-sm-block d-lg-table-cell">{{item.id}}</td>
                   <td ng-show="userInfo.type==2" class="text-center"><strong>{{item.room}}</strong></td>
+                  <td ng-show="menIdSelect==0" class="text-center"><strong>{{item.menu}}</strong></td>
                   <td>
                     {{item.nameClient}}
                     &nbsp;<a href="#" ng-click="copyClipboard(item.nameClient)" ng-show="userInfo.type==3"><i class="far fa-copy text-info"></i></a>

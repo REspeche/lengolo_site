@@ -667,7 +667,8 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
                   'zip': $scope.dataClient.zip,
                   'total': $scope.sumPriceItems(),
                   'comment': scope.modalOptions.formData.comment,
-                  'room': (scope.modalOptions.formData.type==2)?scope.modalOptions.formData.room:scope.modalOptions.formData.table
+                  'room': (scope.modalOptions.formData.type==2)?scope.modalOptions.formData.room:scope.modalOptions.formData.table,
+                  'menId': $scope.restaurant.menId
                 },
                 secured: false
               }).then(function (response) {
@@ -722,14 +723,15 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
         url: 'order/getOrderClient',
         params: {
           'code': $scope.paramCode,
-          'hash': $scope.dataClient.hash
+          'hash': $scope.dataClient.hash,
+          'menId': $scope.restaurant.menId
         },
         secured: false
       }).then(function (response) {
         $scope.dataOrder = angular.copy(response);
         if (socket) {
           if ($scope.dataOrder && $scope.dataOrder.id) {
-            socket.on('refresh_'+$scope.paramCode+'-'+$scope.dataClient.hash, function(value){
+            socket.on('refresh_'+$scope.restaurant.menId+'-'+$scope.dataClient.hash, function(value){
               $scope.$apply(
                 function() {
                   let objOrder = angular.fromJson(value);
@@ -746,7 +748,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
             });
           }
           else {
-            socket.off('refresh_'+$scope.paramCode+'-'+$scope.dataClient.hash);
+            socket.off('refresh_'+$scope.restaurant.menId+'-'+$scope.dataClient.hash);
           };
         };
 
@@ -770,6 +772,7 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
         {
             arrItems: $scope.dataDetailOrder,
             dataOrder: $scope.dataOrder,
+            type: $scope.restaurant.type,
             cancelOrder: function(_mo) {
               let item = _mo.dataOrder;
               modalSvc.showModal({

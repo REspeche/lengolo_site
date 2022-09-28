@@ -40,15 +40,15 @@ mainApp.directive('badgeStatus', function() {
                         break;
                       case 2:
                         $scope.color = 'warning';
-                        $scope.label = $translate.instant('BUD_PROCESSING');
+                        $scope.label = ($rootScope.userInfo.type==4)?$translate.instant('BUD_COOKING'):$translate.instant('BUD_PROCESSING');
                         break;
                       case 3:
                         $scope.color = 'info';
-                        $scope.label = $translate.instant('BUD_DELIVERY');
+                        $scope.label = ($rootScope.userInfo.type==4)?$translate.instant('BUD_CALLING'):$translate.instant('BUD_DELIVERY');
                         break;
                       case 4:
                         $scope.color = 'success';
-                        $scope.label = $translate.instant('BUD_READY');
+                        $scope.label = ($rootScope.userInfo.type==4)?$translate.instant('BUD_DELIVERY'):$translate.instant('BUD_READY');
                         break;
                       case 5:
                         $scope.color = 'dark';
