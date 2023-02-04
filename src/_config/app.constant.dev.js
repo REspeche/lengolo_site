@@ -5,7 +5,7 @@ mainApp.constant('BASE_URL', {
     'site': 'http://localhost/',
     'menu': 'http://localhost/',
     'socket': 'http://localhost:3000',
-    'cdn': 'http://incloux-lengolo-cdn.sfo3.cdn.digitaloceanspaces.com'
+    'cdn': 'http://container.lengolo.com.ar'
   })
   .constant('CONSTANTS', {
     'timeout_ajax': 35000, //milliseconds

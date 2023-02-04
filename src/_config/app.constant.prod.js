@@ -5,7 +5,7 @@ mainApp.constant('BASE_URL', {
     'site': 'http://lengolo.com.ar/',
     'menu': 'http://menu.lengolo.com.ar/',
     'socket': 'http://dashboard.lengolo.com.ar:8080',
-    'cdn': 'https://incloux-lengolo-cdn.sfo3.cdn.digitaloceanspaces.com'
+    'cdn': 'http://container.lengolo.com.ar'
   })
   .constant('CONSTANTS', {
     'timeout_ajax': 35000, //milliseconds
