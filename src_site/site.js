@@ -12,8 +12,9 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
 
     $scope.pathProfile = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=profile&size=small&file=':BASE_URL.cdn + '/profiles/small/';
     $scope.pathProduct = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=product&size=small&file=':BASE_URL.cdn + '/products/small/';
-    $scope.pathCss = changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=css&file=';
-    $scope.pathLanguage = changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=language&file=';
+    $scope.pathCss = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=css&file=':BASE_URL.cdn + '/css/';
+    $scope.pathLanguage = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=language&file=':BASE_URL.cdn + '/language/';
+    $scope.queryContact = (!useCDN)?'&':'?';
     $scope.restaurant = {};
     $scope.paramCode = undefined;
     $scope.paramMenu = undefined;
@@ -257,9 +258,11 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
         if ($scope.restaurant.multiLanguage==1 && (!$scope.jsonLanguage && lang!='es' || $scope.forceLang!=undefined)) {
           $scope.jsonLanguage = [];
           if ($scope.forceLang) lang = $scope.forceLang;
-          fileLanguage = $scope.pathLanguage + $scope.restaurant.usrId + '_' + lang + '.json&rand=' + Math.random();
-          $.when($.get(fileLanguage))
-          .done(function(languageTraslated) {
+          fileLanguage = $scope.pathLanguage + $scope.restaurant.usrId + '_' + lang + '.json' + $scope.queryContact + 'rand=' + Math.random();
+          $.ajax({
+            url: fileLanguage,
+            contentType: 'application/json'
+          }).done(function(languageTraslated) {
             $scope.jsonLanguage = angular.copy(languageTraslated);
             const findByCatId = function (data, id) {
               if (!data.length) return undefined;
@@ -313,6 +316,9 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
               };
             });
             $scope.$apply();
+          })
+          .fail(function (jqXHR, textStatus) {
+            console.log('-- error load language');
           });
         };
       }
@@ -426,10 +432,17 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
         //load custom styles
         if ( $('#customStyle').length==0 && !fileCss) {
           fileCss = $scope.pathCss + $scope.paramCode + '_' + $scope.restaurant.menId + '.css';
-          $.when($.get(fileCss))
-          .done(function(contentFile) {
+          $.ajax({
+            url: fileCss,
+            contentType: 'text/css'
+          }).done(function(contentFile) {
             $('#customStyle').remove();
             $('<style />').attr('id', 'customStyle').text(contentFile).appendTo($('head'));
+            if ($("#load_screen").length==1) $("#load_screen").remove();
+          })
+          .fail(function (jqXHR, textStatus) {
+            console.log('-- error load css');
+            $('#customStyle').remove();
             if ($("#load_screen").length==1) $("#load_screen").remove();
           });
         };
