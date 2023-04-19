@@ -10,10 +10,10 @@ mainApp.controller('siteController', [ '$scope', 'mainSvc', 'BASE_URL', '$locati
     var fileCss = undefined;
     var fileLanguage = undefined;
 
-    $scope.pathProfile = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=profile&size=small&file=':BASE_URL.cdn + '/profiles/small/';
-    $scope.pathProduct = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=product&size=small&file=':BASE_URL.cdn + '/products/small/';
-    $scope.pathCss = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=css&file=':BASE_URL.cdn + '/css/';
-    $scope.pathLanguage = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=language&file=':BASE_URL.cdn + '/language/';
+    $scope.pathProfile = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=profile&size=small&file=':changeProtocolSSL(BASE_URL.cdn) + '/profiles/small/';
+    $scope.pathProduct = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=product&size=small&file=':changeProtocolSSL(BASE_URL.cdn) + '/products/small/';
+    $scope.pathCss = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=css&file=':changeProtocolSSL(BASE_URL.cdn) + '/css/';
+    $scope.pathLanguage = (!useCDN)?changeProtocolSSL(BASE_URL.api) + '/v1/common/viewFile?type=language&file=':changeProtocolSSL(BASE_URL.cdn) + '/language/';
     $scope.queryContact = (!useCDN)?'&':'?';
     $scope.restaurant = {};
     $scope.paramCode = undefined;
