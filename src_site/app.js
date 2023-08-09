@@ -4,6 +4,5 @@ var mainApp = angular.module('mainApp',
       'ngCookies',
       'ui.bootstrap',
       'me-lazyload',
-      'angular-inview',
-      'pascalprecht.translate'
+      'angular-inview'
     ]);

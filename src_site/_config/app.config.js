@@ -15,25 +15,3 @@ mainApp.config(['$qProvider', '$locationProvider',
     });
   }
 ]);
-
-mainApp.config(['$translateProvider',
-  function($translateProvider) {
-    $translateProvider
-      .registerAvailableLanguageKeys(['es', 'en'], {
-        'es_*': 'es',
-        'en_*': 'en'
-      })
-      .useStaticFilesLoader({
-        files: [
-          {
-              prefix: '/translations/locate-',
-              suffix: '.json'
-          }
-        ]
-      })
-      .preferredLanguage('en')
-      .use('en')
-      .useLocalStorage()
-      .useSanitizeValueStrategy('sanitizeParameters');
-  }
-]);

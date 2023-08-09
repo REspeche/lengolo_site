@@ -1,10 +1,10 @@
 mainApp.constant('BASE_URL', {
-    'api': 'http://dashboard.lengolo.com.ar:8080/api',
+    'api': 'http://api.lengolo.com.ar:8080',
     'secured': true, //[true:default]
     'dashboard': 'http://dashboard.lengolo.com.ar/',
     'site': 'http://lengolo.com.ar/',
     'menu': 'http://menu.lengolo.com.ar/',
-    'socket': 'http://dashboard.lengolo.com.ar:8080',
+    'socket': 'http://api.lengolo.com.ar:8080',
     'cdn': 'http://container.lengolo.com.ar'
   })
   .constant('CONSTANTS', {

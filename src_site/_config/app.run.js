@@ -1,5 +1,5 @@
-mainApp.run(['$rootScope', '$translate',
-    function ($rootScope, $translate) {
+mainApp.run(['$rootScope',
+    function ($rootScope) {
         //init vars
         $rootScope.isBusy = false;
 
@@ -26,24 +26,5 @@ mainApp.run(['$rootScope', '$translate',
         };
 
         //language
-        $rootScope.lang = $translate.proposedLanguage() || $translate.use();
-
-        $rootScope.default_float = 'left';
-        $rootScope.opposite_float = 'right';
-
-        $rootScope.default_direction = 'ltr';
-        $rootScope.opposite_direction = 'rtl';
-
-        $rootScope.$on('$translateChangeSuccess', function (event, data) {
-            var language = data.language;
-
-            $rootScope.lang = language;
-
-            $rootScope.default_direction = language === 'es' ? 'rtl' : 'ltr';
-            $rootScope.opposite_direction = language === 'es' ? 'ltr' : 'rtl';
-
-            $rootScope.default_float = language === 'es' ? 'right' : 'left';
-            $rootScope.opposite_float = language === 'es' ? 'left' : 'right';
-        });
-
+        $rootScope.lang = 'en';
     }]);

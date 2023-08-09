@@ -3,7 +3,7 @@
   "LOADING": "Cargando...",
   "LOADING_PAGE": "Cargando el contenido de la carta...",
 
-  "MSG_MENU_EMPTY": "El código QR no pertenece a un restaurante registrado.",
+  "MSG_QR_WRONG": "El código QR no pertenece a un restaurante registrado.",
   "MSG_MENU_EMPTY": "No encontramos una carta para visualizar!",
 
   "LNK_LOGIN": "Autentificarse",

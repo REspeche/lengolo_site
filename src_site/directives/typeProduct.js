@@ -1,4 +1,4 @@
-mainApp.directive('typeProduct',['$translate', function ($translate) {
+mainApp.directive('typeProduct',[function () {
 
     return {
         restrict: 'E',
@@ -13,18 +13,18 @@ mainApp.directive('typeProduct',['$translate', function ($translate) {
             switch (parseInt($scope.type)) {
               case 2:
                 $scope.class = 'veggie';
-                $scope.tooltip = $translate.instant('BUD_VEGETARIAN');
-                $scope.label = $translate.instant('LBL_TYPE_VEGETARIAN');
+                $scope.tooltip = 'Vegetarian';
+                $scope.label = 'v';
                 break;
               case 3:
                 $scope.class = 'spicy';
-                $scope.tooltip = $translate.instant('BUD_SPICY');
-                $scope.label = $translate.instant('LBL_TYPE_SPICY');
+                $scope.tooltip = 'Spicy';
+                $scope.label = 's';
                 break;
               case 4:
                 $scope.class = 'notacc';
-                $scope.tooltip = $translate.instant('BUD_WITHOUT_TACC');
-                $scope.label = $translate.instant('LBL_TYPE_TACC');
+                $scope.tooltip = 'without TACC';
+                $scope.label = 't';
                 break;
             };
         }],

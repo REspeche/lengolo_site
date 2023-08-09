@@ -1,4 +1,4 @@
-mainApp.directive('badgeStatus',['$translate', function ($translate) {
+mainApp.directive('badgeStatus',[function () {
 
     return {
         restrict: 'E',
@@ -18,12 +18,12 @@ mainApp.directive('badgeStatus',['$translate', function ($translate) {
                 switch (parseInt($scope.id)) {
                   case 1:
                     $scope.color = 'danger';
-                    $scope.label = $translate.instant('BUD_PENDING');
+                    $scope.label = 'Pending';
                     $scope.icon = 'clock';
                     break;
                   case 2:
                     $scope.color = 'warning';
-                    $scope.label = $translate.instant('BUD_COOKING');
+                    $scope.label = 'Cooking';
                     $scope.icon = 'utensils';
                     break;
                   case 3:
@@ -34,22 +34,22 @@ mainApp.directive('badgeStatus',['$translate', function ($translate) {
                         $scope.icon = 'truck';
                         break;
                       case 4:
-                        $scope.label = $translate.instant('BUD_CALLING');
+                        $scope.label = 'Calling';
                         $scope.icon = 'bullhorn';
                         break;
                       default:
-                        $scope.label = $translate.instant('BUD_ON_WAY');
+                        $scope.label = 'On Way';
                         $scope.icon = 'shoe-prints';
                     };
                     break;
                   case 4:
                     $scope.color = 'success';
-                    $scope.label = $translate.instant('BUD_DELIVERED');
+                    $scope.label = 'Delivered';
                     $scope.icon = 'thumbs-up';
                     break;
                   case 5:
                     $scope.color = 'dark';
-                    $scope.label = $translate.instant('BUD_CANCELED');
+                    $scope.label = 'Canceled';
                     $scope.icon = 'thumbs-down';
                     break;
                 }

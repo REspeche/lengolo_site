@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title" translate="TIT_ORDER_DETAIL">Detalle orden</h4>
+    <h4 class="modal-title">Order Detail</h4>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="modalOptions.close();">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -7,9 +7,9 @@
   <div class="modal-body">
     <div class="form-row">
         <div class="col-4">
-            <p><b translate="LBL_DATE">Fecha:</b> <span>{{modalOptions.dataOrder.date}}</span></p>
-            <p><b translate="LBL_TOTAL_VALUE">Importe Total:</b> <span>$ {{modalOptions.dataOrder.total}}</span></p>
-            <p><b translate="LBL_STATUS">Estado:</b> <badge-status id="{{modalOptions.dataOrder.status}}" usrType="{{modalOptions.type}}" type="order"></badge-status></p>
+            <p><b>Date:</b> <span>{{modalOptions.dataOrder.date}}</span></p>
+            <p><b>Total Value:</b> <span>$ {{modalOptions.dataOrder.total}}</span></p>
+            <p><b>Status:</b> <badge-status id="{{modalOptions.dataOrder.status}}" usrType="{{modalOptions.type}}" type="order"></badge-status></p>
         </div>
         <div class="col-8 scroll-div">
             <ul class="list-vertical">
@@ -19,9 +19,9 @@
             </ul>
         </div>
     </div>
-    <p ng-show="modalOptions.dataOrder.comment"><b translate="LBL_COMMENT">Comentario:</b> <i>{{modalOptions.dataOrder.comment}}</i></p>
-    <p><a href="#" ng-click="modalOptions.cancelOrder(modalOptions)" ng-show="modalOptions.dataOrder.status==1" translate="LNK_CANCEL_ORDER">cancelar orden</a></p>
+    <p ng-show="modalOptions.dataOrder.comment"><b>Comment:</b> <i>{{modalOptions.dataOrder.comment}}</i></p>
+    <p><a href="#" ng-click="modalOptions.cancelOrder(modalOptions)" ng-show="modalOptions.dataOrder.status==1">cancel order</a></p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="modalOptions.close();" translate="BTN_CLOSE">Cerrar</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="modalOptions.close();">Close</button>
   </div>

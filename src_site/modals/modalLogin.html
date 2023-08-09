@@ -1,23 +1,23 @@
 <div class="modal-header">
     <h4 class="modal-title">
-      <span ng-hide="modalOptions.formData.isLogin" translate="LNK_LOGIN">Autentificarse</span>
-      <span ng-show="modalOptions.formData.isLogin" translate="TIT_CHANGE_DATA">Cambiar Datos</span>
+      <span ng-hide="modalOptions.formData.isLogin">SignIn</span>
+      <span ng-show="modalOptions.formData.isLogin">Change Data</span>
     </h4>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="modalOptions.close();">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p ng-hide="modalOptions.formData.isLogin" translate="TXT_LOGIN">Complete el siguiente formulario para continuar con su pedido.</p>
+    <p ng-hide="modalOptions.formData.isLogin">Complete the following form to continue with your order.</p>
     <div class="form-group" ng-hide="modalOptions.formData.isLogin">
-      <label for="txtEmail" translate="LBL_EMAIL">Correo Electrónico</label>
+      <label for="txtEmail">Email</label>
       <input type="email" class="form-control" id="txtEmail" placeholder="name@domain.com" ng-model="modalOptions.formData.email" maxlength="45">
     </div>
-    <a href="#" ng-click="modalOptions.formData.notUser=true;" ng-hide="modalOptions.formData.notUser || modalOptions.formData.isLogin" translate="LNK_NO_SIGNUP">No me encuentro registrado</a>
+    <a href="#" ng-click="modalOptions.formData.notUser=true;" ng-hide="modalOptions.formData.notUser || modalOptions.formData.isLogin">I'm not registered</a>
     <section ng-show="modalOptions.formData.notUser">
       <div class="form-row" ng-show="modalOptions.formData.type==3">
         <div class="col-8">
-          <label for="txtName" translate="LBL_FULL_NAME">Nombre Completo</label>
+          <label for="txtName">Full name</label>
           <input type="text" class="form-control" id="txtName" ng-model="modalOptions.formData.name" maxlength="100">
         </div>
         <div class="col-4">
@@ -26,14 +26,14 @@
         </div>
       </div>
       <div class="form-group" ng-show="modalOptions.formData.type==4">
-        <label for="txtName" translate="LBL_CALL_NAME">Nombre (para ser llamado)</label>
+        <label for="txtName">Name (to be call)</label>
         <input type="text" class="form-control" id="txtName" ng-model="modalOptions.formData.name" maxlength="100">
       </div>
       <div class="form-row" ng-show="modalOptions.formData.type==1">
         <div class="col-10">
-          <label for="txtAddress" translate="LBL_ADDRESS">Dirección completa</label>
+          <label for="txtAddress">Address</label>
           <input type="text" class="form-control" id="txtAddress" ng-model="modalOptions.formData.address" maxlength="100">
-          <small translate="INF_ADDRESS">Indique calle, numeración, piso y dpto. si corresponde.</small>
+          <small>Fill with number, street name, floor and apartment (if correspond)</small>
         </div>
         <div class="col-2">
           <label for="txtCP">CP</label>
@@ -41,12 +41,12 @@
         </div>
       </div>
     </section>
-    <a href="#" ng-click="modalOptions.lnkCloseSession(modalOptions)" ng-show="modalOptions.formData.isLogin" translate="LNK_CLOSE_SESSION">Cerrar sesión</a>
+    <a href="#" ng-click="modalOptions.lnkCloseSession(modalOptions)" ng-show="modalOptions.formData.isLogin">Close Session</a>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="modalOptions.close();" translate="BTN_CANCEL">Cancelar</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="modalOptions.close();">Cancel</button>
     <button type="button" class="btn btn-primary" data-ng-click="modalOptions.ok();">
-      <span ng-hide="modalOptions.formData.isLogin" translate="BTN_CONTINUE">Ingresar</span>
-      <span ng-show="modalOptions.formData.isLogin" translate="BTN_CHANGE">Cambiar</span>
+      <span ng-hide="modalOptions.formData.isLogin">Continue</span>
+      <span ng-show="modalOptions.formData.isLogin">Change</span>
     </button>
   </div>

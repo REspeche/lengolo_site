@@ -4,7 +4,7 @@
   <base href="/">
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title translate="TITLE">lengolo</title>
+  <title>lengolo</title>
 
   <!-- start: META -->
   <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
@@ -51,12 +51,12 @@
   <a name="top"></a>
   <div id="load_screen" class="transitionPage bg-buildings">
     <div class="spinner"></div>
-    <div class="label" translate="LOADING_PAGE"></div>
+    <div class="label">Loading menu content...</div>
   </div>
   <div class="empty-menu" ng-hide="restaurant && restaurant.codeRestaurant && lstItems.length>0">
     <img id="img-empty" class="wrong-code" height="150">
-    <div class="label" ng-show="!isDebug && !restaurant.codeRestaurant || !paramCode" translate="MSG_QR_WRONG">El código QR no pertenece a un restaurante registrado.</div>
-    <div class="label" ng-show="!isDebug && paramCode && restaurant.codeRestaurant && lstItems.length==0" translate="MSG_MENU_EMPTY">No encontramos una carta para visualizar!</div>
+    <div class="label" ng-show="!isDebug && !restaurant.codeRestaurant || !paramCode">The QR code does not belong to a registered restaurant.</div>
+    <div class="label" ng-show="!isDebug && paramCode && restaurant.codeRestaurant && lstItems.length==0">We did not find a menu to view!</div>
     <div class="code" ng-show="!isDebug && paramCode && !restaurant.codeRestaurant">{{::paramCode}}</div>
     <div class="log-debug" ng-show="isDebug && outLogDebug">{{::outLogDebug}}</div>
   </div>
@@ -77,7 +77,7 @@
           <div ng-click="changeDataUser()">{{dataClient.name}}<i class="fas fa-user"></i></div>
         </div>
         <div ng-hide="isLogin" class="text-info">
-          <div ng-click="login(false)"><span translate="LNK_LOGIN">Autentificarse</span><i class="far fa-user"></i></div>
+          <div ng-click="login(false)">Login<i class="far fa-user"></i></div>
         </div>
       </div>
       <div class="order-progress" ng-show="dataOrder && dataOrder.id">

@@ -30,7 +30,7 @@
         <div class="btn-detail" ng-click="showHideDetails()">
           <i class="fas fa-list" ng-class="{ 'fa-times' : viewDetail, 'fa-list' : !viewDetail}"></i>
         </div>
-        <span>{{sumQuantityItems()}} <span translate="LBL_PRODUCT">producto</span>{{(itemsToOrder.length>1)?'s':''}}</span>
+        <span>{{sumQuantityItems()}} <span>product</span>{{(itemsToOrder.length>1)?'s':''}}</span>
         <div class="total">
           <span>{{sumPriceItems()}}</small></span>
           <div class="btn-finish" ng-show="showDelivery" ng-click="clickFinishOrder()">
